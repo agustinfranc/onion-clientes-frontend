@@ -7,6 +7,14 @@ export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  /*
+   ** Environment Variables
+   ** See https://nuxtjs.org/api/configuration-env/
+   */
+  env: {
+    apiUrl: process.env.API_URL || 'http://local.onion-backend/api/',
+  },
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - onion-clientes-frontend',
@@ -40,6 +48,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    "@nuxtjs/dotenv",
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
