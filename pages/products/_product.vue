@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <div class="d-flex mt-5">
+      <div>
+        <div class="display-1">Editar Producto - {{ item.name ? item.name : ''}}</div>
+        <v-breadcrumbs
+          class="pa-0 py-2"
+          :items="breadcrumbItems"
+        ></v-breadcrumbs>
+      </div>
+      <v-spacer></v-spacer>
+      <v-btn text icon><v-icon>mdi-reload</v-icon></v-btn>
+    </div>
+    <v-card>
+      <v-card-title> Información </v-card-title>
+      <v-card-text>
+        <v-row justify="center" align="center">
+          <v-col cols="12" sm="2" md="2">
+            <v-img
+              lazy-src="https://picsum.photos/id/11/10/6"
+              :src="item.avatar_dirname + item.avatar"
+              class="rounded"
+            ></v-img>
+            <v-btn small block color="accent" class="mt-3">Editar Avatar</v-btn>
+          </v-col>
+          <v-col cols="12" sm="10" md="10">
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="item.name"
+                :rules="[(v) => !!v || 'Name is required']"
+                label="Nombre"
+                required
+              ></v-text-field>
+
+              <v-checkbox
+                v-model="item.disabled"
+                label="Visible"
+              ></v-checkbox>
+
+              <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="submit"
+              >
+                Guardar
+              </v-btn>
+            </v-form>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-text>
+        <div></div>
+      </v-card-text>
+    </v-card>
+  </div>
+</template>
+
+<script>
+export default {
+  components: {},
+  data: () => ({
+    item: '',
+    valid: '',
+    search: '',
+    item: '',
+    breadcrumbItems: [
+      {
+        text: 'Dashboard',
+        disabled: false,
+        to: '/',
+        nuxt: true,
+        exact: true,
+      },
+      {
+        text: 'Productos',
+        disabled: false,
+        to: '/products',
+        nuxt: true,
+        exact: true,
+      },
+      {
+        text: 'Producto',
+        disabled: false,
+      },
+    ],
+  }),
+  async asyncData({ $axios, params }) {
+    try {
+      const url = `api/commerce/1/products/${params.product}`
+
+      const res = await $axios.$get(url);
+      console.log(res);
+
+      return {
+        item: res,
+      }
+    } catch (error) {
+      console.log('Error:', error)
+    }
+  },
+}
+</script>
