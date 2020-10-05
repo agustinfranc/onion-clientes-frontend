@@ -8,6 +8,17 @@
       app
     >
       <v-list>
+        <v-list-item @click.stop="miniVariant = !miniVariant">
+          <v-list-item-action>
+            <v-icon
+              >mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon
+            >
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title> Contraer </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
@@ -24,37 +35,37 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
+        <v-icon>mdi-cog</v-icon>
       </v-btn>
     </v-app-bar>
+
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
+      <v-container>
+        <v-card>
+          <v-card-title>
+            Ajustes
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text>
+            <v-switch
+              v-model="$vuetify.theme.dark"
+              inset
+              :label="$vuetify.theme.dark ? 'Modo Oscuro' : 'Modo Claro'"
+            ></v-switch>
+          </v-card-text>
+        </v-card>
+      </v-container>
     </v-navigation-drawer>
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
@@ -66,14 +77,25 @@
 export default {
   data() {
     return {
-      clipped: false,
-      drawer: false,
+      clipped: true,
+      drawer: true,
       fixed: false,
+      settings: [],
       items: [
         {
+          icon: 'mdi-account-circle',
+          title: 'Login',
+          to: '/login',
+        },
+        {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'Dashboard',
           to: '/',
+        },
+        {
+          icon: 'mdi-book',
+          title: 'Productos',
+          to: '/products',
         },
         {
           icon: 'mdi-chart-bubble',
@@ -84,7 +106,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      title: 'Onion',
     }
   },
 }
