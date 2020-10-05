@@ -53,9 +53,7 @@
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-container>
         <v-card>
-          <v-card-title>
-            Ajustes
-          </v-card-title>
+          <v-card-title> Ajustes </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
             <v-switch
@@ -63,6 +61,14 @@
               inset
               :label="$vuetify.theme.dark ? 'Modo Oscuro' : 'Modo Claro'"
             ></v-switch>
+          </v-card-text>
+        </v-card>
+        <v-card class="my-2">
+          <v-card-text>
+            <v-btn block @click.stop="logout">
+              Salir
+              <v-icon>mdi-logout</v-icon>
+            </v-btn>
           </v-card-text>
         </v-card>
       </v-container>
@@ -74,19 +80,16 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   data() {
     return {
       clipped: true,
-      drawer: true,
+      drawer: false,
       fixed: false,
       settings: [],
       items: [
-        {
-          icon: 'mdi-account-circle',
-          title: 'Login',
-          to: '/login',
-        },
         {
           icon: 'mdi-apps',
           title: 'Dashboard',
@@ -108,6 +111,12 @@ export default {
       rightDrawer: false,
       title: 'Onion',
     }
+  },
+  computed: {
+    ...mapState(['user']),
+  },
+  methods: {
+    ...mapActions(['logout']),
   },
 }
 </script>
