@@ -2,7 +2,9 @@
   <div>
     <div class="d-flex mt-5">
       <div>
-        <div class="display-1">Editar Producto - {{ item.name ? item.name : ''}}</div>
+        <div class="display-1">
+          Editar Producto - {{ item.name ? item.name : '' }}
+        </div>
         <v-breadcrumbs
           class="pa-0 py-2"
           :items="breadcrumbItems"
@@ -15,7 +17,7 @@
       <v-card-title> Información </v-card-title>
       <v-card-text>
         <v-row justify="center" align="center">
-          <v-col cols="12" sm="2" md="2">
+          <v-col cols="12" sm="2" md="2" class="align-self-start">
             <v-img
               lazy-src="https://picsum.photos/id/11/10/6"
               :src="item.avatar_dirname + item.avatar"
@@ -32,10 +34,25 @@
                 required
               ></v-text-field>
 
-              <v-checkbox
-                v-model="item.disabled"
-                label="Visible"
-              ></v-checkbox>
+              <v-textarea
+                v-model="item.description"
+                label="Descripcion"
+                counter
+                maxlength="255"
+                full-width
+                auto-grow
+                clearable
+                single-line
+              ></v-textarea>
+
+              <v-text-field
+                v-model="item.price"
+                label="Precio"
+                prefix="$"
+                type="number"
+              ></v-text-field>
+
+              <v-checkbox v-model="item.disabled" label="Visible"></v-checkbox>
 
               <v-btn
                 :disabled="!valid"
@@ -85,12 +102,19 @@ export default {
       },
     ],
   }),
+
+  methods: {
+    submit() {
+      //
+    },
+  },
+
   async asyncData({ $axios, params }) {
     try {
       const url = `api/commerce/1/products/${params.product}`
 
-      const res = await $axios.$get(url);
-      console.log(res);
+      const res = await $axios.$get(url)
+      console.log(res)
 
       return {
         item: res,

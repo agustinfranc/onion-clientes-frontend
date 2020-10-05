@@ -1,10 +1,10 @@
-export default function ({ $axios, redirect }) {
+export default function ({ $axios, redirect, env, route }) {
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status)
 
     const redirectPaths = {
       400: '/400',
-      401: '/login',
+      401: route.name !== 'login' ? '/login' : null,
     };
 
     redirect(redirectPaths[code]);

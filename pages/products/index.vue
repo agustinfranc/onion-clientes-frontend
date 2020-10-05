@@ -114,15 +114,14 @@ export default {
 
   async asyncData({ $axios }) {
     try {
-      const url = `api/commerce/1/products`;
-
-      const res = await $axios.$get(url);
+      const url = `api/commerce/1/products`
+      const res = await $axios.$get(url)
 
       return {
         body: res,
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   },
 }

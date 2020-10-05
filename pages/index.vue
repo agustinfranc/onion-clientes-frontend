@@ -164,7 +164,6 @@ export default {
   async asyncData({ $axios }) {
     try {
       const url = `api/commerce/1/products`
-
       const res = await $axios.$get(url)
 
       return {
