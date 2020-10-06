@@ -20,7 +20,7 @@
           <v-col cols="12" sm="2" md="2" class="align-self-start">
             <v-img
               lazy-src="https://picsum.photos/id/11/10/6"
-              :src="item.avatar_dirname + item.avatar"
+              :src="item ? item.avatar_dirname + item.avatar : ''"
               class="rounded"
             ></v-img>
             <v-btn small block color="accent" class="mt-3">Editar Avatar</v-btn>
@@ -44,6 +44,12 @@
                 clearable
                 single-line
               ></v-textarea>
+
+              <v-text-field
+                v-model="item.code"
+                label="Codigo"
+                type="number"
+              ></v-text-field>
 
               <v-text-field
                 v-model="item.price"
@@ -74,13 +80,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   components: {},
   data: () => ({
-    item: '',
     valid: '',
     search: '',
     item: '',
+    loading: true,
     breadcrumbItems: [
       {
         text: 'Dashboard',
@@ -109,19 +117,16 @@ export default {
     },
   },
 
-  async asyncData({ $axios, params }) {
-    try {
-      const url = `api/commerce/1/products/${params.product}`
+  async fetch() {
+    const url = `api/commerce/1/products/${this.$route.params.product}`
+    const res = await axios.get(url)
 
-      const res = await $axios.$get(url)
-      console.log(res)
-
-      return {
-        item: res,
-      }
-    } catch (error) {
-      console.log('Error:', error)
+    if (res.status !== 200) {
+      return
     }
+
+    this.item = res.data
+    this.loading = false
   },
 }
 </script>

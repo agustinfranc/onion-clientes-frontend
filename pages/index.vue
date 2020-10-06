@@ -102,6 +102,8 @@
               item-key="name"
               class="elevation-1"
               :search="search"
+              :loading="loading"
+              loading-text="Cargando datos..."
             >
               <template v-slot:item.avatar="{ item }">
                 <v-avatar rounded size="30"
@@ -138,6 +140,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   components: {},
   data: () => ({
@@ -150,28 +154,38 @@ export default {
       { text: 'Precio', value: 'price' },
       { text: 'Visible', value: 'disabled' },
     ],
-    body: '',
+    body: [],
+    loading: true,
     commerce: {
       fullname: 'Marlon Resto Bar',
       withSlider: true,
     },
   }),
+
   methods: {
     submit() {
       //
     },
   },
-  async asyncData({ $axios }) {
-    try {
-      const url = `api/commerce/1/products`
-      const res = await $axios.$get(url)
 
-      return {
-        body: res,
-      }
-    } catch (error) {
-      console.log(error)
+  async fetch() {
+    let url
+
+    if (!this.$store.state.commerce) {
+      url = `api/commerce/first/products`   //! definir url en backend
     }
+    else {
+      url = `api/commerce/${this.$store.state.commerce.id}/products`
+    }
+
+    const res = await axios.get(url)
+
+    if (res.status !== 200) {
+      return
+    }
+
+    this.body = res.data
+    this.loading = false
   },
 }
 </script>

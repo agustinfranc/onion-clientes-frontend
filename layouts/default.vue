@@ -38,8 +38,28 @@
 
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+
       <v-toolbar-title v-text="title" />
+
       <v-spacer />
+
+      <div>
+        <v-select
+          :items="commerces"
+          label="Comercios"
+          v-model="selectedCommerce"
+          item-text="name"
+          item-value="id"
+          dense
+          outlined
+          solo
+          return-object
+          single-line
+          :loading="loading"
+          @change="updateCommerce()"
+        ></v-select>
+      </div>
+
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-cog</v-icon>
       </v-btn>
@@ -47,7 +67,7 @@
 
     <v-main>
       <v-container>
-        <nuxt />
+        <nuxt keep-alive :keep-alive-props="{ max: 10 }" />
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -81,6 +101,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import axios from 'axios'
 
 export default {
   data() {
@@ -88,6 +109,7 @@ export default {
       clipped: true,
       drawer: false,
       fixed: false,
+      loading: true,
       settings: [],
       items: [
         {
@@ -106,6 +128,8 @@ export default {
           to: '/inspire',
         },
       ],
+      commerces: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      selectedCommerce: '',
       miniVariant: false,
       right: true,
       rightDrawer: false,
@@ -113,10 +137,50 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
+    ...mapState(['user', 'commerce']),
   },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions(['logout', 'saveCommerce']),
+    updateCommerce() {
+      this.saveCommerce(this.selectedCommerce)
+    },
+  },
+
+  async fetch() {
+    const url = `api/auth/commerces`   //! traer los comercios del usuario logueado
+    const res = await axios.get(url)
+
+    if (res.status !== 200) {
+      this.loading = false
+      return
+    }
+
+    if (!res.data || !res.data.length) {
+      this.loading = false
+      return
+    }
+
+    this.saveCommerce(
+      res.data.map((el) => {
+        return { name: el.name, id: el.id }
+      })[0]
+    )
+
+    this.selectedCommerce = res.data.map((el) => {
+      return { name: el.name, id: el.id }
+    })[0]
+
+    this.commerces = res.data.map((el) => {
+      return { name: el.name, id: el.id }
+    })
+
+    this.loading = false
   },
 }
 </script>
+
+<style>
+.v-app-bar .v-text-field__details {
+  display: none;
+}
+</style>

@@ -27,11 +27,12 @@
         <div>
           <v-data-table
             :headers="headers"
-            :loading="!body"
             :items="body"
             item-key="name"
             class="elevation-1"
             :search="search"
+            :loading="loading"
+            loading-text="Cargando datos..."
             :footer-props="{
               showFirstLastPage: true,
             }"
@@ -82,6 +83,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   components: {},
 
@@ -96,7 +99,8 @@ export default {
       { text: 'Visible', value: 'disabled' },
       { text: 'Acciones', value: 'actions', sortable: false },
     ],
-    body: '',
+    body: [],
+    loading: true,
     breadcrumbItems: [
       {
         text: 'Dashboard',
@@ -112,17 +116,16 @@ export default {
     ],
   }),
 
-  async asyncData({ $axios }) {
-    try {
-      const url = `api/commerce/1/products`
-      const res = await $axios.$get(url)
+  async fetch() {
+    const url = `api/commerce/1/products`
+    const res = await axios.get(url)
 
-      return {
-        body: res,
-      }
-    } catch (error) {
-      console.log(error)
+    if (res.status !== 200) {
+      return
     }
+
+    this.body = res.data
+    this.loading = false
   },
 }
 </script>

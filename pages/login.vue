@@ -38,14 +38,12 @@
 import { mapState, mapActions } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import axios from 'axios'
-axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000/'
 
 export default {
   name: 'login',
   layout: 'login',
   data: () => ({
-    email: 'treva29@example.net',
+    email: 'devonte76@example.org',
     password: 'password',
     show: false,
   }),
@@ -84,8 +82,6 @@ export default {
 
       axios.get('sanctum/csrf-cookie').then(() => {
         axios.post('login', form).then((res) => {
-          console.log(res.data)
-
           if (res.status === 200) {
             this.saveUser(res.data)
 
@@ -101,9 +97,15 @@ export default {
     },
   },
   async asyncData({ store, $axios, redirect }) {
+    if (!store.state.user) {
+      return
+    }
+
     try {
       const url = 'api/auth/me'
       const res = await $axios.$get(url)
+
+      if (!res) return
 
       if (!store.state.user) {
         store.dispatch('saveUser', res)
