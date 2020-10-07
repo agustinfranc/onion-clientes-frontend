@@ -43,7 +43,7 @@ export default {
   name: 'login',
   layout: 'login',
   data: () => ({
-    email: 'devonte76@example.org',
+    email: '',
     password: 'password',
     show: false,
   }),
