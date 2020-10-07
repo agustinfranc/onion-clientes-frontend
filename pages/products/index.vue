@@ -84,9 +84,10 @@
 
 <script>
 import axios from 'axios'
+import commerceWatcher from '@/mixins/commerce-watcher'
 
 export default {
-  components: {},
+  mixins: [commerceWatcher],
 
   data: () => ({
     search: '',
@@ -117,7 +118,7 @@ export default {
   }),
 
   async fetch() {
-    const url = `api/commerce/1/products`
+    const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
     const res = await axios.get(url)
 
     if (res.status !== 200) {
