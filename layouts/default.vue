@@ -67,7 +67,7 @@
 
     <v-main>
       <v-container>
-        <nuxt keep-alive :keep-alive-props="{ max: 10 }" />
+        <nuxt />
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -136,9 +136,11 @@ export default {
       title: 'Onion',
     }
   },
+
   computed: {
     ...mapState(['user', 'commerce']),
   },
+
   methods: {
     ...mapActions(['logout', 'saveCommerce']),
     updateCommerce() {
@@ -147,7 +149,7 @@ export default {
   },
 
   async fetch() {
-    const url = `api/auth/commerces`   //! traer los comercios del usuario logueado
+    const url = `api/auth/commerces`
     const res = await axios.get(url)
 
     if (res.status !== 200) {
@@ -160,19 +162,11 @@ export default {
       return
     }
 
-    this.saveCommerce(
-      res.data.map((el) => {
-        return { name: el.name, id: el.id }
-      })[0]
-    )
+    this.saveCommerce(res.data[0])
 
-    this.selectedCommerce = res.data.map((el) => {
-      return { name: el.name, id: el.id }
-    })[0]
+    this.selectedCommerce = res.data[0]
 
-    this.commerces = res.data.map((el) => {
-      return { name: el.name, id: el.id }
-    })
+    this.commerces = res.data
 
     this.loading = false
   },

@@ -60,7 +60,7 @@
                 ></v-text-field>
 
                 <v-checkbox
-                  v-model="commerce.withSlider"
+                  v-model="commerce.with_slider"
                   label="Slider"
                 ></v-checkbox>
 
@@ -141,9 +141,11 @@
 
 <script>
 import axios from 'axios'
+import commerceWatcher from '@/mixins/commerce-watcher'
 
 export default {
-  components: {},
+  mixins: [commerceWatcher],
+
   data: () => ({
     valid: false,
     search: '',
@@ -156,10 +158,6 @@ export default {
     ],
     body: [],
     loading: true,
-    commerce: {
-      fullname: 'Marlon Resto Bar',
-      withSlider: true,
-    },
   }),
 
   methods: {
@@ -172,10 +170,9 @@ export default {
     let url
 
     if (!this.$store.state.commerce) {
-      url = `api/commerce/first/products`   //! definir url en backend
-    }
-    else {
-      url = `api/commerce/${this.$store.state.commerce.id}/products`
+      url = `api/auth/commerces/first/products`
+    } else {
+      url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
     }
 
     const res = await axios.get(url)
