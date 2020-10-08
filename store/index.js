@@ -8,9 +8,9 @@ export const state = () => ({
 })
 
 export const getters = {
-  getCommerce: state => {
-    return JSON.parse(JSON.stringify(state.commerce));
-  }
+  getCommerce: (state) => {
+    return state.commerce
+  },
 }
 
 export const mutations = {

@@ -51,18 +51,22 @@
             </v-col>
 
             <v-col cols="12">
-              <v-form ref="form" @submit.prevent="saveCommerce" name="commerceForm" v-model="valid" lazy-validation>
+              <v-form ref="form" @submit.prevent="saveCommerce" v-model="valid">
                 <v-text-field
-                  v-model="commerceForm.fullname"
-                  :rules="[(v) => !!v || 'Name is required']"
+                  :value="commerce.fullname"
                   label="Nombre"
-                  required
+                  @input="setFullname($event)"
                 ></v-text-field>
 
                 <v-checkbox
-                  v-model="commerceForm.with_slider"
+                  :value="commerce.with_slider"
                   label="Slider"
+                  @change="setWithSlider($event)"
                 ></v-checkbox>
+
+                <p>
+                  {{ $v.commerceFormData }}
+                </p>
 
                 <v-btn
                   :disabled="!valid"
@@ -143,6 +147,7 @@
 import axios from 'axios'
 import commerceWatcher from '@/mixins/commerce-watcher'
 import { mapState, mapGetters } from 'vuex'
+import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
   mixins: [commerceWatcher],
@@ -161,21 +166,32 @@ export default {
     loading: true,
   }),
 
+  validations: {
+    commerceFormData: {
+      fullname: { required, minLength: minLength(6) },
+      with_slider: { required },
+    },
+  },
+
   computed: {
-    commerceForm: {
+    commerceFormData: {
       get() {
-        return this.$store.getters.getCommerce
+        return JSON.parse(JSON.stringify(this.$store.getters.getCommerce))
       },
     },
   },
 
   methods: {
-    saveCommerce(e) {
-      console.trace()
-      console.log(e)
-      console.log(this.commerce)
-      console.log(this.commerceForm)
-      console.log(this.valid)
+    setFullname(value) {
+      this.commerceFormData.fullname = value
+      this.$v.commerceFormData.fullname.$touch()
+    },
+    setWithSlider(value) {
+      this.commerceFormData.with_slider = value
+      this.$v.commerceFormData.with_slider.$touch()
+    },
+    saveCommerce() {
+      console.log(this.$v.commerceFormData.$model)
     },
   },
 
