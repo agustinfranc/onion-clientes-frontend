@@ -11,7 +11,7 @@
         ></v-breadcrumbs>
       </div>
       <v-spacer></v-spacer>
-      <v-btn text icon><v-icon>mdi-reload</v-icon></v-btn>
+      <v-btn text icon @click="refresh"><v-icon>mdi-reload</v-icon></v-btn>
     </div>
     <v-card>
       <v-card-title> Información </v-card-title>
@@ -20,7 +20,9 @@
           <v-col cols="12" sm="2" md="2" class="align-self-start">
             <v-img
               lazy-src="https://picsum.photos/id/11/10/6"
-              :src="item ? item.avatar_dirname + item.avatar : ''"
+              :src="
+                item && item.avatar ? item.avatar_dirname + item.avatar : ''
+              "
               class="rounded"
             ></v-img>
             <v-btn small block color="accent" class="mt-3">Editar Avatar</v-btn>
@@ -94,11 +96,7 @@
               {{ snackbarText }}
 
               <template v-slot:action="{ attrs }">
-                <v-btn
-                  text
-                  v-bind="attrs"
-                  @click="snackbar = false"
-                >
+                <v-btn text v-bind="attrs" @click="snackbar = false">
                   Cerrar
                 </v-btn>
               </template>
@@ -110,6 +108,21 @@
         <div></div>
       </v-card-text>
     </v-card>
+
+    <v-snackbar
+      v-model="snackbarError"
+      timeout="3000"
+      color="red accent-4"
+      elevation="24"
+    >
+      Ocurrió un error
+
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbarError = false">
+          Cerrar
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -123,7 +136,8 @@ export default {
   data: () => ({
     valid: true,
     snackbar: false,
-    snackbarText: "Hello, I'm a snackbar",
+    snackbarError: false,
+    snackbarText: '',
     search: '',
     item: '',
     loading: true,
@@ -157,13 +171,20 @@ export default {
 
       console.log(this.item)
 
-      axios.put(`api/auth/products/${this.item.id}`, this.item).then((res) => {
-        if (res.status === 200) {
-          console.log(res.data)
+      axios
+        .put(`api/auth/products/${this.item.id}`, this.item)
+        .then((res) => {
           this.snackbarText = 'Producto actualizado correctamente'
           this.snackbar = true
-        }
-      })
+        })
+        .catch((error) => {
+          this.snackbarError = true
+        })
+    },
+    async refresh() {
+      await this.$fetch()
+      this.snackbarText = 'Datos actualizados'
+      this.snackbar = true
     },
   },
 
@@ -172,6 +193,7 @@ export default {
     const res = await axios.get(url)
 
     if (res.status !== 200) {
+      this.snackbarError = true
       return
     }
 
