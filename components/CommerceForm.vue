@@ -57,7 +57,6 @@
 
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
-import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   data: () => ({

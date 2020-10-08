@@ -86,8 +86,6 @@
 <script>
 import axios from 'axios'
 import commerceWatcher from '@/mixins/commerce-watcher'
-import { mapState, mapGetters } from 'vuex'
-import { required, email, minLength } from 'vuelidate/lib/validators'
 import CommerceForm from '@/components/CommerceForm'
 
 export default {
