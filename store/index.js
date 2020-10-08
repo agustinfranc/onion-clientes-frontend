@@ -7,11 +7,11 @@ export const state = () => ({
   commerce: '',
 })
 
-export const getters = {
-  getCommerce: (state) => {
-    return state.commerce
+/* export const getters = {
+  getCommerceFormData: (state) => {
+    return JSON.parse(JSON.stringify(state.commerce))
   },
-}
+} */
 
 export const mutations = {
   SET_COMMERCE(state, payload) {

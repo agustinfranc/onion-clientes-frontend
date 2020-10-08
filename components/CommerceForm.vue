@@ -45,7 +45,9 @@
             label="Slider"
           ></v-checkbox>
 
-          <v-btn :disabled="!valid" color="success" class="mr-4" type="submit"> Guardar </v-btn>
+          <v-btn :disabled="!valid" color="success" class="mr-4" type="submit">
+            Guardar
+          </v-btn>
         </v-form>
       </v-col>
     </v-row>
@@ -70,10 +72,10 @@ export default {
 
   computed: {
     ...mapState(['commerce']),
-    commerceFormData: {
-      get() {
-        return JSON.parse(JSON.stringify(this.$store.getters.getCommerce))
-      },
+    commerceFormData() {
+      // return this.$store.getters.getCommerceFormData
+
+      return JSON.parse(JSON.stringify(this.$store.state.commerce))
     },
   },
 
