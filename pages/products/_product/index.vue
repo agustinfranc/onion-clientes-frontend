@@ -70,7 +70,10 @@
                 type="number"
               ></v-text-field>
 
-              <v-checkbox v-model="item.disabled" label="Deshabilitado"></v-checkbox>
+              <v-checkbox
+                v-model="item.disabled"
+                label="Deshabilitado"
+              ></v-checkbox>
 
               <v-btn
                 :disabled="!valid"
@@ -81,6 +84,25 @@
                 Guardar
               </v-btn>
             </v-form>
+
+            <v-snackbar
+              v-model="snackbar"
+              timeout="3000"
+              color="green accent-4"
+              elevation="24"
+            >
+              {{ snackbarText }}
+
+              <template v-slot:action="{ attrs }">
+                <v-btn
+                  text
+                  v-bind="attrs"
+                  @click="snackbar = false"
+                >
+                  Cerrar
+                </v-btn>
+              </template>
+            </v-snackbar>
           </v-col>
         </v-row>
       </v-card-text>
@@ -100,6 +122,8 @@ export default {
 
   data: () => ({
     valid: true,
+    snackbar: false,
+    snackbarText: "Hello, I'm a snackbar",
     search: '',
     item: '',
     loading: true,
@@ -136,6 +160,8 @@ export default {
       axios.put(`api/auth/products/${this.item.id}`, this.item).then((res) => {
         if (res.status === 200) {
           console.log(res.data)
+          this.snackbarText = 'Producto actualizado correctamente'
+          this.snackbar = true
         }
       })
     },
