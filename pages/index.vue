@@ -20,8 +20,8 @@
         <v-card-text>
           <div class="my-2">
             <div class="text-h6">App Link</div>
-            <a href="https://onion.com.ar/marlon" target="_blank"
-              >onion.com.ar/marlon</a
+            <a :href="`https://onion.com.ar/${commerce.name}`" target="_blank"
+              >onion.com.ar/{{ commerce.name }}</a
             >
           </div>
 
@@ -29,7 +29,7 @@
             <v-col cols="12" sm="4">
               <v-img
                 lazy-src="https://picsum.photos/id/11/10/6"
-                src="https://onion.com.ar/img/marlon/background.jpg"
+                :src="`${commerce.assets_dirname}background.jpg`"
                 max-height="90"
               ></v-img>
             </v-col>
@@ -37,7 +37,7 @@
             <v-col cols="12" sm="8">
               <v-img
                 lazy-src="https://picsum.photos/id/11/10/6"
-                src="https://onion.com.ar/img/marlon/background.jpg"
+                :src="`${commerce.assets_dirname}background.jpg`"
                 max-height="90"
               ></v-img>
             </v-col>
@@ -51,16 +51,16 @@
             </v-col>
 
             <v-col cols="12">
-              <v-form ref="form" v-model="valid" lazy-validation>
+              <v-form ref="form" @submit.prevent="saveCommerce" name="commerceForm" v-model="valid" lazy-validation>
                 <v-text-field
-                  v-model="commerce.fullname"
+                  v-model="commerceForm.fullname"
                   :rules="[(v) => !!v || 'Name is required']"
                   label="Nombre"
                   required
                 ></v-text-field>
 
                 <v-checkbox
-                  v-model="commerce.with_slider"
+                  v-model="commerceForm.with_slider"
                   label="Slider"
                 ></v-checkbox>
 
@@ -68,7 +68,7 @@
                   :disabled="!valid"
                   color="success"
                   class="mr-4"
-                  @click="submit"
+                  type="submit"
                 >
                   Guardar
                 </v-btn>
@@ -142,6 +142,7 @@
 <script>
 import axios from 'axios'
 import commerceWatcher from '@/mixins/commerce-watcher'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   mixins: [commerceWatcher],
@@ -160,9 +161,21 @@ export default {
     loading: true,
   }),
 
+  computed: {
+    commerceForm: {
+      get() {
+        return this.$store.getters.getCommerce
+      },
+    },
+  },
+
   methods: {
-    submit() {
-      //
+    saveCommerce(e) {
+      console.trace()
+      console.log(e)
+      console.log(this.commerce)
+      console.log(this.commerceForm)
+      console.log(this.valid)
     },
   },
 
