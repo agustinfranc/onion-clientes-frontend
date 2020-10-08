@@ -33,26 +33,19 @@
       </v-col>
 
       <v-col cols="12">
-        <v-form ref="form" @submit.prevent="saveCommerce" v-model="valid">
+        <v-form ref="form" v-model="valid" @submit.prevent="submit">
           <v-text-field
-            :value="commerce.fullname"
+            v-model="commerceFormData.fullname"
+            :rules="nameRules"
             label="Nombre"
-            @input="setFullname($event)"
           ></v-text-field>
 
           <v-checkbox
-            :value="commerce.with_slider"
+            v-model="commerceFormData.with_slider"
             label="Slider"
-            @change="setWithSlider($event)"
           ></v-checkbox>
 
-          <p>
-            {{ $v.commerceFormData }}
-          </p>
-
-          <v-btn :disabled="!valid" color="success" class="mr-4" type="submit">
-            Guardar
-          </v-btn>
+          <v-btn :disabled="!valid" color="success" class="mr-4" type="submit"> Guardar </v-btn>
         </v-form>
       </v-col>
     </v-row>
@@ -60,22 +53,21 @@
 </template>
 
 <script>
+// Doc: https://vuetifyjs.com/en/components/forms
+
 import axios from 'axios'
 import { mapState, mapGetters } from 'vuex'
-import { required, email, minLength } from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   data: () => ({
-    valid: false,
-    loading: true,
+    valid: true,
+    nameRules: [
+      (v) => !!v || 'Name is required',
+      (v) => (v && v.length <= 20) || 'Name must be less than 20 characters',
+      (v) => (v && v.length > 3) || 'Name must be more than 3 characters',
+    ],
   }),
-
-  validations: {
-    commerceFormData: {
-      fullname: { required, minLength: minLength(6) },
-      with_slider: { required },
-    },
-  },
 
   computed: {
     ...mapState(['commerce']),
@@ -87,17 +79,12 @@ export default {
   },
 
   methods: {
-    setFullname(value) {
-      console.log(value)
-      this.commerceFormData.fullname = value
-      this.$v.commerceFormData.fullname.$touch()
-    },
-    setWithSlider(value) {
-      this.commerceFormData.with_slider = value
-      this.$v.commerceFormData.with_slider.$touch()
-    },
-    saveCommerce() {
-      console.log(this.$v.commerceFormData.$model)
+    submit() {
+      console.log('submit!')
+
+      if (!this.$refs.form.validate()) return
+
+      console.log(this.commerceFormData)
 
       // send to axios
     },
