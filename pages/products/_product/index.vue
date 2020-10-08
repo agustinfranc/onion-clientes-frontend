@@ -26,11 +26,16 @@
             <v-btn small block color="accent" class="mt-3">Editar Avatar</v-btn>
           </v-col>
           <v-col cols="12" sm="10" md="10">
-            <v-form ref="form" v-model="valid" lazy-validation>
+            <v-form
+              ref="form"
+              v-model="valid"
+              lazy-validation
+              @submit.prevent="submit"
+            >
               <v-text-field
                 v-model="item.name"
-                :rules="[(v) => !!v || 'Name is required']"
                 label="Nombre"
+                :rules="[(v) => !!v || 'El nombre es requerido']"
                 required
               ></v-text-field>
 
@@ -43,12 +48,19 @@
                 auto-grow
                 clearable
                 single-line
+                :rules="[
+                  (v) =>
+                    (v && v.length <= 255) ||
+                    'La descripcion debe ser menor de 255 characteres',
+                ]"
               ></v-textarea>
 
               <v-text-field
                 v-model="item.code"
                 label="Codigo"
                 type="number"
+                :rules="[(v) => !!v || 'El codigo es requerido']"
+                required
               ></v-text-field>
 
               <v-text-field
@@ -58,13 +70,13 @@
                 type="number"
               ></v-text-field>
 
-              <v-checkbox v-model="item.disabled" label="Visible"></v-checkbox>
+              <v-checkbox v-model="item.disabled" label="Deshabilitado"></v-checkbox>
 
               <v-btn
                 :disabled="!valid"
                 color="success"
                 class="mr-4"
-                @click="submit"
+                type="submit"
               >
                 Guardar
               </v-btn>
@@ -87,7 +99,7 @@ export default {
   mixins: [commerceWatcher],
 
   data: () => ({
-    valid: '',
+    valid: true,
     search: '',
     item: '',
     loading: true,
@@ -115,12 +127,22 @@ export default {
 
   methods: {
     submit() {
-      //
+      console.log('submit!')
+
+      if (!this.$refs.form.validate()) return
+
+      console.log(this.item)
+
+      axios.put(`api/auth/products/${this.item.id}`, this.item).then((res) => {
+        if (res.status === 200) {
+          console.log(res.data)
+        }
+      })
     },
   },
 
   async fetch() {
-    const url = `api/auth/commerces/${this.$store.state.commerce.id}/products/${this.$route.params.product}`
+    const url = `api/auth/products/${this.$route.params.product}`
     const res = await axios.get(url)
 
     if (res.status !== 200) {
