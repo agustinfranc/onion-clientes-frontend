@@ -2,7 +2,7 @@ import { mapState } from 'vuex'
 
 export default {
   mounted() {
-    console.log('with-mixin')
+    console.log('CommerceWatcher Mounted')
   },
 
   computed: {
