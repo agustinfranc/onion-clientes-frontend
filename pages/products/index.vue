@@ -14,6 +14,7 @@
     <v-card>
       <v-card-title class="headline">
         <v-spacer></v-spacer>
+
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
@@ -22,6 +23,10 @@
           single-line
           hide-details
         ></v-text-field>
+
+        <v-btn text icon @click="refresh" class="ml-3"
+          ><v-icon>mdi-reload</v-icon></v-btn
+        >
       </v-card-title>
       <v-card-text>
         <div>
@@ -71,14 +76,63 @@
               <v-btn text icon nuxt :to="`products/${item.id}`">
                 <v-icon small class="mr-2"> mdi-pencil </v-icon>
               </v-btn>
-              <v-btn text icon>
+              <v-btn text icon @click="deleteItem(item)">
                 <v-icon small> mdi-delete </v-icon>
               </v-btn>
             </template>
           </v-data-table>
+
+          <v-dialog v-model="dialogDelete" max-width="500px">
+            <v-card>
+              <v-card-title class="headline"
+                >Estás seguro que deseas eliminar {{ item.name }}?</v-card-title
+              >
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="dialogDelete = false"
+                  >Cancelar</v-btn
+                >
+                <v-btn
+                  :disabled="!btnDelete"
+                  color="blue darken-1"
+                  @click="deleteItemConfirm"
+                  >Aceptar</v-btn
+                >
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </div>
       </v-card-text>
     </v-card>
+
+    <v-snackbar
+      v-model="snackbar"
+      timeout="3000"
+      color="success"
+      elevation="24"
+    >
+      {{ snackbarText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbar = false"> Cerrar </v-btn>
+      </template>
+    </v-snackbar>
+
+    <v-snackbar
+      v-model="snackbarError"
+      timeout="3000"
+      color="red accent-4"
+      elevation="24"
+    >
+      Ocurrió un error
+
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="snackbarError = false">
+          Cerrar
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -101,7 +155,13 @@ export default {
       { text: 'Acciones', value: 'actions', sortable: false },
     ],
     body: [],
+    item: '',
+    btnDelete: true,
     loading: true,
+    dialogDelete: false,
+    snackbar: false,
+    snackbarText: '',
+    snackbarError: false,
     breadcrumbItems: [
       {
         text: 'Dashboard',
@@ -117,7 +177,44 @@ export default {
     ],
   }),
 
+  watch: {
+    dialogDelete(val) {
+      val || (this.dialogDelete = false)
+    },
+  },
+
+  methods: {
+    deleteItem(item) {
+      this.item = item
+      this.dialogDelete = true
+    },
+    deleteItemConfirm() {
+      this.btnDelete = false
+
+      axios
+        .delete(`api/auth/products/${this.item.id}`)
+        .then((res) => {
+          this.dialogDelete = false
+          this.snackbarText = 'Producto eliminado correctamente'
+          this.snackbar = true
+          this.$fetch()
+        })
+        .catch((error) => {
+          console.log(error)
+          this.snackbarError = true
+        })
+        .finally(() => (this.btnDelete = true))
+    },
+    async refresh() {
+      await this.$fetch()
+      this.snackbarText = 'Datos actualizados'
+      this.snackbar = true
+    },
+  },
+
   async fetch() {
+    this.loading = true
+
     const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
     const res = await axios.get(url)
 
