@@ -12,7 +12,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-env/
    */
   env: {
-    apiUrl: process.env.API_URL || 'http://local.onion-backend/api/',
+    apiUrl: process.env.API_URL || 'http://localhost:8000/api/',
     baseURL: process.env.BASE_URL || 'http://localhost:8000/',
   },
 
@@ -52,6 +52,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv",
   ],
 
