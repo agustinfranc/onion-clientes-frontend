@@ -125,15 +125,23 @@
         </v-btn>
       </template>
     </v-snackbar>
+
+    <Snackbar />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import commerceWatcher from '@/mixins/commerce-watcher'
+import Snackbar from '@/components/Snackbar'
+import { mapActions } from 'vuex'
 
 export default {
   mixins: [commerceWatcher],
+
+  components: {
+    Snackbar,
+  },
 
   data: () => ({
     valid: true,
@@ -166,6 +174,7 @@ export default {
   }),
 
   methods: {
+    ...mapActions(['toggleSnackbar']),
     submit() {
       if (!this.$refs.form.validate()) return
 
@@ -181,8 +190,13 @@ export default {
           this.snackbarError = true
         })
     },
+
     async refresh() {
       await this.$fetch()
+
+      //! no está andando
+      this.toggleSnackbar({ text: 'Datos actualizados' })
+
       this.snackbarText = 'Datos actualizados'
       this.snackbar = true
     },

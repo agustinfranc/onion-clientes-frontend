@@ -5,6 +5,12 @@ axios.defaults.baseURL = 'http://localhost:8000/'
 export const state = () => ({
   user: '',
   commerce: '',
+  snackbar: {
+    display: false,
+    text: '',
+    color: '',
+    timeout: 3000,
+  },
 })
 
 /* export const getters = {
@@ -17,6 +23,9 @@ export const mutations = {
   SET_COMMERCE(state, payload) {
     state.commerce = payload
   },
+  SET_SNACKBAR(state, payload) {
+    state.snackbar = payload
+  },
   SET_USER(state, payload) {
     state.user = payload
   },
@@ -28,6 +37,19 @@ export const actions = {
   },
   saveUser({ commit }, payload) {
     commit('SET_USER', payload)
+  },
+  toggleSnackbar({ commit }, { display, text, color, timeout }) {
+    display = display ?? true
+    text = text ?? 'Operacion exitosa'
+    color = color ?? 'success'
+    timeout = timeout ?? 3000
+
+    console.log('display', display)
+    console.log('text', text)
+    console.log('color', color)
+    console.log('timeout', timeout)
+
+    commit('SET_SNACKBAR', { display, text, color, timeout })
   },
   logout({ commit }, payload) {
     axios.post('logout').then((res) => {
