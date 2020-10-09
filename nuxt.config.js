@@ -13,6 +13,7 @@ export default {
    */
   env: {
     apiUrl: process.env.API_URL || 'http://local.onion-backend/api/',
+    baseURL: process.env.BASE_URL || 'http://localhost:8000/',
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -62,7 +63,7 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     credentials: true,
-    baseURL: 'http://localhost:8000/',
+    baseURL: process.env.BASE_URL || 'http://localhost:8000/',
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
