@@ -10,11 +10,13 @@
           :items="breadcrumbItems"
         ></v-breadcrumbs>
       </div>
-      <v-spacer></v-spacer>
-      <v-btn text icon @click="refresh"><v-icon>mdi-reload</v-icon></v-btn>
     </div>
     <v-card>
-      <v-card-title> Información </v-card-title>
+      <v-card-title>
+        Información
+        <v-spacer></v-spacer>
+        <v-btn text icon @click="refresh"><v-icon>mdi-reload</v-icon></v-btn>
+      </v-card-title>
       <v-card-text>
         <v-row justify="center" align="center">
           <v-col cols="12" sm="2" md="2" class="align-self-start">
@@ -90,7 +92,7 @@
             <v-snackbar
               v-model="snackbar"
               timeout="3000"
-              color="green accent-4"
+              color="success"
               elevation="24"
             >
               {{ snackbarText }}
@@ -165,8 +167,6 @@ export default {
 
   methods: {
     submit() {
-      console.log('submit!')
-
       if (!this.$refs.form.validate()) return
 
       console.log(this.item)
