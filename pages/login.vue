@@ -44,7 +44,7 @@ export default {
   layout: 'login',
   data: () => ({
     email: '',
-    password: 'password',
+    password: '',
     show: false,
   }),
   validations: {
