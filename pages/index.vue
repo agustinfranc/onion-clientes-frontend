@@ -26,7 +26,9 @@
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="510">
         <v-card-title class="headline">
-          Productos
+          <nuxt-link to="/products" class="text-decoration-none white--text"
+            >Productos</nuxt-link
+          >
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -95,7 +97,14 @@ export default {
     CommerceForm,
   },
 
+  head() {
+    return {
+      title: this.title,
+    }
+  },
+
   data: () => ({
+    title: 'Dashboard',
     valid: false,
     search: '',
     headers: [
@@ -129,3 +138,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.v-card__title > a:hover {
+  font-size: 1.7rem !important;
+}
+</style>
