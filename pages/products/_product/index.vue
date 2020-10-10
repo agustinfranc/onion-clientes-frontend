@@ -114,6 +114,12 @@ export default {
     Snackbar,
   },
 
+  head() {
+    return {
+      title: this.item.name,
+    }
+  },
+
   data: () => ({
     valid: true,
     search: '',

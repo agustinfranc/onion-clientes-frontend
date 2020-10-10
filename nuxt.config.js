@@ -18,8 +18,8 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - onion-clientes-frontend',
-    title: 'onion-clientes-frontend',
+    titleTemplate: '%s - Onion Gestor',
+    title: 'Onion',   // title page by deafult
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

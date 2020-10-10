@@ -123,7 +123,14 @@ export default {
     Snackbar,
   },
 
+  head() {
+    return {
+      title: this.title,
+    }
+  },
+
   data: () => ({
+    title: 'Productos',
     search: '',
     headers: [
       { text: 'Codigo', value: 'code' },

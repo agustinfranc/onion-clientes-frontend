@@ -42,15 +42,25 @@ import axios from 'axios'
 export default {
   name: 'login',
   layout: 'login',
+
+  head() {
+    return {
+      title: this.title,
+    }
+  },
+
   data: () => ({
+    title: 'Login',
     email: '',
     password: '',
     show: false,
   }),
+
   validations: {
     email: { required, email },
     password: { required, minLength: minLength(6) },
   },
+
   computed: {
     ...mapState(['user']),
     emailErrors() {
