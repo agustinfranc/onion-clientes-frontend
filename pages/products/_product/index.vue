@@ -88,21 +88,6 @@
                 Guardar
               </v-btn>
             </v-form>
-
-            <v-snackbar
-              v-model="snackbar"
-              timeout="3000"
-              color="success"
-              elevation="24"
-            >
-              {{ snackbarText }}
-
-              <template v-slot:action="{ attrs }">
-                <v-btn text v-bind="attrs" @click="snackbar = false">
-                  Cerrar
-                </v-btn>
-              </template>
-            </v-snackbar>
           </v-col>
         </v-row>
       </v-card-text>
@@ -111,22 +96,8 @@
       </v-card-text>
     </v-card>
 
-    <v-snackbar
-      v-model="snackbarError"
-      timeout="3000"
-      color="red accent-4"
-      elevation="24"
-    >
-      Ocurrió un error
-
-      <template v-slot:action="{ attrs }">
-        <v-btn text v-bind="attrs" @click="snackbarError = false">
-          Cerrar
-        </v-btn>
-      </template>
-    </v-snackbar>
-
     <Snackbar />
+
   </div>
 </template>
 
@@ -145,9 +116,6 @@ export default {
 
   data: () => ({
     valid: true,
-    snackbar: false,
-    snackbarError: false,
-    snackbarText: '',
     search: '',
     item: '',
     loading: true,
@@ -183,22 +151,17 @@ export default {
       axios
         .put(`api/auth/products/${this.item.id}`, this.item)
         .then((res) => {
-          this.snackbarText = 'Producto actualizado correctamente'
-          this.snackbar = true
+          this.toggleSnackbar({ text: 'Producto actualizado correctamente' })
         })
         .catch((error) => {
-          this.snackbarError = true
+          this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
         })
     },
 
     async refresh() {
       await this.$fetch()
 
-      //! no está andando
       this.toggleSnackbar({ text: 'Datos actualizados' })
-
-      this.snackbarText = 'Datos actualizados'
-      this.snackbar = true
     },
   },
 
@@ -207,7 +170,7 @@ export default {
     const res = await axios.get(url)
 
     if (res.status !== 200) {
-      this.snackbarError = true
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
       return
     }
 

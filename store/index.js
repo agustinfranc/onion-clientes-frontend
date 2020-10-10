@@ -9,7 +9,7 @@ export const state = () => ({
     display: false,
     text: '',
     color: '',
-    timeout: 3000,
+    timeout: 4000,
   },
 })
 
@@ -43,11 +43,6 @@ export const actions = {
     text = text ?? 'Operacion exitosa'
     color = color ?? 'success'
     timeout = timeout ?? 3000
-
-    console.log('display', display)
-    console.log('text', text)
-    console.log('color', color)
-    console.log('timeout', timeout)
 
     commit('SET_SNACKBAR', { display, text, color, timeout })
   },

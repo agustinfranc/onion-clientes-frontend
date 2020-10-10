@@ -1,25 +1,35 @@
 <template>
-  <v-snackbar v-model="snackbar" :color="snackbar.color" elevation="24">
-    {{ snackbar.text }}
+  <div>
+    <v-snackbar
+      v-model="snackbarData.display"
+      :color="snackbarData.color"
+      elevation="24"
+      @input="closeSnackbar"
+    >
+      {{ snackbarData.text }}
 
-    <template v-slot:action="{ attrs }">
-      <v-btn text v-bind="attrs" @click="snackbar = false"> Cerrar </v-btn>
-    </template>
-  </v-snackbar>
+      <template v-slot:action="{ attrs }">
+        <v-btn text v-bind="attrs" @click="closeSnackbar"> Cerrar </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
-  data: () => ({
-    snackbar: true,
-  }),
   computed: {
-    ...mapState(['snackbar'])
+    snackbarData: {
+      get: function () {
+        return { ...this.$store.state.snackbar }
+      },
+    },
   },
-  mounted() {
-    console.log('Snackbar Mounted')
-  }
+  methods: {
+    closeSnackbar() {
+      this.$store.dispatch('toggleSnackbar', {
+        display: false,
+      })
+    },
+  },
 }
 </script>
