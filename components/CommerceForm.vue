@@ -75,7 +75,7 @@ export default {
     commerceFormData() {
       // return this.$store.getters.getCommerceFormData
 
-      return JSON.parse(JSON.stringify(this.$store.state.commerce))
+      return { ...this.$store.state.commerce }
     },
   },
 
