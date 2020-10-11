@@ -26,8 +26,6 @@
             ></v-text-field>
             <v-btn class="mr-4 my-2" @click="submit"> submit </v-btn>
           </form>
-
-          <v-btn class="mr-4 my-2" @click="me"> me </v-btn>
         </v-card-text>
       </v-card>
 
@@ -123,17 +121,8 @@ export default {
           })
         })
     },
-    async me() {
-      axios.get('api/auth/me').then((res) => {
-        console.log(res.data)
-      })
-    },
   },
   async asyncData({ store, $axios, redirect }) {
-    if (!store.state.user) {
-      return
-    }
-
     try {
       const url = 'api/auth/me'
       const res = await $axios.$get(url)
