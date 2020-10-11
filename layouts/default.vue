@@ -56,7 +56,6 @@
           return-object
           single-line
           :loading="loading"
-          @change="updateCommerce()"
         ></v-select>
       </div>
 
@@ -108,7 +107,7 @@ export default {
       clipped: true,
       drawer: false,
       fixed: false,
-      loading: true,
+      loading: false,
       settings: [],
       items: [
         {
@@ -127,8 +126,6 @@ export default {
           to: '/inspire',
         },
       ],
-      commerces: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-      selectedCommerce: '',
       miniVariant: false,
       right: true,
       rightDrawer: false,
@@ -137,37 +134,19 @@ export default {
   },
 
   computed: {
-    ...mapState(['user', 'commerce']),
+    ...mapState(['user', 'commerce', 'commerces']),
+    selectedCommerce: {
+      get: function () {
+        return { ...this.$store.state.commerce }
+      },
+      set: function (value) {
+        this.saveCommerce(value)
+      },
+    },
   },
 
   methods: {
     ...mapActions(['logout', 'saveCommerce']),
-    updateCommerce() {
-      this.saveCommerce(this.selectedCommerce)
-    },
-  },
-
-  async fetch() {
-    const url = `api/auth/commerces`
-    const res = await this.$nuxt.$axios.get(url)
-
-    if (res.status !== 200) {
-      this.loading = false
-      return
-    }
-
-    if (!res.data || !res.data.length) {
-      this.loading = false
-      return
-    }
-
-    this.saveCommerce(res.data[0])
-
-    this.selectedCommerce = res.data[0]
-
-    this.commerces = res.data
-
-    this.loading = false
   },
 }
 </script>
