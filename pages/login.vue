@@ -38,7 +38,6 @@
 import { mapState, mapActions } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import Snackbar from '@/components/Snackbar'
-import axios from 'axios'
 
 export default {
   name: 'login',
@@ -95,31 +94,23 @@ export default {
         password: this.$v.password.$model,
       }
 
-      axios
-        .get('sanctum/csrf-cookie')
-        .then(() => {
-          axios
-            .post('login', form)
-            .then((res) => {
-              if (res.status === 200) {
-                this.saveUser(res.data)
+      try {
+        await this.$axios.get('sanctum/csrf-cookie')
+        const res = await this.$axios.$post('login', form)
 
-                this.$router.push('/')
-              }
-            })
-            .catch((error) => {
-              this.toggleSnackbar({
-                text: error,
-                color: 'red accent-4',
-              })
-            })
+        if (res.error) {
+          throw new Error(res.error)
+        }
+
+        this.saveUser(res)
+        this.$router.push('/')
+      } catch (error) {
+        console.log(error.message)
+        this.toggleSnackbar({
+          text: error.message ?? 'Ocurrió un error',
+          color: 'red accent-4',
         })
-        .catch((error) => {
-          this.toggleSnackbar({
-            text: 'Ocurrió un error',
-            color: 'red accent-4',
-          })
-        })
+      }
     },
   },
   async asyncData({ store, $axios, redirect }) {

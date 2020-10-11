@@ -81,6 +81,8 @@
           </div>
         </v-card-text>
       </v-card>
+
+      <Snackbar />
     </v-col>
   </v-row>
 </template>
@@ -88,6 +90,7 @@
 <script>
 import commerceWatcher from '@/mixins/commerce-watcher'
 import CommerceForm from '@/components/CommerceForm'
+import { mapActions } from 'vuex'
 
 export default {
   mixins: [commerceWatcher],
@@ -117,23 +120,21 @@ export default {
     loading: true,
   }),
 
+  methods: {
+    ...mapActions(['toggleSnackbar']),
+  },
+
   async fetch() {
-    let url
-
-    if (!this.$store.state.commerce) {
-      url = `api/auth/commerces/first/products`
-    } else {
-      url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+    try {
+      const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+      const res = await this.$nuxt.$axios.$get(url)
+      this.body = res
+    } catch (error) {
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
     }
-
-    const res = await this.$nuxt.$axios.get(url)
-
-    if (res.status !== 200) {
-      return
+    finally {
+      this.loading = false
     }
-
-    this.body = res.data
-    this.loading = false
   },
 }
 </script>
