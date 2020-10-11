@@ -173,7 +173,7 @@ export default {
 
   async fetch() {
     const url = `api/auth/products/${this.$route.params.product}`
-    const res = await axios.get(url)
+    const res = await this.$nuxt.$axios.get(url)
 
     if (res.status !== 200) {
       this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })

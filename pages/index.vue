@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import commerceWatcher from '@/mixins/commerce-watcher'
 import CommerceForm from '@/components/CommerceForm'
 
@@ -127,7 +126,7 @@ export default {
       url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
     }
 
-    const res = await axios.get(url)
+    const res = await this.$nuxt.$axios.get(url)
 
     if (res.status !== 200) {
       return

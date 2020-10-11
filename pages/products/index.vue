@@ -205,7 +205,7 @@ export default {
     this.loading = true
 
     const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
-    const res = await axios.get(url)
+    const res = await this.$nuxt.$axios.get(url)
 
     if (res.status !== 200) {
       this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })

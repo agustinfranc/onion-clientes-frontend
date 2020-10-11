@@ -101,7 +101,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import axios from 'axios'
 
 export default {
   data() {
@@ -124,7 +123,7 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
+          title: 'Reportes',
           to: '/inspire',
         },
       ],
@@ -150,7 +149,7 @@ export default {
 
   async fetch() {
     const url = `api/auth/commerces`
-    const res = await axios.get(url)
+    const res = await this.$nuxt.$axios.get(url)
 
     if (res.status !== 200) {
       this.loading = false
