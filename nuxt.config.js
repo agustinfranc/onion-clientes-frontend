@@ -20,12 +20,15 @@ export default {
   publicRuntimeConfig: {
     baseURL: process.env.BASE_URL || 'http://localhost:8000/',
     apiURL: process.env.API_URL || 'http://localhost:8000/api/',
+    axios: {
+      baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+    },
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - Onion Gestor',
-    title: 'Onion',   // title page by deafult
+    title: 'Onion', // title page by deafult
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -39,9 +42,8 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    "~/plugins/vuelidate",
-    '~/plugins/axios'
-  ],
+    '~/plugins/vuelidate',
+    '~/plugins/axios'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
@@ -59,12 +61,12 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://github.com/nuxt-community/dotenv-module
-    "@nuxtjs/dotenv",
+    '@nuxtjs/dotenv',
   ],
 
   // Router configuration
   router: {
-    middleware: ['auth', 'store']
+    middleware: ['auth', 'commerces', 'store'],
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -91,7 +93,7 @@ export default {
       },
     },
     icons: {
-      iconfont: "mdi",
+      iconfont: 'mdi',
     },
   },
 
