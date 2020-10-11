@@ -40,7 +40,7 @@ export const actions = {
     display = display ?? true
     text = text ?? 'Operacion exitosa'
     color = color ?? 'success'
-    timeout = timeout ?? 3000
+    timeout = timeout ?? 4000
 
     commit('SET_SNACKBAR', { display, text, color, timeout })
   },

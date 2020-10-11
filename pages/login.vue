@@ -30,6 +30,8 @@
           <v-btn class="mr-4 my-2" @click="me"> me </v-btn>
         </v-card-text>
       </v-card>
+
+      <Snackbar />
     </v-col>
   </v-row>
 </template>
@@ -37,11 +39,16 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
+import Snackbar from '@/components/Snackbar'
 import axios from 'axios'
 
 export default {
   name: 'login',
   layout: 'login',
+
+  components: {
+    Snackbar,
+  },
 
   head() {
     return {
@@ -81,7 +88,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['saveUser']),
+    ...mapActions(['saveUser', 'toggleSnackbar']),
     async submit() {
       if (this.$v.$invalid) return
 
@@ -90,15 +97,31 @@ export default {
         password: this.$v.password.$model,
       }
 
-      axios.get('sanctum/csrf-cookie').then(() => {
-        axios.post('login', form).then((res) => {
-          if (res.status === 200) {
-            this.saveUser(res.data)
+      axios
+        .get('sanctum/csrf-cookie')
+        .then(() => {
+          axios
+            .post('login', form)
+            .then((res) => {
+              if (res.status === 200) {
+                this.saveUser(res.data)
 
-            this.$router.push('/')
-          }
+                this.$router.push('/')
+              }
+            })
+            .catch((error) => {
+              this.toggleSnackbar({
+                text: error,
+                color: 'red accent-4',
+              })
+            })
         })
-      })
+        .catch((error) => {
+          this.toggleSnackbar({
+            text: 'Ocurrió un error',
+            color: 'red accent-4',
+          })
+        })
     },
     async me() {
       axios.get('api/auth/me').then((res) => {
