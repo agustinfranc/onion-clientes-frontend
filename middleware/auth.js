@@ -1,8 +1,9 @@
 import axios from 'axios'
-axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000/'
 
-export default function ({ route, redirect }) {
+export default function ({ route, redirect, $config: { baseURL } }) {
+  axios.defaults.withCredentials = true
+  axios.defaults.baseURL = baseURL
+
   if (route.name === 'login') return
 
   axios

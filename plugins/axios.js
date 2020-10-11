@@ -1,4 +1,4 @@
-export default function ({ $axios, redirect, env, route }) {
+export default function ({ $axios, redirect, route }) {
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status)
 

@@ -12,8 +12,14 @@ export default {
    ** See https://nuxtjs.org/api/configuration-env/
    */
   env: {
-    apiUrl: process.env.API_URL || 'http://localhost:8000/api/',
     baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+    apiURL: process.env.API_URL || 'http://localhost:8000/api/',
+  },
+
+  // https://nuxtjs.org/blog/moving-from-nuxtjs-dotenv-to-runtime-config/
+  publicRuntimeConfig: {
+    baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+    apiURL: process.env.API_URL || 'http://localhost:8000/api/',
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
