@@ -11,8 +11,6 @@ export default {
 
   watch: {
     commerce: function (newValue) {
-      console.log('commerce', newValue)
-
       this.$fetch()
     },
   },
