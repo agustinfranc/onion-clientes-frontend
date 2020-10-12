@@ -73,7 +73,7 @@
             </template>
 
             <template v-slot:item.actions="{ item }">
-              <v-btn text icon nuxt :to="`products/${item.id}`">
+              <v-btn text icon nuxt :to="`/products/${item.id}`">
                 <v-icon small class="mr-2"> mdi-pencil </v-icon>
               </v-btn>
               <v-btn text icon @click="deleteItem(item)">

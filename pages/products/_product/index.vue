@@ -75,11 +75,6 @@
                 auto-grow
                 clearable
                 single-line
-                :rules="[
-                  (v) =>
-                    v.length <= 255 ||
-                    'La descripcion debe ser menor de 255 characteres',
-                ]"
               ></v-textarea>
 
               <v-text-field
