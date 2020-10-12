@@ -21,13 +21,34 @@
         <v-row justify="center" align="center">
           <v-col cols="12" sm="2" md="2" class="align-self-start">
             <v-img
+              v-if="!parseSelectedFile"
               lazy-src="https://picsum.photos/id/11/10/6"
               :src="
-                item && item.avatar ? item.avatar_dirname + item.avatar : ''
+                item && item.avatar_dirname ? item.avatar_dirname + item.avatar : ''
               "
               class="rounded"
             ></v-img>
-            <v-btn small block color="accent" class="mt-3">Editar Avatar</v-btn>
+            <v-img
+              v-else
+              lazy-src="https://picsum.photos/id/11/10/6"
+              :src="parseSelectedFile"
+              class="rounded"
+            ></v-img>
+            <input
+              class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
+              type="file"
+              @change="changeAvatar"
+              style="display: none"
+              ref="fileInput"
+            />
+            <v-btn
+              small
+              block
+              color="accent"
+              class="mt-3"
+              @click="$refs.fileInput.click()"
+              >Editar Avatar</v-btn
+            >
           </v-col>
           <v-col cols="12" sm="10" md="10">
             <v-form
@@ -97,12 +118,10 @@
     </v-card>
 
     <Snackbar />
-
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import commerceWatcher from '@/mixins/commerce-watcher'
 import Snackbar from '@/components/Snackbar'
 import { mapActions } from 'vuex'
@@ -125,6 +144,8 @@ export default {
     search: '',
     item: '',
     loading: true,
+    selectedFile: '',
+    parseSelectedFile: '',
     breadcrumbItems: [
       {
         text: 'Dashboard',
@@ -149,22 +170,49 @@ export default {
 
   methods: {
     ...mapActions(['toggleSnackbar']),
-    submit() {
+    async submit() {
       if (!this.$refs.form.validate()) return
 
-      console.log(this.item)
+      try {
+        if (this.selectedFile) {
+          const fd = new FormData()
+          fd.append('image', this.selectedFile, this.selectedFile.name)
+          await this.$axios.post(`api/auth/products/${this.$route.params.product}/upload`, fd, {
+            onUploadProgress: (uploadEvent) => {
+              console.log(
+                'Upload Progress',
+                Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + '%'
+              )
+            },
+          })
 
-      axios
-        .put(`api/auth/products/${this.item.id}`, this.item)
-        .then((res) => {
-          this.toggleSnackbar({ text: 'Producto actualizado correctamente' })
+          this.item.avatar = this.selectedFile.name
+
+          this.toggleSnackbar({ text: 'Imagen subida correctamente' })
+        }
+
+        const res = await this.$axios.put(
+          `api/auth/products/${this.item.id}`,
+          this.item
+        )
+
+        this.toggleSnackbar({ text: 'Producto actualizado correctamente' })
+      } catch (error) {
+        this.toggleSnackbar({
+          text: error ?? 'Ocurrió un error',
+          color: 'red accent-4',
         })
-        .catch((error) => {
-          this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-        })
+      }
+    },
+    changeAvatar(event) {
+      this.selectedFile = event.target.files[0]
+      this.parseSelectedFile = URL.createObjectURL(this.selectedFile)
     },
 
     async refresh() {
+      this.selectedFile = ''
+      this.parseSelectedFile = ''
+
       await this.$fetch()
 
       this.toggleSnackbar({ text: 'Datos actualizados' })
