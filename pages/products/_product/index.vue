@@ -24,7 +24,9 @@
               v-if="!parseSelectedFile"
               lazy-src="https://picsum.photos/id/11/10/6"
               :src="
-                item && item.avatar_dirname ? item.avatar_dirname + item.avatar : ''
+                item && item.avatar_dirname
+                  ? item.avatar_dirname + item.avatar
+                  : ''
               "
               class="rounded"
             ></v-img>
@@ -75,7 +77,7 @@
                 single-line
                 :rules="[
                   (v) =>
-                    (v && v.length <= 255) ||
+                    v.length <= 255 ||
                     'La descripcion debe ser menor de 255 characteres',
                 ]"
               ></v-textarea>
@@ -177,14 +179,19 @@ export default {
         if (this.selectedFile) {
           const fd = new FormData()
           fd.append('image', this.selectedFile, this.selectedFile.name)
-          await this.$axios.post(`api/auth/products/${this.$route.params.product}/upload`, fd, {
-            onUploadProgress: (uploadEvent) => {
-              console.log(
-                'Upload Progress',
-                Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + '%'
-              )
-            },
-          })
+          await this.$axios.post(
+            `api/auth/products/${this.$route.params.product}/upload`,
+            fd,
+            {
+              onUploadProgress: (uploadEvent) => {
+                console.log(
+                  'Upload Progress',
+                  Math.round((uploadEvent.loaded / uploadEvent.total) * 100) +
+                    '%'
+                )
+              },
+            }
+          )
 
           this.item.avatar = this.selectedFile.name
 

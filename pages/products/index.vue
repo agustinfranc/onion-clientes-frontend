@@ -111,7 +111,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import commerceWatcher from '@/mixins/commerce-watcher'
 import Snackbar from '@/components/Snackbar'
 import { mapActions } from 'vuex'
@@ -176,7 +175,7 @@ export default {
     deleteItemConfirm() {
       this.btnDelete = false
 
-      axios
+      this.$axios
         .delete(`api/auth/products/${this.item.id}`)
         .then((res) => {
           this.dialogDelete = false
