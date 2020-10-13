@@ -41,17 +41,15 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [
-    '~/plugins/vuelidate',
-    '~/plugins/axios'],
+  plugins: ['~/plugins/vuelidate', '~/plugins/axios'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
@@ -98,5 +96,20 @@ export default {
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    /*
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/,
+        })
+      }
+    },
+  },
 }
