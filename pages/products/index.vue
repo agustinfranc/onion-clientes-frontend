@@ -121,6 +121,21 @@ export default {
   },
   mixins: [commerceWatcher],
 
+  async fetch() {
+    this.loading = true
+
+    const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+    const res = await this.$nuxt.$axios.get(url)
+
+    if (res.status !== 200) {
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
+      return
+    }
+
+    this.body = res.data
+    this.loading = false
+  },
+
   data: () => ({
     title: 'Productos',
     search: '',
@@ -159,12 +174,6 @@ export default {
     },
   },
 
-  head() {
-    return {
-      title: this.title,
-    }
-  },
-
   methods: {
     ...mapActions(['toggleSnackbar']),
     deleteItem(item) {
@@ -184,9 +193,8 @@ export default {
           this.$fetch()
         })
         .catch((error) => {
-          console.log(error)
           this.toggleSnackbar({
-            text: 'Ocurrió un error',
+            text: error.message ?? 'Ocurrió un error',
             color: 'red accent-4',
           })
         })
@@ -199,19 +207,10 @@ export default {
     },
   },
 
-  async fetch() {
-    this.loading = true
-
-    const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
-    const res = await this.$nuxt.$axios.get(url)
-
-    if (res.status !== 200) {
-      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-      return
+  head() {
+    return {
+      title: this.title,
     }
-
-    this.body = res.data
-    this.loading = false
   },
 }
 </script>

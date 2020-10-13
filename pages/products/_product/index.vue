@@ -129,6 +129,19 @@ export default {
   },
   mixins: [commerceWatcher],
 
+  async fetch() {
+    const url = `api/auth/products/${this.$route.params.product}`
+    const res = await this.$nuxt.$axios.get(url)
+
+    if (res.status !== 200) {
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
+      return
+    }
+
+    this.item = res.data
+    this.loading = false
+  },
+
   data: () => ({
     valid: true,
     search: '',
@@ -158,12 +171,6 @@ export default {
     ],
   }),
 
-  head() {
-    return {
-      title: this.item.name,
-    }
-  },
-
   methods: {
     ...mapActions(['toggleSnackbar']),
     async submit() {
@@ -192,10 +199,7 @@ export default {
           this.toggleSnackbar({ text: 'Imagen subida correctamente' })
         }
 
-        const res = await this.$axios.put(
-          `api/auth/products/${this.item.id}`,
-          this.item
-        )
+        await this.$axios.put(`api/auth/products/${this.item.id}`, this.item)
 
         this.toggleSnackbar({ text: 'Producto actualizado correctamente' })
       } catch (error) {
@@ -220,17 +224,10 @@ export default {
     },
   },
 
-  async fetch() {
-    const url = `api/auth/products/${this.$route.params.product}`
-    const res = await this.$nuxt.$axios.get(url)
-
-    if (res.status !== 200) {
-      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-      return
+  head() {
+    return {
+      title: this.item.name,
     }
-
-    this.item = res.data
-    this.loading = false
   },
 }
 </script>

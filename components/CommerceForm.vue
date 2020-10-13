@@ -57,8 +57,7 @@
 <script>
 // Doc: https://vuetifyjs.com/en/components/forms
 
-import axios from 'axios'
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data: () => ({

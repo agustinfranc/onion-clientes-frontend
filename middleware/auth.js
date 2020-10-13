@@ -6,5 +6,5 @@ export default function ({ route, redirect, $axios, $config: { baseURL } }) {
     .then((res) => {
       if (res.status !== 200) redirect('/login')
     })
-    .catch((error) => redirect('/login'))
+    .catch(() => redirect('/login'))
 }

@@ -98,6 +98,18 @@ export default {
   },
   mixins: [commerceWatcher],
 
+  async fetch() {
+    try {
+      const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+      const res = await this.$nuxt.$axios.$get(url)
+      this.body = res
+    } catch (error) {
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
+    } finally {
+      this.loading = false
+    }
+  },
+
   data: () => ({
     title: 'Dashboard',
     valid: false,
@@ -113,25 +125,13 @@ export default {
     loading: true,
   }),
 
-  head() {
-    return {
-      title: this.title,
-    }
-  },
-
   methods: {
     ...mapActions(['toggleSnackbar']),
   },
 
-  async fetch() {
-    try {
-      const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
-      const res = await this.$nuxt.$axios.$get(url)
-      this.body = res
-    } catch (error) {
-      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-    } finally {
-      this.loading = false
+  head() {
+    return {
+      title: this.title,
     }
   },
 }

@@ -47,18 +47,33 @@ export default {
     Snackbar,
   },
 
+  async asyncData({ store, $axios, redirect }) {
+    try {
+      const url = 'api/auth/me'
+      const res = await $axios.$get(url)
+
+      if (!res) return
+
+      if (!store.state.user) {
+        store.dispatch('saveUser', res)
+      }
+
+      redirect('/')
+
+      return {
+        body: res,
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
   data: () => ({
     title: 'Login',
     email: '',
     password: '',
     show: false,
   }),
-
-  head() {
-    return {
-      title: this.title,
-    }
-  },
 
   validations: {
     email: { required, email },
@@ -84,6 +99,7 @@ export default {
       return errors
     },
   },
+
   methods: {
     ...mapActions(['saveUser', 'toggleSnackbar']),
     async submit() {
@@ -105,7 +121,6 @@ export default {
         this.saveUser(res)
         this.$router.push('/')
       } catch (error) {
-        console.log(error.message)
         this.toggleSnackbar({
           text: error.message ?? 'Ocurrió un error',
           color: 'red accent-4',
@@ -113,24 +128,10 @@ export default {
       }
     },
   },
-  async asyncData({ store, $axios, redirect }) {
-    try {
-      const url = 'api/auth/me'
-      const res = await $axios.$get(url)
 
-      if (!res) return
-
-      if (!store.state.user) {
-        store.dispatch('saveUser', res)
-      }
-
-      redirect('/')
-
-      return {
-        body: res,
-      }
-    } catch (error) {
-      console.log(error)
+  head() {
+    return {
+      title: this.title,
     }
   },
 }
