@@ -10,7 +10,7 @@ export default {
   },
 
   watch: {
-    commerce: function (newValue) {
+    commerce(newValue) {
       this.$fetch()
     },
   },

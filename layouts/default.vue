@@ -45,9 +45,9 @@
 
       <div>
         <v-select
+          v-model="selectedCommerce"
           :items="commerces"
           label="Comercios"
-          v-model="selectedCommerce"
           item-text="name"
           item-value="id"
           dense
@@ -136,10 +136,10 @@ export default {
   computed: {
     ...mapState(['user', 'commerce', 'commerces']),
     selectedCommerce: {
-      get: function () {
+      get() {
         return { ...this.$store.state.commerce }
       },
-      set: function (value) {
+      set(value) {
         this.saveCommerce(value)
       },
     },

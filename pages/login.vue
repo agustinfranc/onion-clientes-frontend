@@ -40,17 +40,11 @@ import { required, email, minLength } from 'vuelidate/lib/validators'
 import Snackbar from '@/components/Snackbar'
 
 export default {
-  name: 'login',
+  name: 'Login',
   layout: 'login',
 
   components: {
     Snackbar,
-  },
-
-  head() {
-    return {
-      title: this.title,
-    }
   },
 
   data: () => ({
@@ -59,6 +53,12 @@ export default {
     password: '',
     show: false,
   }),
+
+  head() {
+    return {
+      title: this.title,
+    }
+  },
 
   validations: {
     email: { required, email },
@@ -89,7 +89,7 @@ export default {
     async submit() {
       if (this.$v.$invalid) return
 
-      let form = {
+      const form = {
         email: this.$v.email.$model,
         password: this.$v.password.$model,
       }

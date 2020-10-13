@@ -93,17 +93,10 @@ import CommerceForm from '@/components/CommerceForm'
 import { mapActions } from 'vuex'
 
 export default {
-  mixins: [commerceWatcher],
-
   components: {
     CommerceForm,
   },
-
-  head() {
-    return {
-      title: this.title,
-    }
-  },
+  mixins: [commerceWatcher],
 
   data: () => ({
     title: 'Dashboard',
@@ -120,6 +113,12 @@ export default {
     loading: true,
   }),
 
+  head() {
+    return {
+      title: this.title,
+    }
+  },
+
   methods: {
     ...mapActions(['toggleSnackbar']),
   },
@@ -131,8 +130,7 @@ export default {
       this.body = res
     } catch (error) {
       this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-    }
-    finally {
+    } finally {
       this.loading = false
     }
   },

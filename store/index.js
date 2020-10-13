@@ -51,8 +51,8 @@ export const actions = {
   },
   logout({ commit }, payload) {
     this.$axios.post('logout').then((res) => {
-        commit('SET_USER', '')
-        location.href = '/login'
+      commit('SET_USER', '')
+      location.href = '/login'
     })
   },
 }

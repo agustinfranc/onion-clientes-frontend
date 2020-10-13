@@ -24,7 +24,7 @@
           hide-details
         ></v-text-field>
 
-        <v-btn text icon @click="refresh" class="ml-3"
+        <v-btn text icon class="ml-3" @click="refresh"
           ><v-icon>mdi-reload</v-icon></v-btn
         >
       </v-card-title>
@@ -116,17 +116,10 @@ import Snackbar from '@/components/Snackbar'
 import { mapActions } from 'vuex'
 
 export default {
-  mixins: [commerceWatcher],
-
   components: {
     Snackbar,
   },
-
-  head() {
-    return {
-      title: this.title,
-    }
-  },
+  mixins: [commerceWatcher],
 
   data: () => ({
     title: 'Productos',
@@ -164,6 +157,12 @@ export default {
     dialogDelete(val) {
       val || (this.dialogDelete = false)
     },
+  },
+
+  head() {
+    return {
+      title: this.title,
+    }
   },
 
   methods: {

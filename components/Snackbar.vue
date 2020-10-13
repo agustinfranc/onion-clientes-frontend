@@ -19,7 +19,7 @@
 export default {
   computed: {
     snackbarData: {
-      get: function () {
+      get() {
         return { ...this.$store.state.snackbar }
       },
     },

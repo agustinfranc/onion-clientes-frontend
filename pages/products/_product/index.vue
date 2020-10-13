@@ -37,11 +37,11 @@
               class="rounded"
             ></v-img>
             <input
+              ref="fileInput"
               class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
               type="file"
-              @change="changeAvatar"
               style="display: none"
-              ref="fileInput"
+              @change="changeAvatar"
             />
             <v-btn
               small
@@ -124,17 +124,10 @@ import Snackbar from '@/components/Snackbar'
 import { mapActions } from 'vuex'
 
 export default {
-  mixins: [commerceWatcher],
-
   components: {
     Snackbar,
   },
-
-  head() {
-    return {
-      title: this.item.name,
-    }
-  },
+  mixins: [commerceWatcher],
 
   data: () => ({
     valid: true,
@@ -164,6 +157,12 @@ export default {
       },
     ],
   }),
+
+  head() {
+    return {
+      title: this.item.name,
+    }
+  },
 
   methods: {
     ...mapActions(['toggleSnackbar']),
