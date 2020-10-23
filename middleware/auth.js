@@ -4,7 +4,9 @@ export default function ({ route, redirect, $axios, $config: { baseURL } }) {
   $axios
     .get('api/auth/me')
     .then((res) => {
-      if (res.status !== 200) redirect('/login')
+      if (res.status !== 200) location.href = '/login'
     })
-    .catch(() => redirect('/login'))
+    .catch(() => {
+      location.href = '/login'
+    })
 }
