@@ -54,9 +54,9 @@ export default {
 
       if (!res) return
 
-      if (!store.state.user) {
-        store.dispatch('saveUser', res)
-      }
+      store.dispatch('saveUser', res)
+      store.dispatch('saveCommerces', res.commerces ?? '')
+      store.dispatch('saveCommerce', res.commerces[0] ?? '')
 
       redirect('/')
 
@@ -101,7 +101,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(['saveUser', 'toggleSnackbar']),
+    ...mapActions([
+      'saveUser',
+      'saveCommerce',
+      'saveCommerces',
+      'toggleSnackbar',
+    ]),
     async submit() {
       if (this.$v.$invalid) return
 
@@ -119,6 +124,9 @@ export default {
         }
 
         this.saveUser(res)
+        this.saveCommerces(res.commerces ?? '')
+        this.saveCommerce(res.commerces[0] ?? '')
+
         this.$router.push('/')
       } catch (error) {
         this.toggleSnackbar({

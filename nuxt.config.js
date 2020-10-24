@@ -64,7 +64,7 @@ export default {
 
   // Router configuration
   router: {
-    middleware: ['auth', 'commerces', 'store'],
+    middleware: ['auth'],
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -112,4 +112,11 @@ export default {
       }
     },
   },
+
+  // https://nuxtjs.org/guides/configuration-glossary/configuration-loading-indicator
+  loadingIndicator: {
+    name: 'circle',
+    color: '#007bff',
+    background: 'white'
+  }
 }
