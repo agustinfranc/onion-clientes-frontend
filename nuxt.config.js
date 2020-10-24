@@ -12,13 +12,23 @@ export default {
    ** See https://nuxtjs.org/api/configuration-env/
    */
   env: {
-    apiUrl: process.env.API_URL || 'http://local.onion-backend/api/',
+    baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+    apiURL: process.env.API_URL || 'http://localhost:8000/api/',
+  },
+
+  // https://nuxtjs.org/blog/moving-from-nuxtjs-dotenv-to-runtime-config/
+  publicRuntimeConfig: {
+    baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+    apiURL: process.env.API_URL || 'http://localhost:8000/api/',
+    axios: {
+      baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+    },
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - onion-clientes-frontend',
-    title: 'onion-clientes-frontend',
+    titleTemplate: '%s - Onion Gestor',
+    title: 'Onion', // title page by deafult
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -31,15 +41,15 @@ export default {
   css: [],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: ['~/plugins/vuelidate', '~/plugins/axios'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
-    '@nuxt/typescript-build',
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
@@ -48,11 +58,20 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    "@nuxtjs/dotenv",
+    // https://github.com/nuxt-community/dotenv-module
+    '@nuxtjs/dotenv',
   ],
 
+  // Router configuration
+  router: {
+    middleware: ['auth'],
+  },
+
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    credentials: true,
+    baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
@@ -72,10 +91,32 @@ export default {
       },
     },
     icons: {
-      iconfont: "mdi",
+      iconfont: 'mdi',
     },
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {},
+  build: {
+    /*
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {
+      // Run ESLint on save
+      if (ctx.isDev && ctx.isClient) {
+        config.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules)/,
+        })
+      }
+    },
+  },
+
+  // https://nuxtjs.org/guides/configuration-glossary/configuration-loading-indicator
+  loadingIndicator: {
+    name: 'circle',
+    color: '#007bff',
+    background: 'white',
+  },
 }

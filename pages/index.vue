@@ -1,93 +1,144 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
+      <v-card min-height="180">
+        <v-card-title> Ventas </v-card-title>
+        <v-card-text> No hay datos </v-card-text>
+      </v-card>
+    </v-col>
+
+    <v-col cols="12" sm="8" md="6">
+      <v-card min-height="180">
+        <v-card-title class="headline"> Trafico </v-card-title>
+        <v-card-text> No hay datos </v-card-text>
+      </v-card>
+    </v-col>
+
+    <v-col cols="12" sm="8" md="6">
+      <v-card min-height="510">
+        <v-card-title class="headline"> Mi comercio </v-card-title>
+        <v-card-text>
+          <CommerceForm />
+        </v-card-text>
+      </v-card>
+    </v-col>
+
+    <v-col cols="12" sm="8" md="6">
+      <v-card min-height="510">
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          <nuxt-link to="/products" class="text-decoration-none white--text"
+            >Productos</nuxt-link
+          >
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            solo
+            single-line
+            hide-details
+          ></v-text-field>
         </v-card-title>
         <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
+          <div>
+            <v-data-table
+              :headers="headers"
+              :items="body"
+              :items-per-page="5"
+              item-key="name"
+              class="elevation-1"
+              :search="search"
+              :loading="loading"
+              loading-text="Cargando datos..."
             >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
+              <template v-slot:item.avatar="{ item }">
+                <v-avatar rounded size="30"
+                  ><img :src="item.avatar_dirname + item.avatar" alt=""
+                /></v-avatar>
+              </template>
+
+              <template v-slot:item.name="{ item }">
+                <span class="ml-1">
+                  {{ item.name }}
+                </span>
+              </template>
+
+              <template v-slot:item.rubro="{ item }">
+                {{ item.subrubro.rubro.name }}
+              </template>
+
+              <template v-slot:item.price="{ item }">
+                <v-chip> ${{ item.price }} </v-chip>
+              </template>
+
+              <template v-slot:item.disabled="{ item }">
+                <v-icon v-if="!item.disabled" color="green darken-2">
+                  mdi-check-circle
+                </v-icon>
+                <v-icon v-else> mdi-circle-outline </v-icon>
+              </template>
+            </v-data-table>
           </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
       </v-card>
+
+      <Snackbar />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import commerceWatcher from '@/mixins/commerce-watcher'
+import CommerceForm from '@/components/CommerceForm'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
-    Logo,
-    VuetifyLogo,
+    CommerceForm,
+  },
+  mixins: [commerceWatcher],
+
+  async fetch() {
+    try {
+      const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+      const res = await this.$nuxt.$axios.$get(url)
+      this.body = res
+    } catch (error) {
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
+    } finally {
+      this.loading = false
+    }
+  },
+
+  data: () => ({
+    title: 'Dashboard',
+    valid: false,
+    search: '',
+    headers: [
+      { text: '', value: 'avatar', sortable: false },
+      { text: 'Nombre', value: 'name' },
+      { text: 'Rubro', value: 'rubro' },
+      { text: 'Precio', value: 'price' },
+      { text: 'Visible', value: 'disabled' },
+    ],
+    body: [],
+    loading: true,
+  }),
+
+  methods: {
+    ...mapActions(['toggleSnackbar']),
+  },
+
+  head() {
+    return {
+      title: this.title,
+    }
   },
 }
 </script>
+
+<style>
+.v-card__title > a:hover {
+  font-size: 1.7rem !important;
+}
+</style>
