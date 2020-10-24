@@ -117,6 +117,6 @@ export default {
   loadingIndicator: {
     name: 'circle',
     color: '#007bff',
-    background: 'white'
-  }
+    background: 'white',
+  },
 }
