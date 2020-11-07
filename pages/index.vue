@@ -102,6 +102,7 @@ export default {
     try {
       const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
       const res = await this.$nuxt.$axios.$get(url)
+
       this.body = res
     } catch (error) {
       this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })

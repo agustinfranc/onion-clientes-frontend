@@ -129,8 +129,22 @@ export default {
 
         this.$router.push('/')
       } catch (error) {
+        let message
+
+        switch (error.message) {
+          case 'Request failed with status code 401':
+            message = 'Usuario y/o contraseña incorrectos'
+            break
+          case 'Request failed with status code 500':
+            message = 'Ocurrió un error inesperado'
+            break
+          default:
+            message = error.message ?? 'Ocurrió un error'
+            break
+        }
+
         this.toggleSnackbar({
-          text: error.message ?? 'Ocurrió un error',
+          text: message,
           color: 'red accent-4',
         })
       }
