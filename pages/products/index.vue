@@ -219,9 +219,6 @@ export default {
       this.toggleSnackbar({ text: 'Datos actualizados' })
     },
     async savePrice(item) {
-      console.log('save')
-      console.log(item)
-
       try {
         await this.$axios.put(`api/auth/products/${item.id}`, item)
 
