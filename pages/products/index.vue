@@ -9,7 +9,7 @@
         ></v-breadcrumbs>
       </div>
       <v-spacer></v-spacer>
-      <v-btn>Nuevo producto</v-btn>
+      <v-btn class="blue">Nuevo producto</v-btn>
     </div>
     <v-card>
       <v-card-title class="headline">
@@ -61,8 +61,21 @@
               {{ item.subrubro.name }}
             </template>
 
-            <template v-slot:item.price="{ item }">
-              <v-chip> ${{ item.price }} </v-chip>
+            <!-- #Edit dialog -->
+            <template v-slot:item.price="props">
+              <v-edit-dialog
+                :return-value.sync="props.item.price"
+                @save="savePrice(props.item)"
+              >
+                <v-chip> ${{ props.item.price }} </v-chip>
+                <template v-slot:input>
+                  <v-text-field
+                    v-model="props.item.price"
+                    label="Precio"
+                    single-line
+                  ></v-text-field>
+                </template>
+              </v-edit-dialog>
             </template>
 
             <template v-slot:item.disabled="{ item }">
@@ -204,6 +217,23 @@ export default {
       await this.$fetch()
 
       this.toggleSnackbar({ text: 'Datos actualizados' })
+    },
+    async savePrice(item) {
+      console.log('save')
+      console.log(item)
+
+      try {
+        await this.$axios.put(`api/auth/products/${item.id}`, item)
+
+        this.toggleSnackbar({ text: 'Precio actualizado' })
+      } catch (error) {
+        console.log(error)
+        console.log(error.response)
+        this.toggleSnackbar({
+          text: error.response ?? 'Ocurrió un error',
+          color: 'red accent-4',
+        })
+      }
     },
   },
 
