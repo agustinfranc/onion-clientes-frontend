@@ -2,13 +2,15 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <v-card>
-        <v-card-title class="headline"> Login </v-card-title>
+        <v-card-title class="display-1 my-3 justify-center"> Ingresar </v-card-title>
+        <v-card-subtitle class="text-center"> Ingresá con tu usuario </v-card-subtitle>
 
         <v-card-text>
-          <form>
+          <v-form ref="form" v-model="valid" @submit.prevent="submit">
             <v-text-field
               v-model.lazy="$v.email.$model"
               :error-messages="emailErrors"
+              outlined
               label="Email"
               required
             ></v-text-field>
@@ -16,16 +18,17 @@
             <v-text-field
               v-model.lazy="$v.password.$model"
               :error-messages="passwordErrors"
+              outlined
               label="Password"
               hint="At least 8 characters"
-              counter
               required
               :type="show ? 'text' : 'password'"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show = !show"
             ></v-text-field>
-            <v-btn class="mr-4 my-2" @click="submit"> submit </v-btn>
-          </form>
+
+            <v-btn block x-large :disabled="!valid" type="submit" class="mr-4 my-5 blue"> ingresar </v-btn>
+          </v-form>
         </v-card-text>
       </v-card>
 
@@ -73,6 +76,7 @@ export default {
     email: '',
     password: '',
     show: false,
+    valid: true,
   }),
 
   validations: {
