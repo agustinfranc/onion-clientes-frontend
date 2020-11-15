@@ -2,8 +2,11 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <v-card>
-        <v-card-title class="display-1 my-3 justify-center"> Ingresar </v-card-title>
-        <v-card-subtitle class="text-center"> Ingresá con tu usuario </v-card-subtitle>
+        <v-card-title class="display-1 my-3 justify-center">
+          <div class="text-center d-flex justify-center">
+            <Logo />
+          </div>
+        </v-card-title>
 
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="submit">
@@ -27,7 +30,15 @@
               @click:append="show = !show"
             ></v-text-field>
 
-            <v-btn block x-large :disabled="!valid" type="submit" class="mr-4 my-5 blue"> ingresar </v-btn>
+            <v-btn
+              block
+              x-large
+              :disabled="!valid"
+              type="submit"
+              class="mr-4 my-5 blue"
+            >
+              ingresar
+            </v-btn>
           </v-form>
         </v-card-text>
       </v-card>
@@ -41,12 +52,14 @@
 import { mapState, mapActions } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import Snackbar from '@/components/Snackbar'
+import Login from '@/components/Logo'
 
 export default {
   name: 'Login',
   layout: 'login',
 
   components: {
+    Login,
     Snackbar,
   },
 
