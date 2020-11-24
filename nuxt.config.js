@@ -1,11 +1,16 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  server: {
+    port: 3001, // default: 3000
+    host: 'localhost', // default: localhost
+  },
+
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
-  ssr: false,
+  ssr: true,
 
   // Target (https://go.nuxtjs.dev/config-target)
-  target: 'static',
+  target: 'server',
 
   /*
    ** Environment Variables
@@ -69,7 +74,6 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    credentials: true,
     baseURL: process.env.BASE_URL || 'http://localhost:8000/',
   },
 
