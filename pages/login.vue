@@ -120,6 +120,7 @@ export default {
 
   methods: {
     ...mapActions([
+      'saveToken',
       'saveUser',
       'saveCommerce',
       'saveCommerces',
@@ -134,14 +135,14 @@ export default {
       }
 
       try {
-        await this.$axios.get('sanctum/csrf-cookie')
-        const res = await this.$axios.$post('login', form)
+        const res = await this.$axios.$post('api/token', form)
 
         if (res.error) {
           throw new Error(res.error)
         }
 
         this.saveUser(res)
+        this.saveToken(res.token)
         this.saveCommerces(res.commerces ?? '')
         this.saveCommerce(res.commerces[0] ?? '')
 
