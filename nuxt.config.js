@@ -1,11 +1,16 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
+  server: {
+    port: 3001, // default: 3000
+    host: 'localhost', // default: localhost
+  },
+
   // Disable server-side rendering (https://go.nuxtjs.dev/ssr-mode)
-  ssr: false,
+  ssr: true,
 
   // Target (https://go.nuxtjs.dev/config-target)
-  target: 'static',
+  target: 'server',
 
   /*
    ** Environment Variables
@@ -69,7 +74,6 @@ export default {
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    credentials: true,
     baseURL: process.env.BASE_URL || 'http://localhost:8000/',
   },
 
@@ -97,20 +101,7 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/,
-        })
-      }
-    },
+    //
   },
 
   // https://nuxtjs.org/guides/configuration-glossary/configuration-loading-indicator

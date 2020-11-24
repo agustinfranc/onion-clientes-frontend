@@ -15,6 +15,8 @@ export default function ({
 
   //! Refactorizar un poco esto para acortar codigo (usar un gran try catch)
   if (store.state.user) {
+    $axios.setToken(store.state.token, 'Bearer')
+
     $axios
       .get('api/auth/me')
       .then((res) => {

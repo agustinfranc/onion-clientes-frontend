@@ -1,5 +1,6 @@
 export const state = () => ({
   user: '',
+  token: '',
   commerce: '',
   commerces: [],
   snackbar: {
@@ -26,6 +27,9 @@ export const mutations = {
   SET_SNACKBAR(state, payload) {
     state.snackbar = payload
   },
+  SET_TOKEN(state, payload) {
+    state.token = payload
+  },
   SET_USER(state, payload) {
     state.user = payload
   },
@@ -37,6 +41,9 @@ export const actions = {
   },
   saveCommerces({ commit }, payload) {
     commit('SET_COMMERCES', payload)
+  },
+  saveToken({ commit }, payload) {
+    commit('SET_TOKEN', payload)
   },
   saveUser({ commit }, payload) {
     commit('SET_USER', payload)
