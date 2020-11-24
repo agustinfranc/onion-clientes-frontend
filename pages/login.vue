@@ -52,14 +52,14 @@
 import { mapState, mapActions } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import Snackbar from '@/components/Snackbar'
-import Login from '@/components/Logo'
+import Logo from '@/components/Logo'
 
 export default {
   name: 'Login',
   layout: 'login',
 
   components: {
-    Login,
+    Logo,
     Snackbar,
   },
 
