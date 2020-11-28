@@ -77,6 +77,9 @@
                   ></v-text-field>
                 </template>
               </v-edit-dialog>
+              <v-chip v-for="(item, i) in props.item.product_prices" :key="i"
+                >${{ item.price }}</v-chip
+              >
             </template>
 
             <template v-slot:item.disabled="{ item }">
@@ -411,3 +414,10 @@ export default {
   },
 }
 </script>
+
+<style>
+  .v-small-dialog__activator,
+  .v-menu.v-small-dialog {
+    display: inline;
+  }
+</style>
