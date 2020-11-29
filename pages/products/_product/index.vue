@@ -149,8 +149,6 @@
               </v-form>
             </v-col>
           </v-row>
-
-          {{item}}
         </template>
       </v-card-text>
       <v-card-text>
