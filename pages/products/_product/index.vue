@@ -18,96 +18,140 @@
         <v-btn text icon @click="refresh"><v-icon>mdi-reload</v-icon></v-btn>
       </v-card-title>
       <v-card-text>
-        <v-row justify="center" align="center">
-          <v-col cols="12" sm="2" md="2" class="align-self-start">
-            <v-img
-              v-if="!parseSelectedFile"
-              lazy-src="https://picsum.photos/id/11/10/6"
-              :src="
-                item && item.avatar_dirname
-                  ? item.avatar_dirname + item.avatar
-                  : ''
-              "
-              class="rounded"
-            ></v-img>
-            <v-img
-              v-else
-              lazy-src="https://picsum.photos/id/11/10/6"
-              :src="parseSelectedFile"
-              class="rounded"
-            ></v-img>
-            <input
-              ref="fileInput"
-              class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
-              type="file"
-              style="display: none"
-              @change="changeAvatar"
-            />
-            <v-btn
-              small
-              block
-              color="accent"
-              class="mt-3"
-              @click="$refs.fileInput.click()"
-              >Editar Avatar</v-btn
-            >
-          </v-col>
-          <v-col cols="12" sm="10" md="10">
-            <v-form
-              ref="form"
-              v-model="valid"
-              lazy-validation
-              @submit.prevent="submit"
-            >
-              <v-text-field
-                v-model="item.name"
-                label="Nombre"
-                :rules="[(v) => !!v || 'El nombre es requerido']"
-                required
-              ></v-text-field>
-
-              <v-textarea
-                v-model="item.description"
-                label="Descripcion"
-                counter
-                maxlength="255"
-                full-width
-                auto-grow
-                clearable
-                single-line
-              ></v-textarea>
-
-              <v-text-field
-                v-model="item.code"
-                label="Codigo"
-                type="number"
-                :rules="[(v) => !!v || 'El codigo es requerido']"
-                required
-              ></v-text-field>
-
-              <v-text-field
-                v-model="item.price"
-                label="Precio"
-                prefix="$"
-                type="number"
-              ></v-text-field>
-
-              <v-checkbox
-                v-model="item.disabled"
-                label="Deshabilitado"
-              ></v-checkbox>
-
+        <template v-if="item">
+          <v-row justify="center" align="center">
+            <v-col cols="12" sm="2" md="2" class="align-self-start">
+              <v-img
+                v-if="!parseSelectedFile"
+                lazy-src="https://picsum.photos/id/11/10/6"
+                :src="
+                  item && item.avatar_dirname
+                    ? item.avatar_dirname + item.avatar
+                    : ''
+                "
+                class="rounded"
+              ></v-img>
+              <v-img
+                v-else
+                lazy-src="https://picsum.photos/id/11/10/6"
+                :src="parseSelectedFile"
+                class="rounded"
+              ></v-img>
+              <input
+                ref="fileInput"
+                class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
+                type="file"
+                style="display: none"
+                @change="changeAvatar"
+              />
               <v-btn
-                :disabled="!valid"
-                color="success"
-                class="mr-4"
-                type="submit"
+                small
+                block
+                color="accent"
+                class="mt-3"
+                @click="$refs.fileInput.click()"
+                >Editar Avatar</v-btn
               >
-                Guardar
-              </v-btn>
-            </v-form>
-          </v-col>
-        </v-row>
+            </v-col>
+
+            <v-col cols="12" sm="10" md="10">
+              <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+                @submit.prevent="submit"
+              >
+                <v-row justify="center" align="center">
+                  <v-col cols="12" sm="8" md="8">
+                    <v-text-field
+                      v-model="item.name"
+                      label="Nombre"
+                      :rules="[(v) => !!v || 'El nombre es requerido']"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="2" md="2">
+                    <v-text-field
+                      v-model="item.code"
+                      label="Código"
+                      type="number"
+                      :rules="[(v) => !!v || 'El codigo es requerido']"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" sm="10" md="10">
+                    <v-textarea
+                      v-model="item.description"
+                      label="Descripción"
+                      counter
+                      maxlength="255"
+                      clearable
+                      auto-grow
+                    ></v-textarea>
+                  </v-col>
+
+                  <v-col cols="6" sm="5" md="5">
+                    <v-select
+                      v-model="item.subrubro.rubro"
+                      :items="rubros"
+                      label="Rubro"
+                      item-text="name"
+                      item-value="id"
+                      return-object
+                      required
+                      :rules="[(v) => !!v || 'Rubro is required']"
+                      :error-messages="errors.rubro"
+                      :loading="loading"
+                      @change="setSubrubros"
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="6" sm="5" md="5">
+                    <v-combobox
+                      v-model="item.subrubro"
+                      :items="subrubros"
+                      label="Subrubro"
+                      required
+                      :rules="[(v) => !!v || 'Subrubro is required']"
+                      :error-messages="errors.subrubro"
+                      item-text="name"
+                      item-value="id"
+                      return-object
+                      :loading="loading"
+                    ></v-combobox>
+                  </v-col>
+
+                  <v-col cols="12" sm="10" md="10">
+                    <v-text-field
+                      v-model="item.price"
+                      label="Precio"
+                      prefix="$"
+                      type="number"
+                    ></v-text-field>
+
+                    <v-checkbox
+                      v-model="item.disabled"
+                      label="Deshabilitado"
+                    ></v-checkbox>
+
+                    <v-btn
+                      :disabled="!valid"
+                      color="success"
+                      class="mr-4"
+                      type="submit"
+                    >
+                      Guardar
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-col>
+          </v-row>
+
+          {{item}}
+        </template>
       </v-card-text>
       <v-card-text>
         <div></div>
@@ -130,22 +174,37 @@ export default {
   mixins: [commerceWatcher],
 
   async fetch() {
-    const url = `api/auth/products/${this.$route.params.product}`
-    const res = await this.$nuxt.$axios.get(url)
+    try {
+      let url = `api/auth/products/${this.$route.params.product}`
+      const res = await this.$axios.get(url)
 
-    if (res.status !== 200) {
-      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-      return
+      this.item = res.data
+
+      url = `api/auth/rubros`
+      const rubros = await this.$axios.$get(url)
+
+      this.rubros = rubros
+
+      this.subrubros = rubros.find(e => e.id === this.item.subrubro.rubro_id).subrubros
+
+      this.loading = false
+    } catch (error) {
+      console.error(error.response ?? error)
+
+      this.toggleSnackbar({
+        text: error.response?.data?.message ?? 'Ocurrió un error',
+        color: 'red accent-4',
+      })
     }
-
-    this.item = res.data
-    this.loading = false
   },
 
   data: () => ({
     valid: true,
     search: '',
     item: '',
+    rubros: [],
+    subrubros: [],
+    errors: {},
     loading: true,
     selectedFile: '',
     parseSelectedFile: '',
@@ -204,7 +263,7 @@ export default {
         this.toggleSnackbar({ text: 'Producto actualizado correctamente' })
       } catch (error) {
         this.toggleSnackbar({
-          text: error ?? 'Ocurrió un error',
+          text: error.response?.data?.message ?? 'Ocurrió un error',
           color: 'red accent-4',
         })
       }
@@ -212,6 +271,12 @@ export default {
     changeAvatar(event) {
       this.selectedFile = event.target.files[0]
       this.parseSelectedFile = URL.createObjectURL(this.selectedFile)
+    },
+
+    setSubrubros() {
+      console.log(this.item.subrubro)
+      this.subrubros = this.item.subrubro.rubro.subrubros
+      this.item.subrubro = this.subrubros[0] ?? {}
     },
 
     async refresh() {

@@ -243,7 +243,7 @@ export default {
         console.error(error.response ?? error)
 
         this.toggleSnackbar({
-          text: error.response.data.message ?? 'Ocurrió un error',
+          text: error.response?.data?.message ?? 'Ocurrió un error',
           color: 'red accent-4',
         })
       }
