@@ -94,7 +94,7 @@
 
                   <v-col cols="6" sm="5" md="5">
                     <v-select
-                      v-model="item.subrubro.rubro"
+                      v-model="item.rubro"
                       :items="rubros"
                       label="Rubro"
                       item-text="name"
@@ -176,14 +176,19 @@ export default {
       let url = `api/auth/products/${this.$route.params.product}`
       const res = await this.$axios.get(url)
 
-      this.item = res.data
+      this.item = {
+        ...res.data,
+        rubro: res.data.subrubro.rubro,
+      }
 
       url = `api/auth/rubros`
       const rubros = await this.$axios.$get(url)
 
       this.rubros = rubros
 
-      this.subrubros = rubros.find(e => e.id === this.item.subrubro.rubro_id).subrubros
+      this.subrubros = rubros.find(
+        (e) => e.id === this.item.subrubro.rubro_id
+      ).subrubros
 
       this.loading = false
     } catch (error) {
@@ -266,14 +271,14 @@ export default {
         })
       }
     },
+
     changeAvatar(event) {
       this.selectedFile = event.target.files[0]
       this.parseSelectedFile = URL.createObjectURL(this.selectedFile)
     },
 
     setSubrubros() {
-      console.log(this.item.subrubro)
-      this.subrubros = this.item.subrubro.rubro.subrubros
+      this.subrubros = this.item.rubro.subrubros
       this.item.subrubro = this.subrubros[0] ?? {}
     },
 
