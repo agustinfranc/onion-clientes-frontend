@@ -25,11 +25,11 @@
       </v-col>
 
       <v-col cols="12" sm="4">
-        <v-btn block color="accent">Editar Avatar</v-btn>
+        <v-btn block color="accent">Edit Avatar</v-btn>
       </v-col>
 
       <v-col cols="12" sm="8">
-        <v-btn block color="accent">Editar Portada</v-btn>
+        <v-btn block color="accent">Edit Cover Page</v-btn>
       </v-col>
 
       <v-col cols="12">
@@ -37,7 +37,7 @@
           <v-text-field
             v-model="commerceFormData.fullname"
             :rules="nameRules"
-            label="Nombre"
+            label="Name"
           ></v-text-field>
 
           <v-checkbox
@@ -46,7 +46,7 @@
           ></v-checkbox>
 
           <v-btn :disabled="!valid" color="success" class="mr-4" type="submit">
-            Guardar
+            Save
           </v-btn>
         </v-form>
       </v-col>

@@ -15,7 +15,7 @@
             >
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title> Contraer </v-list-item-title>
+            <v-list-item-title> Collapse </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -72,20 +72,20 @@
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-container>
         <v-card>
-          <v-card-title> Ajustes </v-card-title>
+          <v-card-title> Settings </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
             <v-switch
               v-model="$vuetify.theme.dark"
               inset
-              :label="$vuetify.theme.dark ? 'Modo Oscuro' : 'Modo Claro'"
+              :label="$vuetify.theme.dark ? 'Dark Mode' : 'Light Mode'"
             ></v-switch>
           </v-card-text>
         </v-card>
         <v-card class="my-2">
           <v-card-text>
             <v-btn block @click.stop="logout">
-              Salir
+              Logout
               <v-icon>mdi-logout</v-icon>
             </v-btn>
           </v-card-text>
@@ -117,7 +117,7 @@ export default {
         },
         {
           icon: 'mdi-book',
-          title: 'Productos',
+          title: 'Products',
           to: '/products',
         },
         {

@@ -16,5 +16,13 @@ module.exports = {
   ],
   plugins: ['prettier'],
   // add your custom rules here
-  rules: {},
+  rules: {
+    // https://eslint.vuejs.org/rules/valid-v-slot.html#options
+    'vue/valid-v-slot': [
+      'error',
+      {
+        allowModifiers: true,
+      },
+    ],
+  },
 }
