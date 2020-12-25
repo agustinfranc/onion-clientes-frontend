@@ -3,7 +3,7 @@
     <div class="d-flex mt-5">
       <div>
         <div class="display-1">
-          Editar Producto - {{ item.name ? item.name : '' }}
+          Edit Producto - {{ item.name ? item.name : '' }}
         </div>
         <v-breadcrumbs
           class="pa-0 py-2"
@@ -13,7 +13,7 @@
     </div>
     <v-card>
       <v-card-title>
-        Información
+        Details
         <v-spacer></v-spacer>
         <v-btn text icon @click="refresh"><v-icon>mdi-reload</v-icon></v-btn>
       </v-card-title>
@@ -50,7 +50,7 @@
                 color="accent"
                 class="mt-3"
                 @click="$refs.fileInput.click()"
-                >Editar Avatar</v-btn
+                >Edit Avatar</v-btn
               >
             </v-col>
 
@@ -65,7 +65,7 @@
                   <v-col cols="12" sm="8" md="8">
                     <v-text-field
                       v-model="item.name"
-                      label="Nombre"
+                      label="Name"
                       :rules="[(v) => !!v || 'El nombre es requerido']"
                       required
                     ></v-text-field>
@@ -74,7 +74,7 @@
                   <v-col cols="12" sm="2" md="2">
                     <v-text-field
                       v-model="item.code"
-                      label="Código"
+                      label="Code"
                       type="number"
                       :rules="[(v) => !!v || 'El codigo es requerido']"
                       required
@@ -84,7 +84,7 @@
                   <v-col cols="12" sm="10" md="10">
                     <v-textarea
                       v-model="item.description"
-                      label="Descripción"
+                      label="Description"
                       counter
                       maxlength="255"
                       clearable
@@ -96,12 +96,12 @@
                     <v-select
                       v-model="item.rubro"
                       :items="rubros"
-                      label="Rubro"
+                      label="Category"
                       item-text="name"
                       item-value="id"
                       return-object
                       required
-                      :rules="[(v) => !!v || 'Rubro is required']"
+                      :rules="[(v) => !!v || 'Category is required']"
                       :error-messages="errors.rubro"
                       :loading="loading"
                       @change="setSubrubros"
@@ -112,9 +112,9 @@
                     <v-combobox
                       v-model="item.subrubro"
                       :items="subrubros"
-                      label="Subrubro"
+                      label="Subcategory"
                       required
-                      :rules="[(v) => !!v || 'Subrubro is required']"
+                      :rules="[(v) => !!v || 'Subcategory is required']"
                       :error-messages="errors.subrubro"
                       item-text="name"
                       item-value="id"
@@ -126,14 +126,14 @@
                   <v-col cols="12" sm="10" md="10">
                     <v-text-field
                       v-model="item.price"
-                      label="Precio"
+                      label="Price"
                       prefix="$"
                       type="number"
                     ></v-text-field>
 
                     <v-checkbox
                       v-model="item.disabled"
-                      label="Deshabilitado"
+                      label="Disabled"
                     ></v-checkbox>
 
                     <v-btn
@@ -142,7 +142,7 @@
                       class="mr-4"
                       type="submit"
                     >
-                      Guardar
+                      Save
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -190,7 +190,7 @@ export default {
         exact: true,
       },
       {
-        text: 'Productos',
+        text: 'Products',
         disabled: false,
         to: '/products',
         nuxt: true,

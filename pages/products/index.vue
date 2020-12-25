@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex mt-5">
       <div>
-        <div class="display-1">Productos</div>
+        <div class="display-1">Products</div>
         <v-breadcrumbs
           class="pa-0 py-2"
           :items="breadcrumbItems"
@@ -10,7 +10,7 @@
       </div>
       <v-spacer></v-spacer>
       <v-btn class="blue" @click.stop="$refs.foo.newItem()"
-        >Nuevo producto</v-btn
+        >New product</v-btn
       >
     </div>
     <v-card>
@@ -74,7 +74,7 @@
                 <template #input>
                   <v-text-field
                     v-model="props.item.price"
-                    label="Precio"
+                    label="Price"
                     single-line
                   ></v-text-field>
                 </template>
@@ -145,16 +145,16 @@ export default {
   mixins: [commerceWatcher],
 
   data: () => ({
-    title: 'Productos',
+    title: 'Products',
     search: '',
     headers: [
-      { text: 'Codigo', value: 'code' },
-      { text: 'Nombre', value: 'name' },
-      { text: 'Rubro', value: 'rubro' },
-      { text: 'Subrubro', value: 'subrubro' },
-      { text: 'Precio', value: 'price' },
+      { text: 'Code', value: 'code' },
+      { text: 'Name', value: 'name' },
+      { text: 'Category', value: 'rubro' },
+      { text: 'Subcategory', value: 'subrubro' },
+      { text: 'Price', value: 'price' },
       { text: 'Visible', value: 'disabled' },
-      { text: 'Acciones', value: 'actions', sortable: false },
+      { text: 'Actions', value: 'actions', sortable: false },
     ],
     body: [],
     item: {
@@ -177,7 +177,7 @@ export default {
         exact: true,
       },
       {
-        text: 'Productos',
+        text: 'Products',
         disabled: false,
       },
     ],
@@ -245,7 +245,7 @@ export default {
       try {
         await this.$axios.put(`api/auth/products/${item.id}`, item)
 
-        this.toggleSnackbar({ text: 'Precio actualizado' })
+        this.toggleSnackbar({ text: 'Price actualizado' })
       } catch (error) {
         console.error(error.response ?? error)
 

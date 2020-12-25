@@ -2,21 +2,21 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="180">
-        <v-card-title> Ventas </v-card-title>
-        <v-card-text> No hay datos </v-card-text>
+        <v-card-title> Sells </v-card-title>
+        <v-card-text> No data </v-card-text>
       </v-card>
     </v-col>
 
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="180">
-        <v-card-title class="headline"> Trafico </v-card-title>
-        <v-card-text> No hay datos </v-card-text>
+        <v-card-title class="headline"> Traffic </v-card-title>
+        <v-card-text> No data </v-card-text>
       </v-card>
     </v-col>
 
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="510">
-        <v-card-title class="headline"> Mi comercio </v-card-title>
+        <v-card-title class="headline"> My Commerce </v-card-title>
         <v-card-text>
           <CommerceForm />
         </v-card-text>
@@ -27,7 +27,7 @@
       <v-card min-height="510">
         <v-card-title class="headline">
           <nuxt-link to="/products" class="text-decoration-none white--text"
-            >Productos</nuxt-link
+            >Products</nuxt-link
           >
           <v-spacer></v-spacer>
           <v-text-field
@@ -104,9 +104,9 @@ export default {
     search: '',
     headers: [
       { text: '', value: 'avatar', sortable: false },
-      { text: 'Nombre', value: 'name' },
-      { text: 'Rubro', value: 'rubro' },
-      { text: 'Precio', value: 'price' },
+      { text: 'Name', value: 'name' },
+      { text: 'Category', value: 'rubro' },
+      { text: 'Price', value: 'price' },
       { text: 'Visible', value: 'disabled' },
     ],
     body: [],
