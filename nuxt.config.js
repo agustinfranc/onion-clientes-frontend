@@ -65,7 +65,25 @@ export default {
     '@nuxtjs/axios',
     // https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    // https://i18n.nuxtjs.org/es/
+    'nuxt-i18n',
   ],
+
+  i18n: {
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: {
+        en: {
+          welcome: 'Welcome'
+        },
+        es: {
+          welcome: 'Bienvenido'
+        }
+      }
+    }
+  },
 
   // Router configuration
   router: {
