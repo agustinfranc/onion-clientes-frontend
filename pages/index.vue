@@ -51,27 +51,27 @@
               :loading="loading"
               loading-text="Cargando datos..."
             >
-              <template v-slot:item.avatar="{ item }">
+              <template #item.avatar="{ item }">
                 <v-avatar rounded size="30"
                   ><img :src="item.avatar_dirname + item.avatar" alt=""
                 /></v-avatar>
               </template>
 
-              <template v-slot:item.name="{ item }">
+              <template #item.name="{ item }">
                 <span class="ml-1">
                   {{ item.name }}
                 </span>
               </template>
 
-              <template v-slot:item.rubro="{ item }">
+              <template #item.rubro="{ item }">
                 {{ item.subrubro.rubro.name }}
               </template>
 
-              <template v-slot:item.price="{ item }">
+              <template #item.price="{ item }">
                 <v-chip> ${{ item.price }} </v-chip>
               </template>
 
-              <template v-slot:item.disabled="{ item }">
+              <template #item.disabled="{ item }">
                 <v-icon v-if="!item.disabled" color="green darken-2">
                   mdi-check-circle
                 </v-icon>
@@ -98,19 +98,6 @@ export default {
   },
   mixins: [commerceWatcher],
 
-  async fetch() {
-    try {
-      const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
-      const res = await this.$nuxt.$axios.$get(url)
-
-      this.body = res
-    } catch (error) {
-      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-    } finally {
-      this.loading = false
-    }
-  },
-
   data: () => ({
     title: 'Dashboard',
     valid: false,
@@ -126,14 +113,27 @@ export default {
     loading: true,
   }),
 
-  methods: {
-    ...mapActions(['toggleSnackbar']),
+  async fetch() {
+    try {
+      const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+      const res = await this.$nuxt.$axios.$get(url)
+
+      this.body = res
+    } catch (error) {
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
+    } finally {
+      this.loading = false
+    }
   },
 
   head() {
     return {
       title: this.title,
     }
+  },
+
+  methods: {
+    ...mapActions(['toggleSnackbar']),
   },
 }
 </script>

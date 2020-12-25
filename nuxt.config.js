@@ -76,13 +76,13 @@ export default {
       fallbackLocale: 'en',
       messages: {
         en: {
-          welcome: 'Welcome'
+          welcome: 'Welcome',
         },
         es: {
-          welcome: 'Bienvenido'
-        }
-      }
-    }
+          welcome: 'Bienvenido',
+        },
+      },
+    },
   },
 
   // Router configuration

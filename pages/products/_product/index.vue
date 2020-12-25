@@ -171,36 +171,6 @@ export default {
   },
   mixins: [commerceWatcher],
 
-  async fetch() {
-    try {
-      let url = `api/auth/products/${this.$route.params.product}`
-      const res = await this.$axios.get(url)
-
-      this.item = {
-        ...res.data,
-        rubro: res.data.subrubro.rubro,
-      }
-
-      url = `api/auth/rubros`
-      const rubros = await this.$axios.$get(url)
-
-      this.rubros = rubros
-
-      this.subrubros = rubros.find(
-        (e) => e.id === this.item.subrubro.rubro_id
-      ).subrubros
-
-      this.loading = false
-    } catch (error) {
-      console.error(error.response ?? error)
-
-      this.toggleSnackbar({
-        text: error.response?.data?.message ?? 'Ocurrió un error',
-        color: 'red accent-4',
-      })
-    }
-  },
-
   data: () => ({
     valid: true,
     search: '',
@@ -232,6 +202,42 @@ export default {
       },
     ],
   }),
+
+  async fetch() {
+    try {
+      let url = `api/auth/products/${this.$route.params.product}`
+      const res = await this.$axios.get(url)
+
+      this.item = {
+        ...res.data,
+        rubro: res.data.subrubro.rubro,
+      }
+
+      url = `api/auth/rubros`
+      const rubros = await this.$axios.$get(url)
+
+      this.rubros = rubros
+
+      this.subrubros = rubros.find(
+        (e) => e.id === this.item.subrubro.rubro_id
+      ).subrubros
+
+      this.loading = false
+    } catch (error) {
+      console.error(error.response ?? error)
+
+      this.toggleSnackbar({
+        text: error.response?.data?.message ?? 'Ocurrió un error',
+        color: 'red accent-4',
+      })
+    }
+  },
+
+  head() {
+    return {
+      title: this.item.name,
+    }
+  },
 
   methods: {
     ...mapActions(['toggleSnackbar']),
@@ -290,12 +296,6 @@ export default {
 
       this.toggleSnackbar({ text: 'Datos actualizados' })
     },
-  },
-
-  head() {
-    return {
-      title: this.item.name,
-    }
   },
 }
 </script>

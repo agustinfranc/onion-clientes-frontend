@@ -9,7 +9,9 @@
         ></v-breadcrumbs>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="blue" @click.stop="$refs.foo.newItem()">Nuevo producto</v-btn>
+      <v-btn class="blue" @click.stop="$refs.foo.newItem()"
+        >Nuevo producto</v-btn
+      >
     </div>
     <v-card>
       <v-card-title class="headline">
@@ -43,9 +45,9 @@
               showFirstLastPage: true,
             }"
           >
-            <template v-slot:item.code="{ item }"> #{{ item.code }} </template>
+            <template #item.code="{ item }"> #{{ item.code }} </template>
 
-            <template v-slot:item.name="{ item }">
+            <template #item.name="{ item }">
               <v-avatar rounded size="30"
                 ><img :src="item.avatar_dirname + item.avatar" alt=""
               /></v-avatar>
@@ -54,22 +56,22 @@
               </span>
             </template>
 
-            <template v-slot:item.rubro="{ item }">
+            <template #item.rubro="{ item }">
               {{ item.subrubro.rubro.name }}
             </template>
 
-            <template v-slot:item.subrubro="{ item }">
+            <template #item.subrubro="{ item }">
               {{ item.subrubro.name }}
             </template>
 
             <!-- #Edit dialog -->
-            <template v-slot:item.price="props">
+            <template #item.price="props">
               <v-edit-dialog
                 :return-value.sync="props.item.price"
                 @save="savePrice(props.item)"
               >
                 <v-chip> ${{ props.item.price }} </v-chip>
-                <template v-slot:input>
+                <template #input>
                   <v-text-field
                     v-model="props.item.price"
                     label="Precio"
@@ -82,14 +84,14 @@
               >
             </template>
 
-            <template v-slot:item.disabled="{ item }">
+            <template #item.disabled="{ item }">
               <v-icon v-if="!item.disabled" color="green darken-2">
                 mdi-check-circle
               </v-icon>
               <v-icon v-else> mdi-circle-outline </v-icon>
             </template>
 
-            <template v-slot:item.actions="{ item }">
+            <template #item.actions="{ item }">
               <v-btn text icon class="mr-2" nuxt :to="`/products/${item.id}`">
                 <v-icon small> mdi-pencil </v-icon>
               </v-btn>
@@ -142,23 +144,7 @@ export default {
   },
   mixins: [commerceWatcher],
 
-  async fetch() {
-    this.loading = true
-
-    const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
-    const res = await this.$nuxt.$axios.get(url)
-
-    if (res.status !== 200) {
-      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
-      return
-    }
-
-    this.body = res.data
-    this.loading = false
-  },
-
   data: () => ({
-    item: '',
     title: 'Productos',
     search: '',
     headers: [
@@ -196,6 +182,27 @@ export default {
       },
     ],
   }),
+
+  async fetch() {
+    this.loading = true
+
+    const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+    const res = await this.$nuxt.$axios.get(url)
+
+    if (res.status !== 200) {
+      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
+      return
+    }
+
+    this.body = res.data
+    this.loading = false
+  },
+
+  head() {
+    return {
+      title: this.title,
+    }
+  },
 
   watch: {
     dialogDelete(val) {
@@ -249,18 +256,12 @@ export default {
       }
     },
   },
-
-  head() {
-    return {
-      title: this.title,
-    }
-  },
 }
 </script>
 
 <style>
-  .v-small-dialog__activator,
-  .v-menu.v-small-dialog {
-    display: inline;
-  }
+.v-small-dialog__activator,
+.v-menu.v-small-dialog {
+  display: inline;
+}
 </style>
