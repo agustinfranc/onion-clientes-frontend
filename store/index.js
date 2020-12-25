@@ -56,10 +56,10 @@ export const actions = {
 
     commit('SET_SNACKBAR', { display, text, color, timeout })
   },
-  logout({ commit }, payload) {
+  logout({ commit, redirect }, payload) {
     this.$axios.post('logout').then((res) => {
       commit('SET_USER', '')
-      location.href = '/login'
+      redirect(302, '/login')
     })
   },
 }
