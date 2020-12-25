@@ -8,7 +8,7 @@
     >
       {{ snackbarData.text }}
 
-      <template v-slot:action="{ attrs }">
+      <template #action="{ attrs }">
         <v-btn text v-bind="attrs" @click="closeSnackbar"> Cerrar </v-btn>
       </template>
     </v-snackbar>

@@ -2,7 +2,7 @@
   <div>
     <v-dialog v-model="newItemDialog">
       <v-card>
-        <v-card-title>Nuevo Producto</v-card-title>
+        <v-card-title>New Product</v-card-title>
 
         <v-card-text>
           <v-form
@@ -20,7 +20,7 @@
                     :rules="codeRules"
                     :error-messages="errors.code"
                     :counter="4"
-                    label="Codigo"
+                    label="Code"
                     required
                   ></v-text-field>
                 </v-col>
@@ -31,7 +31,7 @@
                     :rules="[(v) => !!v || 'Name is required']"
                     :error-messages="errors.name"
                     :counter="255"
-                    label="Nombre"
+                    label="Name"
                     required
                   ></v-text-field>
                 </v-col>
@@ -40,12 +40,12 @@
                   <v-select
                     v-model="item.rubro"
                     :items="rubros"
-                    label="Rubro"
+                    label="Category"
                     item-text="name"
                     item-value="id"
                     return-object
                     required
-                    :rules="[(v) => !!v || 'Rubro is required']"
+                    :rules="[(v) => !!v || 'Category is required']"
                     :error-messages="errors.rubro"
                     :loading="loading"
                     @change="setSubrubros"
@@ -56,9 +56,9 @@
                   <v-combobox
                     v-model="item.subrubro"
                     :items="subrubros"
-                    label="Subrubro"
+                    label="Subcategory"
                     required
-                    :rules="[(v) => !!v || 'Subrubro is required']"
+                    :rules="[(v) => !!v || 'Subcategory is required']"
                     :error-messages="errors.subrubro"
                     item-text="name"
                     item-value="id"
@@ -71,7 +71,7 @@
                   <v-text-field
                     v-model="item.price"
                     :error-messages="errors.price"
-                    label="Precio"
+                    label="Price"
                     prefix="$"
                     type="number"
                   ></v-text-field>
@@ -83,7 +83,7 @@
                   <v-textarea
                     v-model="item.description"
                     :error-messages="errors.description"
-                    label="Descripcion"
+                    label="Description"
                     rows="3"
                   ></v-textarea>
                 </v-col>

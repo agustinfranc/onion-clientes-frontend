@@ -2,21 +2,21 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="180">
-        <v-card-title> Ventas </v-card-title>
-        <v-card-text> No hay datos </v-card-text>
+        <v-card-title> Sells </v-card-title>
+        <v-card-text> No data </v-card-text>
       </v-card>
     </v-col>
 
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="180">
-        <v-card-title class="headline"> Trafico </v-card-title>
-        <v-card-text> No hay datos </v-card-text>
+        <v-card-title class="headline"> Traffic </v-card-title>
+        <v-card-text> No data </v-card-text>
       </v-card>
     </v-col>
 
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="510">
-        <v-card-title class="headline"> Mi comercio </v-card-title>
+        <v-card-title class="headline"> My Commerce </v-card-title>
         <v-card-text>
           <CommerceForm />
         </v-card-text>
@@ -27,7 +27,7 @@
       <v-card min-height="510">
         <v-card-title class="headline">
           <nuxt-link to="/products" class="text-decoration-none white--text"
-            >Productos</nuxt-link
+            >Products</nuxt-link
           >
           <v-spacer></v-spacer>
           <v-text-field
@@ -51,27 +51,27 @@
               :loading="loading"
               loading-text="Cargando datos..."
             >
-              <template v-slot:item.avatar="{ item }">
+              <template #item.avatar="{ item }">
                 <v-avatar rounded size="30"
                   ><img :src="item.avatar_dirname + item.avatar" alt=""
                 /></v-avatar>
               </template>
 
-              <template v-slot:item.name="{ item }">
+              <template #item.name="{ item }">
                 <span class="ml-1">
                   {{ item.name }}
                 </span>
               </template>
 
-              <template v-slot:item.rubro="{ item }">
+              <template #item.rubro="{ item }">
                 {{ item.subrubro.rubro.name }}
               </template>
 
-              <template v-slot:item.price="{ item }">
+              <template #item.price="{ item }">
                 <v-chip> ${{ item.price }} </v-chip>
               </template>
 
-              <template v-slot:item.disabled="{ item }">
+              <template #item.disabled="{ item }">
                 <v-icon v-if="!item.disabled" color="green darken-2">
                   mdi-check-circle
                 </v-icon>
@@ -98,6 +98,21 @@ export default {
   },
   mixins: [commerceWatcher],
 
+  data: () => ({
+    title: 'Dashboard',
+    valid: false,
+    search: '',
+    headers: [
+      { text: '', value: 'avatar', sortable: false },
+      { text: 'Name', value: 'name' },
+      { text: 'Category', value: 'rubro' },
+      { text: 'Price', value: 'price' },
+      { text: 'Visible', value: 'disabled' },
+    ],
+    body: [],
+    loading: true,
+  }),
+
   async fetch() {
     try {
       const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
@@ -111,29 +126,14 @@ export default {
     }
   },
 
-  data: () => ({
-    title: 'Dashboard',
-    valid: false,
-    search: '',
-    headers: [
-      { text: '', value: 'avatar', sortable: false },
-      { text: 'Nombre', value: 'name' },
-      { text: 'Rubro', value: 'rubro' },
-      { text: 'Precio', value: 'price' },
-      { text: 'Visible', value: 'disabled' },
-    ],
-    body: [],
-    loading: true,
-  }),
-
-  methods: {
-    ...mapActions(['toggleSnackbar']),
-  },
-
   head() {
     return {
       title: this.title,
     }
+  },
+
+  methods: {
+    ...mapActions(['toggleSnackbar']),
   },
 }
 </script>

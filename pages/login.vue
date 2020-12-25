@@ -56,12 +56,12 @@ import Logo from '@/components/Logo'
 
 export default {
   name: 'Login',
-  layout: 'login',
 
   components: {
     Logo,
     Snackbar,
   },
+  layout: 'login',
 
   async asyncData({ store, $axios, redirect }) {
     try {
@@ -96,6 +96,12 @@ export default {
   validations: {
     email: { required, email },
     password: { required, minLength: minLength(6) },
+  },
+
+  head() {
+    return {
+      title: this.title,
+    }
   },
 
   computed: {
@@ -168,12 +174,6 @@ export default {
         })
       }
     },
-  },
-
-  head() {
-    return {
-      title: this.title,
-    }
   },
 }
 </script>

@@ -20,7 +20,7 @@ export default function ({
     $axios
       .get('api/auth/me')
       .then((res) => {
-        if (res.status !== 200) location.href = '/login'
+        if (res.status !== 200) redirect(302, '/login')
 
         store.dispatch('saveUser', res.data ?? '')
         store.dispatch('saveCommerces', res.data.commerces ?? '')
@@ -30,14 +30,14 @@ export default function ({
         store.dispatch('saveCommerce', res.data.commerces[0] ?? '')
       })
       .catch(() => {
-        location.href = '/login'
+        redirect(302, '/login')
       })
   } else {
     //* Este return lo que hace es esperar la respuesta para luego continuar el ciclo de vida de Nuxt
     return $axios
       .get('api/auth/me')
       .then((res) => {
-        if (res.status !== 200) location.href = '/login'
+        if (res.status !== 200) redirect(302, '/login')
 
         store.dispatch('saveUser', res.data ?? '')
         store.dispatch('saveCommerces', res.data.commerces ?? '')
@@ -47,7 +47,7 @@ export default function ({
         store.dispatch('saveCommerce', res.data.commerces[0] ?? '')
       })
       .catch(() => {
-        location.href = '/login'
+        redirect(302, '/login')
       })
   }
 }
