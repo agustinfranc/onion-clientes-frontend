@@ -101,7 +101,7 @@
     </v-navigation-drawer>
 
     <v-footer :absolute="!fixed" app>
-      <div class="d-flex justify-space-between">
+      <div class="d-flex justify-space-between align-center">
         <div class="text-left">
           <span>&copy; {{ new Date().getFullYear() }}</span>
         </div>
@@ -115,14 +115,11 @@
           </span>
         </div>
         <div class="text-right">
-          <a
-            v-for="icon in icons"
-            :key="icon.to"
-            :href="icon.to"
-            target="_blank"
-          >
-            <v-icon class="mx-1" size="24px">{{ icon.name }}</v-icon>
-          </a>
+          <v-btn v-for="icon in icons" :key="icon.to" icon :href="icon.to">
+            <v-icon class="white--text text-decoration-none" color="primary">
+              {{ icon.name }}
+            </v-icon>
+          </v-btn>
 
           <v-tooltip v-for="locale in availableLocales" :key="locale.code" top>
             <template #activator="{ on, attrs }">
