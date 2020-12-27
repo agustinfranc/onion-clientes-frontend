@@ -63,7 +63,7 @@ export default {
   },
   layout: 'login',
 
-  async asyncData({ store, $axios, redirect }) {
+  async asyncData({ app, store, $axios, redirect }) {
     try {
       const url = 'api/auth/me'
       const res = await $axios.$get(url)
@@ -74,14 +74,14 @@ export default {
       store.dispatch('saveCommerces', res.commerces ?? '')
       store.dispatch('saveCommerce', res.commerces[0] ?? '')
 
-      redirect('/')
+      // https://i18n.nuxtjs.org/es/api/#m%C3%A9todos
+      redirect(app.localePath('index'))
 
       return {
         body: res,
       }
     } catch (error) {
-      console.log(error)
-      console.log(error.response)
+      console.error(error.response ?? error)
     }
   },
 
@@ -152,7 +152,7 @@ export default {
         this.saveCommerces(res.commerces ?? '')
         this.saveCommerce(res.commerces[0] ?? '')
 
-        this.$router.push('/')
+        this.$router.push(this.localePath('index'))
       } catch (error) {
         let message
 
