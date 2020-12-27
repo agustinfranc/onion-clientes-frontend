@@ -3,7 +3,8 @@
     <div class="d-flex mt-5">
       <div>
         <div class="display-1">
-          {{ $t('edit') }} {{ $t('products.product') }} - {{ item.name ? item.name : '' }}
+          {{ $t('edit') }} {{ $t('products.product') }} -
+          {{ item.name ? item.name : '' }}
         </div>
         <v-breadcrumbs
           class="pa-0 py-2"

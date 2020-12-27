@@ -85,10 +85,6 @@ export default {
     }
   },
 
-  mounted() {
-    console.log(this.$i18n)
-  },
-
   data: () => ({
     title: 'Login',
     email: '',

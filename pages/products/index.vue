@@ -158,7 +158,11 @@ export default {
         { text: this.$t('products.headers.subcategory'), value: 'subrubro' },
         { text: this.$t('products.headers.price'), value: 'price' },
         { text: this.$t('products.headers.visible'), value: 'disabled' },
-        { text: this.$t('products.headers.actions'), value: 'actions', sortable: false },
+        {
+          text: this.$t('products.headers.actions'),
+          value: 'actions',
+          sortable: false,
+        },
       ],
       body: [],
       item: {

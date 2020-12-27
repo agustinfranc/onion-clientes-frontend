@@ -124,16 +124,21 @@
             <v-icon class="mx-1" size="24px">{{ icon.name }}</v-icon>
           </a>
 
-          <v-tooltip top v-for="locale in availableLocales" :key="locale.code">
-            <template v-slot:activator="{ on, attrs }">
+          <v-tooltip v-for="locale in availableLocales" :key="locale.code" top>
+            <template #activator="{ on, attrs }">
               <v-btn
                 v-bind="attrs"
-                v-on="on"
                 icon
                 nuxt
                 :to="switchLocalePath(locale.code)"
+                v-on="on"
               >
-                <v-icon class="white--text text-decoration-none" color="primary"> mdi-translate </v-icon>
+                <v-icon
+                  class="white--text text-decoration-none"
+                  color="primary"
+                >
+                  mdi-translate
+                </v-icon>
               </v-btn>
             </template>
             <span>{{ locale.name }}</span>

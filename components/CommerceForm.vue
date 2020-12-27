@@ -25,11 +25,15 @@
       </v-col>
 
       <v-col cols="12" sm="4">
-        <v-btn block color="accent">{{ $t('dashboard.commerce.editAvatar') }}</v-btn>
+        <v-btn block color="accent">{{
+          $t('dashboard.commerce.editAvatar')
+        }}</v-btn>
       </v-col>
 
       <v-col cols="12" sm="8">
-        <v-btn block color="accent">{{ $t('dashboard.commerce.editCover') }}</v-btn>
+        <v-btn block color="accent">{{
+          $t('dashboard.commerce.editCover')
+        }}</v-btn>
       </v-col>
 
       <v-col cols="12">
