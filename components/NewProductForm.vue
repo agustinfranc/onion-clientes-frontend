@@ -2,7 +2,7 @@
   <div>
     <v-dialog v-model="newItemDialog">
       <v-card>
-        <v-card-title>New Product</v-card-title>
+        <v-card-title>{{ $t('products.new') }}</v-card-title>
 
         <v-card-text>
           <v-form
@@ -20,7 +20,7 @@
                     :rules="codeRules"
                     :error-messages="errors.code"
                     :counter="4"
-                    label="Code"
+                    :label="$t('products.headers.code')"
                     required
                   ></v-text-field>
                 </v-col>
@@ -31,7 +31,7 @@
                     :rules="[(v) => !!v || 'Name is required']"
                     :error-messages="errors.name"
                     :counter="255"
-                    label="Name"
+                    :label="$t('products.headers.name')"
                     required
                   ></v-text-field>
                 </v-col>
@@ -40,7 +40,7 @@
                   <v-select
                     v-model="item.rubro"
                     :items="rubros"
-                    label="Category"
+                    :label="$t('products.headers.category')"
                     item-text="name"
                     item-value="id"
                     return-object
@@ -56,7 +56,7 @@
                   <v-combobox
                     v-model="item.subrubro"
                     :items="subrubros"
-                    label="Subcategory"
+                    :label="$t('products.headers.subcategory')"
                     required
                     :rules="[(v) => !!v || 'Subcategory is required']"
                     :error-messages="errors.subrubro"
@@ -71,7 +71,7 @@
                   <v-text-field
                     v-model="item.price"
                     :error-messages="errors.price"
-                    label="Price"
+                    :label="$t('products.headers.price')"
                     prefix="$"
                     type="number"
                   ></v-text-field>
@@ -83,7 +83,7 @@
                   <v-textarea
                     v-model="item.description"
                     :error-messages="errors.description"
-                    label="Description"
+                    :label="$t('products.headers.description')"
                     rows="3"
                   ></v-textarea>
                 </v-col>
@@ -95,7 +95,7 @@
                 class="mr-4"
                 @click="submit"
               >
-                Submit
+                {{ $t('save') }}
               </v-btn>
             </v-container>
           </v-form>
@@ -144,14 +144,14 @@ export default {
 
         await this.$axios.$post(url, form)
 
-        this.toggleSnackbar({ text: 'Producto nuevo cargado correctamente' })
+        this.toggleSnackbar({ text: this.$t('products.store') })
       } catch (error) {
         console.error(error.response ?? error)
 
         this.errors = error.response.data.errors ?? {}
 
         this.toggleSnackbar({
-          text: error.response?.data?.message ?? 'Ocurrió un error',
+          text: error.response?.data?.message ?? this.$t('error'),
           color: 'red accent-4',
         })
 
@@ -172,7 +172,7 @@ export default {
         console.error(error.response ?? error)
 
         this.toggleSnackbar({
-          text: error.response?.data?.message ?? 'Ocurrió un error',
+          text: error.response?.data?.message ?? this.$t('error'),
           color: 'red accent-4',
         })
       }

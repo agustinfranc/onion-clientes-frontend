@@ -2,16 +2,16 @@
   <div>
     <div class="d-flex mt-5">
       <div>
-        <div class="display-1">Products</div>
+        <div class="display-1">{{ $t('products.title') }}</div>
         <v-breadcrumbs
           class="pa-0 py-2"
           :items="breadcrumbItems"
         ></v-breadcrumbs>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="blue" @click.stop="$refs.foo.newItem()"
-        >New product</v-btn
-      >
+      <v-btn class="blue" @click.stop="$refs.foo.newItem()">{{
+        $t('products.new')
+      }}</v-btn>
     </div>
     <v-card>
       <v-card-title class="headline">
@@ -20,7 +20,7 @@
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
-          label="Search"
+          :label="$t('search')"
           solo
           single-line
           hide-details
@@ -103,19 +103,22 @@
 
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
-              <v-card-title class="headline"
-                >Estás seguro que deseas eliminar {{ item.name }}?</v-card-title
-              >
+              <v-card-title class="headline">{{
+                $t('products.dialogDelete.title', { msg: item.name })
+              }}</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialogDelete = false"
-                  >Cancelar</v-btn
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="dialogDelete = false"
+                  >{{ $t('products.dialogDelete.cancel') }}</v-btn
                 >
                 <v-btn
                   :disabled="!btnDelete"
                   color="blue darken-1"
                   @click="deleteItemConfirm"
-                  >Aceptar</v-btn
+                  >{{ $t('products.dialogDelete.confirm') }}</v-btn
                 >
                 <v-spacer></v-spacer>
               </v-card-actions>
@@ -144,44 +147,46 @@ export default {
   },
   mixins: [commerceWatcher],
 
-  data: () => ({
-    title: 'Products',
-    search: '',
-    headers: [
-      { text: 'Code', value: 'code' },
-      { text: 'Name', value: 'name' },
-      { text: 'Category', value: 'rubro' },
-      { text: 'Subcategory', value: 'subrubro' },
-      { text: 'Price', value: 'price' },
-      { text: 'Visible', value: 'disabled' },
-      { text: 'Actions', value: 'actions', sortable: false },
-    ],
-    body: [],
-    item: {
-      code: '',
-      name: '',
-      rubro: '',
-      subrubro: '',
-      price: '',
-      description: '',
-    },
-    loading: true,
-    btnDelete: true,
-    dialogDelete: false,
-    breadcrumbItems: [
-      {
-        text: 'Dashboard',
-        disabled: false,
-        to: '/',
-        nuxt: true,
-        exact: true,
+  data() {
+    return {
+      title: 'Products',
+      search: '',
+      headers: [
+        { text: this.$t('products.headers.code'), value: 'code' },
+        { text: this.$t('products.headers.name'), value: 'name' },
+        { text: this.$t('products.headers.category'), value: 'rubro' },
+        { text: this.$t('products.headers.subcategory'), value: 'subrubro' },
+        { text: this.$t('products.headers.price'), value: 'price' },
+        { text: this.$t('products.headers.visible'), value: 'disabled' },
+        { text: this.$t('products.headers.actions'), value: 'actions', sortable: false },
+      ],
+      body: [],
+      item: {
+        code: '',
+        name: '',
+        rubro: '',
+        subrubro: '',
+        price: '',
+        description: '',
       },
-      {
-        text: 'Products',
-        disabled: false,
-      },
-    ],
-  }),
+      loading: true,
+      btnDelete: true,
+      dialogDelete: false,
+      breadcrumbItems: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          to: this.localePath('index'),
+          nuxt: true,
+          exact: true,
+        },
+        {
+          text: this.$t('products.title'),
+          disabled: false,
+        },
+      ],
+    }
+  },
 
   async fetch() {
     this.loading = true
@@ -190,7 +195,7 @@ export default {
     const res = await this.$nuxt.$axios.get(url)
 
     if (res.status !== 200) {
-      this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
+      this.toggleSnackbar({ text: this.$t('error'), color: 'red accent-4' })
       return
     }
 
@@ -230,7 +235,7 @@ export default {
         })
         .catch((error) => {
           this.toggleSnackbar({
-            text: error.message ?? 'Ocurrió un error',
+            text: error.message ?? this.$t('error'),
             color: 'red accent-4',
           })
         })
@@ -250,7 +255,7 @@ export default {
         console.error(error.response ?? error)
 
         this.toggleSnackbar({
-          text: error.response?.data?.message ?? 'Ocurrió un error',
+          text: error.response?.data?.message ?? this.$t('error'),
           color: 'red accent-4',
         })
       }

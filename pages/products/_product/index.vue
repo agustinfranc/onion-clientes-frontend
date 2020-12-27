@@ -3,7 +3,7 @@
     <div class="d-flex mt-5">
       <div>
         <div class="display-1">
-          Edit Producto - {{ item.name ? item.name : '' }}
+          {{ $t('edit') }} {{ $t('products.product') }} - {{ item.name ? item.name : '' }}
         </div>
         <v-breadcrumbs
           class="pa-0 py-2"
@@ -13,7 +13,7 @@
     </div>
     <v-card>
       <v-card-title>
-        Details
+        {{ $t('details') }}
         <v-spacer></v-spacer>
         <v-btn text icon @click="refresh"><v-icon>mdi-reload</v-icon></v-btn>
       </v-card-title>
@@ -50,7 +50,7 @@
                 color="accent"
                 class="mt-3"
                 @click="$refs.fileInput.click()"
-                >Edit Avatar</v-btn
+                >{{ $t('products.editAvatar') }}</v-btn
               >
             </v-col>
 
@@ -65,7 +65,7 @@
                   <v-col cols="12" sm="8" md="8">
                     <v-text-field
                       v-model="item.name"
-                      label="Name"
+                      :label="$t('products.headers.name')"
                       :rules="[(v) => !!v || 'El nombre es requerido']"
                       required
                     ></v-text-field>
@@ -74,7 +74,7 @@
                   <v-col cols="12" sm="2" md="2">
                     <v-text-field
                       v-model="item.code"
-                      label="Code"
+                      :label="$t('products.headers.code')"
                       type="number"
                       :rules="[(v) => !!v || 'El codigo es requerido']"
                       required
@@ -84,7 +84,7 @@
                   <v-col cols="12" sm="10" md="10">
                     <v-textarea
                       v-model="item.description"
-                      label="Description"
+                      :label="$t('products.headers.description')"
                       counter
                       maxlength="255"
                       clearable
@@ -96,7 +96,7 @@
                     <v-select
                       v-model="item.rubro"
                       :items="rubros"
-                      label="Category"
+                      :label="$t('products.headers.category')"
                       item-text="name"
                       item-value="id"
                       return-object
@@ -112,7 +112,7 @@
                     <v-combobox
                       v-model="item.subrubro"
                       :items="subrubros"
-                      label="Subcategory"
+                      :label="$t('products.headers.subcategory')"
                       required
                       :rules="[(v) => !!v || 'Subcategory is required']"
                       :error-messages="errors.subrubro"
@@ -126,14 +126,14 @@
                   <v-col cols="12" sm="10" md="10">
                     <v-text-field
                       v-model="item.price"
-                      label="Price"
+                      :label="$t('products.headers.price')"
                       prefix="$"
                       type="number"
                     ></v-text-field>
 
                     <v-checkbox
                       v-model="item.disabled"
-                      label="Disabled"
+                      :label="$t('products.headers.disabled')"
                     ></v-checkbox>
 
                     <v-btn
@@ -142,7 +142,7 @@
                       class="mr-4"
                       type="submit"
                     >
-                      Save
+                      {{ $t('save') }}
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -171,37 +171,39 @@ export default {
   },
   mixins: [commerceWatcher],
 
-  data: () => ({
-    valid: true,
-    search: '',
-    item: '',
-    rubros: [],
-    subrubros: [],
-    errors: {},
-    loading: true,
-    selectedFile: '',
-    parseSelectedFile: '',
-    breadcrumbItems: [
-      {
-        text: 'Dashboard',
-        disabled: false,
-        to: '/',
-        nuxt: true,
-        exact: true,
-      },
-      {
-        text: 'Products',
-        disabled: false,
-        to: '/products',
-        nuxt: true,
-        exact: true,
-      },
-      {
-        text: 'Producto',
-        disabled: false,
-      },
-    ],
-  }),
+  data() {
+    return {
+      valid: true,
+      search: '',
+      item: '',
+      rubros: [],
+      subrubros: [],
+      errors: {},
+      loading: true,
+      selectedFile: '',
+      parseSelectedFile: '',
+      breadcrumbItems: [
+        {
+          text: 'Dashboard',
+          disabled: false,
+          to: this.localePath('index'),
+          nuxt: true,
+          exact: true,
+        },
+        {
+          text: this.$t('products.title'),
+          disabled: false,
+          to: this.localePath('products'),
+          nuxt: true,
+          exact: true,
+        },
+        {
+          text: this.$t('products.product'),
+          disabled: false,
+        },
+      ],
+    }
+  },
 
   async fetch() {
     try {
@@ -272,7 +274,7 @@ export default {
         this.toggleSnackbar({ text: 'Producto actualizado correctamente' })
       } catch (error) {
         this.toggleSnackbar({
-          text: error.response?.data?.message ?? 'Ocurrió un error',
+          text: error.response?.data?.message ?? this.$t('error'),
           color: 'red accent-4',
         })
       }

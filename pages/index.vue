@@ -2,21 +2,21 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="180">
-        <v-card-title> Sells </v-card-title>
+        <v-card-title> {{ $t('dashboard.sells.title') }} </v-card-title>
         <v-card-text> No data </v-card-text>
       </v-card>
     </v-col>
 
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="180">
-        <v-card-title class="headline"> Traffic </v-card-title>
+        <v-card-title class="headline"> {{ $t('dashboard.traffic.title') }} </v-card-title>
         <v-card-text> No data </v-card-text>
       </v-card>
     </v-col>
 
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="510">
-        <v-card-title class="headline"> My Commerce </v-card-title>
+        <v-card-title class="headline"> {{ $t('dashboard.commerce.title') }} </v-card-title>
         <v-card-text>
           <CommerceForm />
         </v-card-text>
@@ -27,13 +27,13 @@
       <v-card min-height="510">
         <v-card-title class="headline">
           <nuxt-link to="/products" class="text-decoration-none white--text"
-            >Products</nuxt-link
+            >{{ $t('dashboard.products.title') }}</nuxt-link
           >
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            label="Search"
+            :label="$t('search')"
             solo
             single-line
             hide-details
@@ -98,20 +98,32 @@ export default {
   },
   mixins: [commerceWatcher],
 
-  data: () => ({
-    title: 'Dashboard',
-    valid: false,
-    search: '',
-    headers: [
-      { text: '', value: 'avatar', sortable: false },
-      { text: 'Name', value: 'name' },
-      { text: 'Category', value: 'rubro' },
-      { text: 'Price', value: 'price' },
-      { text: 'Visible', value: 'disabled' },
-    ],
-    body: [],
-    loading: true,
-  }),
+  data() {
+    return {
+      title: 'Dashboard',
+      valid: false,
+      search: '',
+      headers: [
+        {
+          text: this.$t('dashboard.products.headers.avatar'),
+          value: 'avatar',
+          sortable: false,
+        },
+        { text: this.$t('dashboard.products.headers.name'), value: 'name' },
+        {
+          text: this.$t('dashboard.products.headers.category'),
+          value: 'rubro',
+        },
+        { text: this.$t('dashboard.products.headers.price'), value: 'price' },
+        {
+          text: this.$t('dashboard.products.headers.visible'),
+          value: 'disabled',
+        },
+      ],
+      body: [],
+      loading: true,
+    }
+  },
 
   async fetch() {
     try {

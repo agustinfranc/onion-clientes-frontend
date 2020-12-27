@@ -70,16 +70,145 @@ export default {
   ],
 
   i18n: {
-    locales: ['en', 'es'],
-    defaultLocale: 'en',
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+        iso: 'en-US',
+      },
+      {
+        code: 'es',
+        name: 'Español',
+        iso: 'es-ES',
+      },
+    ],
+    defaultLocale: 'es',
     vueI18n: {
-      fallbackLocale: 'en',
+      fallbackLocale: 'es',
       messages: {
         en: {
           welcome: 'Welcome',
+          settings: 'Settings',
+          logout: 'Logout',
+          save: 'Save',
+          details: 'Details',
+          search: 'Search',
+          edit: 'Edit',
+          error: 'Something went wrong',
+          dashboard: {
+            title: 'Dashboard',
+            sells: {
+              title: 'Sells',
+            },
+            traffic: {
+              title: 'Traffic',
+            },
+            commerce: {
+              title: 'My Commerce',
+              name: 'Name',
+              editAvatar: 'Edit Avatar',
+              editCover: 'Edit Cover Page',
+            },
+            products: {
+              title: 'Products',
+              headers: {
+                avatar: '',
+                name: 'Name',
+                category: 'Category',
+                price: 'Price',
+                visible: 'Visible',
+              },
+            },
+          },
+          products: {
+            title: 'Products',
+            new: 'New product',
+            product: 'Product',
+            store: 'New product stored successfuly',
+            update: 'Product updated successfuly',
+            editAvatar: 'Edit avatar',
+            headers: {
+              code: 'Code',
+              name: 'Name',
+              category: 'Category',
+              subcategory: 'Subcategory',
+              price: 'Price',
+              visible: 'Visible',
+              disabled: 'Disabled',
+              actions: 'Actions',
+              description: 'Description',
+            },
+            dialogDelete: {
+              title: 'Are you sure you want to delete {msg}',
+              cancel: 'Cancel',
+              confirm: 'Confirm',
+            },
+          },
+          analytics: {
+            title: 'Analytics',
+          },
         },
         es: {
           welcome: 'Bienvenido',
+          settings: 'Ajustes',
+          logout: 'Salir',
+          save: 'Guardar',
+          details: 'Detalles',
+          search: 'Buscar',
+          edit: 'Editar',
+          error: 'Ocurrió un error',
+          dashboard: {
+            title: 'Dashboard',
+            sells: {
+              title: 'Ventas',
+            },
+            traffic: {
+              title: 'Trafico',
+            },
+            commerce: {
+              title: 'Mi Comercio',
+              name: 'Nombre',
+              editAvatar: 'Editar Avatar',
+              editCover: 'Editar Portada',
+            },
+            products: {
+              title: 'Productos',
+              headers: {
+                avatar: '',
+                name: 'Nombre',
+                category: 'Rubro',
+                price: 'Precio',
+                visible: 'Visible',
+              },
+            },
+          },
+          products: {
+            title: 'Productos',
+            new: 'Nuevo producto',
+            product: 'Producto',
+            store: 'Producto nuevo cargado correctamente',
+            update: 'Producto actualizado correctamente',
+            editAvatar: 'Editar avatar',
+            headers: {
+              code: 'Codigo',
+              name: 'Nombre',
+              category: 'Rubro',
+              subcategory: 'Subrubro',
+              price: 'Precio',
+              visible: 'Visible',
+              disabled: 'Deshabilitado',
+              actions: 'Acciones',
+              description: 'Descripción',
+            },
+            dialogDelete: {
+              title: 'Estás seguro que deseas eliminar {msg}',
+              cancel: 'Cancelar',
+              confirm: 'Aceptar',
+            },
+          },
+          analytics: {
+            title: 'Reportes',
+          },
         },
       },
     },

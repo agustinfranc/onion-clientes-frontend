@@ -2,7 +2,7 @@
   <div>
     <div class="my-2">
       <div class="text-h6">App Link</div>
-      <a :href="`https://onion.com.ar/${commerce.name}`" target="_blank"
+      <a :href="`https://onion.ar/${commerce.name}`" target="_blank"
         >onion.com.ar/{{ commerce.name }}</a
       >
     </div>
@@ -25,11 +25,11 @@
       </v-col>
 
       <v-col cols="12" sm="4">
-        <v-btn block color="accent">Edit Avatar</v-btn>
+        <v-btn block color="accent">{{ $t('dashboard.commerce.editAvatar') }}</v-btn>
       </v-col>
 
       <v-col cols="12" sm="8">
-        <v-btn block color="accent">Edit Cover Page</v-btn>
+        <v-btn block color="accent">{{ $t('dashboard.commerce.editCover') }}</v-btn>
       </v-col>
 
       <v-col cols="12">
@@ -46,7 +46,7 @@
           ></v-checkbox>
 
           <v-btn :disabled="!valid" color="success" class="mr-4" type="submit">
-            Save
+            {{ $t('save') }}
           </v-btn>
         </v-form>
       </v-col>
