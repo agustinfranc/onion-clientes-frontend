@@ -5,25 +5,14 @@ export default function ({ $axios, redirect, route, store }) {
   $axios.onError((error) => {
     const code = parseInt(error.response && error.response.status)
 
-    let path
-
-    switch (route.name) {
-      case 'login':
-        path = 'login'
-        break
-      case 'login___en':
-        path = 'en/login'
-        break
-      case 'login___es':
-        path = 'login'
-        break
-      default:
-        path = null
-    }
-
     const redirectPaths = {
       400: '/400',
-      401: path,
+      401:
+        route.name === 'login' ||
+        route.name === 'login___en' ||
+        route.name === 'login___es'
+          ? null
+          : '/login',
     }
 
     redirect(redirectPaths[code])

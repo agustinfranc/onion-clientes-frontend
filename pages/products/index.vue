@@ -97,7 +97,12 @@
                 icon
                 class="mr-2"
                 nuxt
-                :to="localePath(`products/${item.id}`)"
+                :to="
+                  localePath({
+                    name: 'products-product',
+                    params: { product: item.id },
+                  })
+                "
               >
                 <v-icon small> mdi-pencil </v-icon>
               </v-btn>
@@ -152,6 +157,13 @@ export default {
     NewProductForm,
   },
   mixins: [commerceWatcher],
+
+  nuxtI18n: {
+    paths: {
+      en: '/products/:product',
+      es: '/products/:product',
+    },
+  },
 
   data() {
     return {
@@ -223,6 +235,10 @@ export default {
     dialogDelete(val) {
       val || (this.dialogDelete = false)
     },
+  },
+
+  mounted() {
+    console.log(this.localePath({ name: 'products', params: { product: 2 } }))
   },
 
   methods: {
