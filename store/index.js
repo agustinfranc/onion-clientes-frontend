@@ -56,10 +56,29 @@ export const actions = {
 
     commit('SET_SNACKBAR', { display, text, color, timeout })
   },
-  logout({ commit, redirect }, payload) {
-    this.$axios.post('logout').then((res) => {
-      commit('SET_USER', '')
-      redirect(302, '/login')
-    })
+  logout({ commit, dispatch }, payload) {
+    const i18n = this.app.i18n
+    const locale = i18n.locale
+    const defaultLocale = i18n.defaultLocale
+
+    this.$axios
+      .post('logout')
+      .then(function (res) {
+        console.log(res)
+      })
+      .catch(function (error) {
+        console.error(error.response ?? error)
+      })
+      .finally(function () {
+        commit('SET_USER', '')
+
+        dispatch(
+          'redirect',
+          locale === defaultLocale ? '/login' : `${locale}/login`
+        )
+      })
+  },
+  redirect({ commit }, payload) {
+    this.$router.push(payload)
   },
 }

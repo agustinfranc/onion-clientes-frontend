@@ -7,7 +7,12 @@ export default function ({ $axios, redirect, route, store }) {
 
     const redirectPaths = {
       400: '/400',
-      401: route.name !== 'login' ? '/login' : null,
+      401:
+        route.name === 'login' ||
+        route.name === 'login___en' ||
+        route.name === 'login___es'
+          ? null
+          : '/login',
     }
 
     redirect(redirectPaths[code])
