@@ -89,6 +89,7 @@ export default {
         en: {
           welcome: 'Welcome',
           settings: 'Settings',
+          login: 'Login',
           logout: 'Logout',
           save: 'Save',
           details: 'Details',
@@ -151,6 +152,7 @@ export default {
         es: {
           welcome: 'Bienvenido',
           settings: 'Ajustes',
+          login: 'Ingresar',
           logout: 'Salir',
           save: 'Guardar',
           details: 'Detalles',

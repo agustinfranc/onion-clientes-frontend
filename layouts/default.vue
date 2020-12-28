@@ -109,9 +109,9 @@
           <span>
             made with
             <v-icon>mdi-heart</v-icon> by
-            <router-link to="/">
+            <a href="https://onion.ar" target="_blank">
               <span class="white--text text-decoration-none">Onion</span>
-            </router-link>
+            </a>
           </span>
         </div>
         <div class="text-right">

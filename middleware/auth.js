@@ -5,7 +5,8 @@ export default function ({
   $axios,
   $config: { baseURL },
 }) {
-  if (route.name === 'login') return
+  // buscar algun metodo de i18n que acorte este if
+  if (route.name === 'login' || route.name === 'login___en' || route.name === 'login___es') return
 
   //* si existe store.state.user renderizo el sitio y luego despacho el axios de me
   //* si el me falla me redirige al login

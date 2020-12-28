@@ -92,7 +92,7 @@
             </template>
 
             <template #item.actions="{ item }">
-              <v-btn text icon class="mr-2" nuxt :to="`/products/${item.id}`">
+              <v-btn text icon class="mr-2" nuxt :to="localePath(`products/${item.id}`)">
                 <v-icon small> mdi-pencil </v-icon>
               </v-btn>
               <v-btn text icon @click="deleteItem(item)">

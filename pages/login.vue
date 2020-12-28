@@ -37,7 +37,7 @@
               type="submit"
               class="mr-4 my-5 blue"
             >
-              ingresar
+              {{ $t('login') }}
             </v-btn>
           </v-form>
         </v-card-text>
@@ -75,7 +75,7 @@ export default {
       store.dispatch('saveCommerce', res.commerces[0] ?? '')
 
       // https://i18n.nuxtjs.org/es/api/#m%C3%A9todos
-      redirect(app.localePath('index'))
+      // redirect(app.localePath('index'))    comento esta linea porque me daba errores
 
       return {
         body: res,
@@ -151,6 +151,8 @@ export default {
         this.saveToken(res.token)
         this.saveCommerces(res.commerces ?? '')
         this.saveCommerce(res.commerces[0] ?? '')
+
+        this.$axios.setToken(res.token, 'Bearer')
 
         this.$router.push(this.localePath('index'))
       } catch (error) {

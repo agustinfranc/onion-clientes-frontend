@@ -30,7 +30,7 @@
     <v-col cols="12" sm="8" md="6">
       <v-card min-height="510">
         <v-card-title class="headline">
-          <nuxt-link to="/products" class="text-decoration-none white--text">{{
+          <nuxt-link :to="localePath('products')" class="text-decoration-none white--text">{{
             $t('dashboard.products.title')
           }}</nuxt-link>
           <v-spacer></v-spacer>
