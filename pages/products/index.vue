@@ -158,13 +158,6 @@ export default {
   },
   mixins: [commerceWatcher],
 
-  nuxtI18n: {
-    paths: {
-      en: '/products/:product',
-      es: '/products/:product',
-    },
-  },
-
   data() {
     return {
       title: 'Products',
