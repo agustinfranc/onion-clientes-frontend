@@ -106,6 +106,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data: () => ({
     newItemDialog: false,
@@ -129,6 +131,7 @@ export default {
   }),
 
   methods: {
+    ...mapActions(['toggleSnackbar']),
     async submit() {
       if (!this.$refs.form.validate()) return
 
@@ -146,8 +149,6 @@ export default {
 
         this.toggleSnackbar({ text: this.$t('products.store') })
       } catch (error) {
-        console.error(error.response ?? error)
-
         this.errors = error.response.data.errors ?? {}
 
         this.toggleSnackbar({
