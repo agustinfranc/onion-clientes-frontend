@@ -15,7 +15,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.4",
     "@nuxtjs/dotenv": "^1.4.0",
-    "core-js": "^3.8.1",
+    "core-js": "^3.8.2",
     "nuxt": "^2.14.11",
     "nuxt-i18n": "^6.17.0",
     "vuelidate": "^0.7.6"
