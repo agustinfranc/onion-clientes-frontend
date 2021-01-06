@@ -3,7 +3,7 @@
     <div class="my-2">
       <div class="text-h6">App Link</div>
       <a :href="`https://onion.ar/${commerce.name}`" target="_blank"
-        >onion.com.ar/{{ commerce.name }}</a
+        >onion.ar/{{ commerce.name }}</a
       >
     </div>
 
@@ -11,7 +11,7 @@
       <v-col cols="12" sm="4">
         <v-img
           lazy-src="https://picsum.photos/id/11/10/6"
-          :src="`${commerce.assets_dirname}background.jpg`"
+          :src="commerce.cover_dirname"
           max-height="90"
         ></v-img>
       </v-col>
@@ -19,7 +19,7 @@
       <v-col cols="12" sm="8">
         <v-img
           lazy-src="https://picsum.photos/id/11/10/6"
-          :src="`${commerce.assets_dirname}background.jpg`"
+          :src="commerce.avatar_dirname"
           max-height="90"
         ></v-img>
       </v-col>
