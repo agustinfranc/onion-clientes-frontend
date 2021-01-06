@@ -17,7 +17,7 @@
     "@nuxtjs/dotenv": "^1.4.0",
     "core-js": "^3.8.1",
     "nuxt": "^2.14.11",
-    "nuxt-i18n": "^6.16.0",
+    "nuxt-i18n": "^6.17.0",
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
