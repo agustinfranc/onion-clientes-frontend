@@ -273,6 +273,8 @@ export default {
         await this.$axios.put(`api/auth/products/${this.item.id}`, this.item)
 
         this.toggleSnackbar({ text: 'Producto actualizado correctamente' })
+
+        this.$router.push(this.localePath('products'))
       } catch (error) {
         this.toggleSnackbar({
           text: error.response?.data?.message ?? this.$t('error'),

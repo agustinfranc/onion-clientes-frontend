@@ -145,7 +145,11 @@ export default {
 
         if (this.item.subrubro.id) form.subrubro_id = this.item.subrubro.id
 
-        await this.$axios.$post(url, form)
+        const res = await this.$axios.$post(url, form)
+
+        this.$emit('product', res);
+
+        this.newItemDialog = false
 
         this.toggleSnackbar({ text: this.$t('products.store') })
       } catch (error) {
