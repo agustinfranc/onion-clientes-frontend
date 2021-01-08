@@ -96,6 +96,7 @@ export default {
           search: 'Search',
           edit: 'Edit',
           error: 'Something went wrong',
+          submitImage: 'Image updated successfully',
           dashboard: {
             title: 'Dashboard',
             sells: {
@@ -109,6 +110,7 @@ export default {
               name: 'Name',
               editAvatar: 'Edit Avatar',
               editCover: 'Edit Cover Page',
+              submit: 'Commerce data updated successfully',
             },
             products: {
               title: 'Products',
@@ -159,6 +161,7 @@ export default {
           search: 'Buscar',
           edit: 'Editar',
           error: 'Ocurrió un error',
+          submitImage: 'Imagen actualizada correctamente',
           dashboard: {
             title: 'Dashboard',
             sells: {
@@ -172,6 +175,7 @@ export default {
               name: 'Nombre',
               editAvatar: 'Editar Avatar',
               editCover: 'Editar Portada',
+              submit: 'Datos de comercio actualizados correctamente',
             },
             products: {
               title: 'Productos',

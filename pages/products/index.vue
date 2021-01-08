@@ -139,7 +139,7 @@
       </v-card-text>
     </v-card>
 
-    <NewProductForm ref="foo" />
+    <NewProductForm ref="foo" @product="addItemToList" />
 
     <Snackbar />
   </div>
@@ -230,10 +230,6 @@ export default {
     },
   },
 
-  mounted() {
-    console.log(this.localePath({ name: 'products', params: { product: 2 } }))
-  },
-
   methods: {
     ...mapActions(['toggleSnackbar']),
     deleteItem(item) {
@@ -278,6 +274,9 @@ export default {
           color: 'red accent-4',
         })
       }
+    },
+    addItemToList(item) {
+      this.body.push(item)
     },
   },
 }
