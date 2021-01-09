@@ -12,7 +12,11 @@
         <v-img
           v-if="!parseSelectedFileAvatar"
           lazy-src="https://picsum.photos/id/11/10/6"
-          :src="commerceFormData && commerceFormData.avatar_dirname ? commerceFormData.avatar_dirname : ''"
+          :src="
+            commerceFormData && commerceFormData.avatar_dirname
+              ? commerceFormData.avatar_dirname
+              : ''
+          "
           class="rounded"
         ></v-img>
         <v-img
@@ -34,7 +38,11 @@
         <v-img
           v-if="!parseSelectedFileCover"
           lazy-src="https://picsum.photos/id/11/10/6"
-          :src="commerceFormData && commerceFormData.avatar_dirname ? commerceFormData.avatar_dirname : ''"
+          :src="
+            commerceFormData && commerceFormData.avatar_dirname
+              ? commerceFormData.avatar_dirname
+              : ''
+          "
           class="rounded"
         ></v-img>
         <v-img

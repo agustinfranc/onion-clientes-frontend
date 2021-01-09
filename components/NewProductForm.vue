@@ -147,7 +147,7 @@ export default {
 
         const res = await this.$axios.$post(url, form)
 
-        this.$emit('product', res);
+        this.$emit('product', res)
 
         this.newItemDialog = false
 
