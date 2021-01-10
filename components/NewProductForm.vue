@@ -125,7 +125,6 @@ export default {
     subrubros: [],
     errors: {},
     codeRules: [
-      (v) => !!v || 'Code is required',
       (v) => (v && v.length <= 4) || 'Code must be less than 4 characters',
     ],
   }),
@@ -151,6 +150,8 @@ export default {
 
         this.newItemDialog = false
 
+        this.$refs.form.reset()
+
         this.toggleSnackbar({ text: this.$t('products.store') })
       } catch (error) {
         this.errors = error.response.data.errors ?? {}
@@ -173,6 +174,8 @@ export default {
         this.loading = false
 
         this.rubros = rubros
+
+        this.setSubrubros()
       } catch (error) {
         console.error(error.response ?? error)
 
