@@ -134,6 +134,8 @@ export default {
     async submit() {
       if (!this.$refs.form.validate()) return
 
+      this.valid = false
+
       try {
         const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
 
@@ -162,6 +164,8 @@ export default {
         })
 
         setTimeout(() => this.$refs.form.resetValidation(), 3000)
+      } finally {
+        this.valid = true
       }
     },
     async newItem() {

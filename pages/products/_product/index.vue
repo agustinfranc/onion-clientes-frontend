@@ -247,6 +247,8 @@ export default {
     async submit() {
       if (!this.$refs.form.validate()) return
 
+      this.valid = false
+
       try {
         if (this.selectedFile) {
           const fd = new FormData()
@@ -280,6 +282,8 @@ export default {
           text: error.response?.data?.message ?? this.$t('error'),
           color: 'red accent-4',
         })
+      } finally {
+        this.valid = true
       }
     },
 
