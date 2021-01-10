@@ -12,11 +12,7 @@
         <v-img
           v-if="!parseSelectedFileAvatar"
           lazy-src="https://picsum.photos/id/11/10/6"
-          :src="
-            commerceFormData && commerceFormData.avatar_dirname
-              ? commerceFormData.avatar_dirname
-              : ''
-          "
+          :src="commerce.avatar_dirname"
           class="rounded"
         ></v-img>
         <v-img
@@ -38,11 +34,7 @@
         <v-img
           v-if="!parseSelectedFileCover"
           lazy-src="https://picsum.photos/id/11/10/6"
-          :src="
-            commerceFormData && commerceFormData.avatar_dirname
-              ? commerceFormData.avatar_dirname
-              : ''
-          "
+          :src="commerce.cover_dirname"
           class="rounded"
         ></v-img>
         <v-img
@@ -156,17 +148,15 @@ export default {
             }
           )
 
-          this.commerceFormData.avatar_dirname = this.selectedFileAvatar.name
-
-          this.commerceFormData.cover_dirname = this.selectedFileCover.name
-
           this.toggleSnackbar({ text: this.$t('submitImage') })
         }
 
-        await this.$axios.put(
+        const res = await this.$axios.$put(
           `api/auth/commerces/${this.commerceFormData.id}`,
           this.commerceFormData
         )
+
+        this.$store.dispatch('saveCommerce', res)
 
         this.toggleSnackbar({ text: this.$t('dashboard.commerce.submit') })
       } catch (error) {
