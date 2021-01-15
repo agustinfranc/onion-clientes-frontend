@@ -253,6 +253,7 @@ export default {
         if (this.selectedFile) {
           const fd = new FormData()
           fd.append('image', this.selectedFile, this.selectedFile.name)
+
           await this.$axios.post(
             `api/auth/products/${this.$route.params.product}/upload`,
             fd,

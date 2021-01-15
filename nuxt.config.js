@@ -130,6 +130,7 @@ export default {
             store: 'New product stored successfuly',
             update: 'Product updated successfuly',
             editAvatar: 'Edit avatar',
+            addAvatar: 'Add avatar',
             headers: {
               code: 'Code',
               name: 'Name',
@@ -195,6 +196,7 @@ export default {
             store: 'Producto nuevo cargado correctamente',
             update: 'Producto actualizado correctamente',
             editAvatar: 'Editar avatar',
+            addAvatar: 'Agregar avatar',
             headers: {
               code: 'Codigo',
               name: 'Nombre',
