@@ -13,14 +13,14 @@ export default function ({
   )
     return
 
-  //* si existe store.state.user renderizo el sitio y luego despacho el axios de me
+  //* si existe store.state.token renderizo el sitio y luego despacho el axios de me
   //* si el me falla me redirige al login
 
-  //* si no existe el state.user no renderizo sino que muestro un loader (loadingIndicator) y espero el me
+  //* si no existe el state.token no renderizo sino que muestro un loader (loadingIndicator) y espero el me
   //* si el me falla me voy al login y sino guardo el user en el store
 
   //! Refactorizar un poco esto para acortar codigo (usar un gran try catch)
-  if (store.state.user) {
+  if (store.state.token) {
     $axios.setToken(store.state.token, 'Bearer')
 
     $axios
