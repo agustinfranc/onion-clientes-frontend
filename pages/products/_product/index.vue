@@ -126,11 +126,11 @@
 
                   <v-col cols="12" sm="10" md="10">
                     <v-text-field
+                      v-if="!getProductPrices().length"
                       v-model="item.price"
                       :label="$t('products.headers.price')"
                       prefix="$"
                       type="number"
-                      v-if="!getProductPrices().length"
                     ></v-text-field>
 
                     <v-divider></v-divider>
@@ -139,7 +139,10 @@
 
                     <template v-if="item.product_prices">
                       <template v-for="(prices, index) in item.product_prices">
-                        <v-row :key="prices.id" :class="prices.deleted_at ? 'd-none' : ''">
+                        <v-row
+                          :key="prices.id"
+                          :class="prices.deleted_at ? 'd-none' : ''"
+                        >
                           <v-col cols="10" sm="5"
                             ><v-text-field
                               :key="prices.id"
@@ -159,7 +162,12 @@
                           </v-col>
 
                           <v-col cols="2" sm="2">
-                            <v-btn small fab @click="deleteProductExtraPrice(index)"><v-icon>mdi-delete</v-icon></v-btn>
+                            <v-btn
+                              small
+                              fab
+                              @click="deleteProductExtraPrice(index)"
+                              ><v-icon>mdi-delete</v-icon></v-btn
+                            >
                           </v-col>
                         </v-row>
                       </template>
@@ -347,7 +355,7 @@ export default {
     },
 
     getProductPrices() {
-      return this.item.product_prices.filter(price => !price.deleted_at)
+      return this.item.product_prices.filter((price) => !price.deleted_at)
     },
 
     async refresh() {

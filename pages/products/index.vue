@@ -67,9 +67,9 @@
             <!-- #Edit dialog -->
             <template #item.price="props">
               <v-edit-dialog
+                v-if="!props.item.product_prices.length"
                 :return-value.sync="props.item.price"
                 @save="savePrice(props.item)"
-                v-if="!props.item.product_prices.length"
               >
                 <v-chip> ${{ props.item.price }} </v-chip>
                 <template #input>
