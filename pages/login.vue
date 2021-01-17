@@ -75,7 +75,7 @@ export default {
       store.dispatch('saveCommerce', res.commerces[0] ?? '')
 
       // https://i18n.nuxtjs.org/es/api/#m%C3%A9todos
-      // redirect(app.localePath('index'))    comento esta linea porque me daba errores
+      redirect(app.localePath('index'))
 
       return {
         body: res,

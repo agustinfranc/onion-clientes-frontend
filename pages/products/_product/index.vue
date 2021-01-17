@@ -77,7 +77,7 @@
                       v-model="item.code"
                       :label="$t('products.headers.code')"
                       type="number"
-                      :rules="[(v) => !!v || 'El codigo es requerido']"
+                      :rules="codeRules"
                       required
                     ></v-text-field>
                   </v-col>
@@ -126,11 +126,11 @@
 
                   <v-col cols="12" sm="10" md="10">
                     <v-text-field
+                      v-if="!getProductPrices().length"
                       v-model="item.price"
                       :label="$t('products.headers.price')"
                       prefix="$"
                       type="number"
-                      v-if="!getProductPrices().length"
                     ></v-text-field>
 
                     <v-divider></v-divider>
@@ -139,7 +139,10 @@
 
                     <template v-if="item.product_prices">
                       <template v-for="(prices, index) in item.product_prices">
-                        <v-row :key="prices.id" :class="prices.deleted_at ? 'd-none' : ''">
+                        <v-row
+                          :key="prices.id"
+                          :class="prices.deleted_at ? 'd-none' : ''"
+                        >
                           <v-col cols="10" sm="5"
                             ><v-text-field
                               :key="prices.id"
@@ -159,7 +162,12 @@
                           </v-col>
 
                           <v-col cols="2" sm="2">
-                            <v-btn small fab @click="deleteProductExtraPrice(index)"><v-icon>mdi-delete</v-icon></v-btn>
+                            <v-btn
+                              small
+                              fab
+                              @click="deleteProductExtraPrice(index)"
+                              ><v-icon>mdi-delete</v-icon></v-btn
+                            >
                           </v-col>
                         </v-row>
                       </template>
@@ -218,6 +226,10 @@ export default {
       item: '',
       rubros: [],
       subrubros: [],
+      codeRules: [
+        (v) =>
+          !v || (v && v.length <= 4) || 'Code must be less than 4 characters',
+      ],
       errors: {},
       loading: true,
       selectedFile: '',
@@ -329,7 +341,27 @@ export default {
     },
 
     changeAvatar(event) {
+      if (
+        !event.target.files[0] ||
+        event.target.files[0].size >= 1048576 ||
+        (event.target.files[0].type !== 'image/jpeg' &&
+          event.target.files[0].type !== 'image/png' &&
+          event.target.files[0].type !== 'image/webp' &&
+          event.target.files[0].type !== 'image/gif' &&
+          event.target.files[0].type !== 'image/tiff')
+      ) {
+        this.toggleSnackbar({
+          text: this.$t('products.imageUploadError'),
+          color: 'red accent-4',
+        })
+
+        return
+      }
+
       this.selectedFile = event.target.files[0]
+
+      console.log(this.selectedFile)
+
       this.parseSelectedFile = URL.createObjectURL(this.selectedFile)
     },
 
@@ -347,7 +379,7 @@ export default {
     },
 
     getProductPrices() {
-      return this.item.product_prices.filter(price => !price.deleted_at)
+      return this.item.product_prices.filter((price) => !price.deleted_at)
     },
 
     async refresh() {

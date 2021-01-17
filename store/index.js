@@ -1,6 +1,6 @@
 export const state = () => ({
   user: '',
-  token: '',
+  token: null,
   commerce: '',
   commerces: [],
   snackbar: {
@@ -62,7 +62,7 @@ export const actions = {
     const defaultLocale = i18n.defaultLocale
 
     this.$axios
-      .post('logout')
+      .post('api/auth/logout')
       .then(function (res) {
         console.log(res)
       })
