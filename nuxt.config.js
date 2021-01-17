@@ -131,6 +131,7 @@ export default {
             update: 'Product updated successfuly',
             editAvatar: 'Edit avatar',
             addAvatar: 'Add avatar',
+            extraPrices: 'Extra Prices',
             headers: {
               code: 'Code',
               name: 'Name',
@@ -138,7 +139,7 @@ export default {
               subcategory: 'Subcategory',
               price: 'Price',
               visible: 'Visible',
-              disabled: 'Disabled',
+              disabled: 'Product disabled',
               actions: 'Actions',
               description: 'Description',
             },
@@ -197,6 +198,7 @@ export default {
             update: 'Producto actualizado correctamente',
             editAvatar: 'Editar avatar',
             addAvatar: 'Agregar avatar',
+            extraPrices: 'Precios Extra',
             headers: {
               code: 'Codigo',
               name: 'Nombre',
@@ -204,7 +206,7 @@ export default {
               subcategory: 'Subrubro',
               price: 'Precio',
               visible: 'Visible',
-              disabled: 'Deshabilitado',
+              disabled: 'Producto deshabilitado',
               actions: 'Acciones',
               description: 'Descripción',
             },

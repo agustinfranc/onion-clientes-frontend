@@ -69,6 +69,7 @@
               <v-edit-dialog
                 :return-value.sync="props.item.price"
                 @save="savePrice(props.item)"
+                v-if="!props.item.product_prices.length"
               >
                 <v-chip> ${{ props.item.price }} </v-chip>
                 <template #input>
@@ -286,5 +287,9 @@ export default {
 .v-small-dialog__activator,
 .v-menu.v-small-dialog {
   display: inline;
+}
+
+.v-chip {
+  margin: 1px 0;
 }
 </style>

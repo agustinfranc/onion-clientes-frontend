@@ -130,7 +130,46 @@
                       :label="$t('products.headers.price')"
                       prefix="$"
                       type="number"
+                      v-if="!getProductPrices().length"
                     ></v-text-field>
+
+                    <v-divider></v-divider>
+
+                    <h4 class="my-3">{{ $t('products.extraPrices') }}</h4>
+
+                    <template v-if="item.product_prices">
+                      <template v-for="(prices, index) in item.product_prices">
+                        <v-row :key="prices.id" :class="prices.deleted_at ? 'd-none' : ''">
+                          <v-col cols="10" sm="5"
+                            ><v-text-field
+                              :key="prices.id"
+                              v-model="prices.name"
+                              :label="prices.name"
+                            ></v-text-field>
+                          </v-col>
+
+                          <v-col cols="10" sm="5">
+                            <v-text-field
+                              :key="prices.id"
+                              v-model="prices.price"
+                              :label="$t('products.headers.price')"
+                              prefix="$"
+                              type="number"
+                            ></v-text-field>
+                          </v-col>
+
+                          <v-col cols="2" sm="2">
+                            <v-btn small fab @click="deleteProductExtraPrice(index)"><v-icon>mdi-delete</v-icon></v-btn>
+                          </v-col>
+                        </v-row>
+                      </template>
+                    </template>
+
+                    <v-btn small fab class="mb-3" @click="addProductExtraPrice"
+                      ><v-icon>mdi-plus</v-icon></v-btn
+                    >
+
+                    <v-divider></v-divider>
 
                     <v-checkbox
                       v-model="item.disabled"
@@ -244,6 +283,7 @@ export default {
 
   methods: {
     ...mapActions(['toggleSnackbar']),
+
     async submit() {
       if (!this.$refs.form.validate()) return
 
@@ -296,6 +336,18 @@ export default {
     setSubrubros() {
       this.subrubros = this.item.rubro.subrubros
       this.item.subrubro = this.subrubros[0] ?? {}
+    },
+
+    addProductExtraPrice() {
+      this.item.product_prices.push({ name: '', price: '', deleted_at: null })
+    },
+
+    deleteProductExtraPrice(index) {
+      this.item.product_prices[index].deleted_at = Date.now()
+    },
+
+    getProductPrices() {
+      return this.item.product_prices.filter(price => !price.deleted_at)
     },
 
     async refresh() {
