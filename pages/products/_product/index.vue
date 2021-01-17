@@ -77,7 +77,7 @@
                       v-model="item.code"
                       :label="$t('products.headers.code')"
                       type="number"
-                      :rules="[(v) => !!v || 'El codigo es requerido']"
+                      :rules="codeRules"
                       required
                     ></v-text-field>
                   </v-col>
@@ -226,6 +226,10 @@ export default {
       item: '',
       rubros: [],
       subrubros: [],
+      codeRules: [
+        (v) =>
+          !v || (v && v.length <= 4) || 'Code must be less than 4 characters',
+      ],
       errors: {},
       loading: true,
       selectedFile: '',
@@ -337,7 +341,27 @@ export default {
     },
 
     changeAvatar(event) {
+      if (
+        !event.target.files[0] ||
+        event.target.files[0].size >= 1048576 ||
+        (event.target.files[0].type !== 'image/jpeg' &&
+          event.target.files[0].type !== 'image/png' &&
+          event.target.files[0].type !== 'image/webp' &&
+          event.target.files[0].type !== 'image/gif' &&
+          event.target.files[0].type !== 'image/tiff')
+      ) {
+        this.toggleSnackbar({
+          text: this.$t('products.imageUploadError'),
+          color: 'red accent-4',
+        })
+
+        return
+      }
+
       this.selectedFile = event.target.files[0]
+
+      console.log(this.selectedFile)
+
       this.parseSelectedFile = URL.createObjectURL(this.selectedFile)
     },
 
