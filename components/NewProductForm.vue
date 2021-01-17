@@ -165,7 +165,8 @@ export default {
     parseSelectedFile: '',
     errors: {},
     codeRules: [
-      (v) => (!v || (v && v.length <= 4)) || 'Code must be less than 4 characters',
+      (v) =>
+        !v || (v && v.length <= 4) || 'Code must be less than 4 characters',
     ],
   }),
 
@@ -193,19 +194,14 @@ export default {
           const fd = new FormData()
           fd.append('image', this.selectedFile, this.selectedFile.name)
 
-          await this.$axios.post(
-            `api/auth/products/${res.id}/upload`,
-            fd,
-            {
-              onUploadProgress: (uploadEvent) => {
-                console.log(
-                  'Upload Progress',
-                  Math.round((uploadEvent.loaded / uploadEvent.total) * 100) +
-                    '%'
-                )
-              },
-            }
-          )
+          await this.$axios.post(`api/auth/products/${res.id}/upload`, fd, {
+            onUploadProgress: (uploadEvent) => {
+              console.log(
+                'Upload Progress',
+                Math.round((uploadEvent.loaded / uploadEvent.total) * 100) + '%'
+              )
+            },
+          })
 
           this.item.avatar = this.selectedFile.name
 
