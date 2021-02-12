@@ -77,7 +77,6 @@
                       v-model="item.code"
                       :label="$t('products.headers.code')"
                       type="number"
-                      :rules="codeRules"
                       required
                     ></v-text-field>
                   </v-col>
@@ -226,10 +225,6 @@ export default {
       item: '',
       rubros: [],
       subrubros: [],
-      codeRules: [
-        (v) =>
-          !v || (v && v.length <= 4) || 'Code must be less than 4 characters',
-      ],
       errors: {},
       loading: true,
       selectedFile: '',

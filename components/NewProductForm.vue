@@ -53,7 +53,6 @@
                       <v-text-field
                         v-model="item.code"
                         type="number"
-                        :rules="codeRules"
                         :error-messages="errors.code"
                         :counter="4"
                         :label="$t('products.headers.code')"
@@ -164,10 +163,6 @@ export default {
     selectedFile: '',
     parseSelectedFile: '',
     errors: {},
-    codeRules: [
-      (v) =>
-        !v || (v && v.length <= 4) || 'Code must be less than 4 characters',
-    ],
   }),
 
   methods: {
