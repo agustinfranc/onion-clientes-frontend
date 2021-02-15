@@ -132,7 +132,8 @@ export default {
             editAvatar: 'Edit avatar',
             addAvatar: 'Add avatar',
             extraPrices: 'Extra Prices',
-            imageUploadError: 'Image file size is bigger than 1mb or has no valid format (jpg, png, webp, gif, tiff)',
+            imageUploadError:
+              'Image file size is bigger than 1mb or has no valid format (jpg, png, webp, gif, tiff)',
             headers: {
               code: 'Code',
               name: 'Name',
@@ -200,7 +201,8 @@ export default {
             editAvatar: 'Editar avatar',
             addAvatar: 'Agregar avatar',
             extraPrices: 'Precios Extra',
-            imageUploadError: 'El tamaño de la imagen es superior a 1mb o el formato no es válido (jpg, png, webp, gif, tiff)',
+            imageUploadError:
+              'El tamaño de la imagen es superior a 1mb o el formato no es válido (jpg, png, webp, gif, tiff)',
             headers: {
               code: 'Codigo',
               name: 'Nombre',
