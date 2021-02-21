@@ -186,7 +186,7 @@ export default {
               headers: {
                 avatar: '',
                 name: 'Nombre',
-                category: 'Rubro',
+                category: 'Categoria',
                 price: 'Precio',
                 visible: 'Visible',
               },
@@ -206,8 +206,8 @@ export default {
             headers: {
               code: 'Codigo',
               name: 'Nombre',
-              category: 'Rubro',
-              subcategory: 'Subrubro',
+              category: 'Categoria',
+              subcategory: 'Subcategoria',
               price: 'Precio',
               visible: 'Visible',
               disabled: 'Producto deshabilitado',
