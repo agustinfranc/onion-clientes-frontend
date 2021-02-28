@@ -113,6 +113,8 @@ export default {
     Footer,
   },
 
+  middleware: 'auth',
+
   data() {
     return {
       clipped: true,

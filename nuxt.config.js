@@ -91,6 +91,7 @@ export default {
           settings: 'Settings',
           login: 'Login',
           logout: 'Logout',
+          register: 'Register',
           save: 'Save',
           details: 'Details',
           search: 'Search',
@@ -160,6 +161,7 @@ export default {
           settings: 'Ajustes',
           login: 'Ingresar',
           logout: 'Salir',
+          register: 'Registrarse',
           save: 'Guardar',
           details: 'Detalles',
           search: 'Buscar',
@@ -230,7 +232,7 @@ export default {
 
   // Router configuration
   router: {
-    middleware: ['auth'],
+    // middleware: ['auth'],    // moved to default layout
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
