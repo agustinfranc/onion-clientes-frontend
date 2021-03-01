@@ -4,7 +4,7 @@
       <v-card>
         <v-img height="200" src="/onion_blue.jpg"></v-img>
 
-        <v-card-title> User Info </v-card-title>
+        <v-card-title> Business Info </v-card-title>
 
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="submit">
@@ -18,42 +18,36 @@
             ></v-text-field>
 
             <v-text-field
-              v-model.lazy="form.email"
-              :rules="emailRules"
-              :error-messages="errors.email"
+              v-model.lazy="form.fullname"
+              :rules="[(v) => !!v || 'Fullname is required']"
+              :error-messages="errors.fullname"
               outlined
-              label="Email"
+              label="Fullname"
+              hint="At least 8 characters"
               required
             ></v-text-field>
 
             <v-text-field
-              v-model.lazy="form.password"
-              :rules="passwordRules"
-              :error-messages="errors.password"
-              outlined
-              label="Password"
-              hint="At least 6 characters"
-              required
-              :type="show ? 'text' : 'password'"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="show = !show"
-            ></v-text-field>
-
-            <v-text-field
-              v-model.lazy="form.password_confirmation"
+              v-model.lazy="form.whatsapp_number"
               :rules="[
                 (v) =>
-                  v === form.password ||
-                  'Password confirmation must be equal to password',
+                  v.length < 20 ||
+                  'Whatsapp number must be less than 20 characters',
               ]"
-              :error-messages="errors.password_confirmation"
+              :error-messages="errors.whatsapp_number"
               outlined
-              label="Password Confirmation"
-              hint="Confirm password"
-              required
-              :type="show ? 'text' : 'password'"
-              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-              @click:append="show = !show"
+              label="Whatsapp Number"
+            ></v-text-field>
+
+            <v-text-field
+              v-model.lazy="form.instagram_account"
+              :rules="[
+                (v) =>
+                  v.length < 30 || 'Instagram must be less than 30 characters',
+              ]"
+              :error-messages="errors.instagram_account"
+              outlined
+              label="Instagram Account"
             ></v-text-field>
 
             <v-btn
@@ -63,7 +57,7 @@
               type="submit"
               class="mr-4 my-5 blue"
             >
-              {{ $t('register') }}
+              {{ $t('save') }}
             </v-btn>
           </v-form>
         </v-card-text>
@@ -75,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import Snackbar from '@/components/Snackbar'
 
 export default {
@@ -86,28 +80,23 @@ export default {
   },
   layout: 'login',
 
+  middleware: 'auth',
+
   data: () => ({
     title: 'Register',
     form: {
       name: '',
-      email: '',
-      password: '',
-      password_confirmation: '',
+      fullname: '',
+      whatsapp_number: '',
+      instagram_account: '',
+      currency: '',
     },
     show: false,
     valid: true,
     errors: {},
     nameRules: [
       (v) => !!v || 'Name is required',
-      (v) => (v && v.length > 3) || 'Name must be more than 3 characters',
-    ],
-    emailRules: [
-      (v) => !!v || 'Email is required',
-      (v) => /.+@.+\..+/.test(v) || 'Email must be valid',
-    ],
-    passwordRules: [
-      (v) => !!v || 'Password is required',
-      (v) => (v && v.length >= 6) || 'Password must be more than 6 characters',
+      (v) => (v && v.length <= 100) || 'Name must be less than 100 characters',
     ],
   }),
 
@@ -117,26 +106,38 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState(['user']),
+  },
+
   methods: {
-    ...mapActions(['saveToken', 'saveUser', 'toggleSnackbar']),
+    ...mapActions([
+      'saveToken',
+      'saveUser',
+      'saveCommerce',
+      'saveCommerces',
+      'toggleSnackbar',
+    ]),
     async submit() {
       if (!this.$refs.form.validate()) return
 
       this.valid = false
 
       try {
-        const res = await this.$axios.$post('api/register', this.form)
+        let res = await this.$axios.$post('api/commerce', this.form)
 
         if (res.error) {
           throw new Error(res.error)
         }
 
-        this.saveUser(res)
-        this.saveToken(res.token)
+        res = await this.$axios.$get('api/auth/me', this.form)
 
-        this.$axios.setToken(res.token, 'Bearer')
+        console.log(res)
 
-        this.$router.push(this.localePath('register-commerce'))
+        this.saveCommerces(res.commerces ?? '')
+        this.saveCommerce(res.commerces[0] ?? '')
+
+        this.$router.push(this.localePath('index'))
       } catch (error) {
         this.errors = error.response.data.errors ?? {}
 
