@@ -124,6 +124,14 @@ export default {
               },
             },
           },
+          commerces: {
+            currency: 'Currency',
+            currencies: {
+              name: 'Currency',
+              code: 'Currency Code',
+              symbol: 'Currency Symbol',
+            },
+          },
           products: {
             title: 'Products',
             new: 'New product',
@@ -192,6 +200,14 @@ export default {
                 price: 'Precio',
                 visible: 'Visible',
               },
+            },
+          },
+          commerces: {
+            currency: 'Moneda',
+            currencies: {
+              name: 'Moneda',
+              code: 'Codigo',
+              symbol: 'Simbolo',
             },
           },
           products: {

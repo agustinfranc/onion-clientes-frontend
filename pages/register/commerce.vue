@@ -27,6 +27,21 @@
               required
             ></v-text-field>
 
+            <v-select
+              v-model="form.currency"
+              :items="currencies"
+              :label="$t('commerces.currency')"
+              item-text="name"
+              item-value="id"
+              return-object
+              required
+              :rules="[(v) => !!v || 'Currency is required']"
+              :error-messages="errors.currency"
+              :loading="loading"
+              outlined
+            >
+            </v-select>
+
             <v-text-field
               v-model.lazy="form.whatsapp_number"
               :rules="[
@@ -93,12 +108,32 @@ export default {
     },
     show: false,
     valid: true,
+    loading: true,
     errors: {},
     nameRules: [
       (v) => !!v || 'Name is required',
       (v) => (v && v.length <= 100) || 'Name must be less than 100 characters',
     ],
+    currencies: [],
   }),
+
+  async fetch() {
+    try {
+      const url = `api/auth/combos?combos=currencies`
+      const res = await this.$axios.$get(url)
+
+      this.currencies = res.currencies
+
+      this.loading = false
+    } catch (error) {
+      console.error(error.response ?? error)
+
+      this.toggleSnackbar({
+        text: error.response?.data?.message ?? this.$t('error'),
+        color: 'red accent-4',
+      })
+    }
+  },
 
   head() {
     return {
@@ -124,7 +159,7 @@ export default {
       this.valid = false
 
       try {
-        let res = await this.$axios.$post('api/commerce', this.form)
+        let res = await this.$axios.$post('api/auth/commerces', this.form)
 
         if (res.error) {
           throw new Error(res.error)
@@ -145,6 +180,8 @@ export default {
           text: error.response?.data?.message ?? this.$t('error'),
           color: 'red accent-4',
         })
+
+        this.valid = true
       }
     },
   },
