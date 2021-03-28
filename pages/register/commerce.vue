@@ -4,7 +4,9 @@
       <v-card>
         <v-img height="200" src="/onion_blue.jpg"></v-img>
 
-        <v-card-title> Business Info </v-card-title>
+        <v-card-title>Completá con los datos de tu comercio</v-card-title>
+
+        <v-card-subtitle class="mt-3"> Business Info </v-card-subtitle>
 
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="submit">
@@ -72,7 +74,7 @@
               type="submit"
               class="mr-4 my-5 blue"
             >
-              {{ $t('save') }}
+              {{ $t('next') }}
             </v-btn>
           </v-form>
         </v-card-text>
