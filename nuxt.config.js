@@ -91,6 +91,7 @@ export default {
           settings: 'Settings',
           login: 'Login',
           logout: 'Logout',
+          register: 'Register',
           save: 'Save',
           details: 'Details',
           search: 'Search',
@@ -121,6 +122,14 @@ export default {
                 price: 'Price',
                 visible: 'Visible',
               },
+            },
+          },
+          commerces: {
+            currency: 'Currency',
+            currencies: {
+              name: 'Currency',
+              code: 'Currency Code',
+              symbol: 'Currency Symbol',
             },
           },
           products: {
@@ -160,6 +169,7 @@ export default {
           settings: 'Ajustes',
           login: 'Ingresar',
           logout: 'Salir',
+          register: 'Registrarse',
           save: 'Guardar',
           details: 'Detalles',
           search: 'Buscar',
@@ -186,10 +196,18 @@ export default {
               headers: {
                 avatar: '',
                 name: 'Nombre',
-                category: 'Rubro',
+                category: 'Categoria',
                 price: 'Precio',
                 visible: 'Visible',
               },
+            },
+          },
+          commerces: {
+            currency: 'Moneda',
+            currencies: {
+              name: 'Moneda',
+              code: 'Codigo',
+              symbol: 'Simbolo',
             },
           },
           products: {
@@ -206,8 +224,8 @@ export default {
             headers: {
               code: 'Codigo',
               name: 'Nombre',
-              category: 'Rubro',
-              subcategory: 'Subrubro',
+              category: 'Categoria',
+              subcategory: 'Subcategoria',
               price: 'Precio',
               visible: 'Visible',
               disabled: 'Producto deshabilitado',
@@ -230,7 +248,7 @@ export default {
 
   // Router configuration
   router: {
-    middleware: ['auth'],
+    // middleware: ['auth'],    // moved to default layout
   },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)

@@ -2,11 +2,9 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <v-card>
-        <v-card-title class="display-1 my-3 justify-center">
-          <div class="text-center d-flex justify-center">
-            <Logo />
-          </div>
-        </v-card-title>
+        <v-img height="200" src="/onion_blue.jpg"></v-img>
+
+        <v-card-title> Login </v-card-title>
 
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="submit">
@@ -23,7 +21,7 @@
               :error-messages="passwordErrors"
               outlined
               label="Password"
-              hint="At least 8 characters"
+              hint="At least 6 characters"
               required
               :type="show ? 'text' : 'password'"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -52,13 +50,11 @@
 import { mapState, mapActions } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import Snackbar from '@/components/Snackbar'
-import Logo from '@/components/Logo'
 
 export default {
   name: 'Login',
 
   components: {
-    Logo,
     Snackbar,
   },
   layout: 'login',
@@ -149,10 +145,17 @@ export default {
 
         this.saveUser(res)
         this.saveToken(res.token)
-        this.saveCommerces(res.commerces ?? '')
-        this.saveCommerce(res.commerces[0] ?? '')
 
         this.$axios.setToken(res.token, 'Bearer')
+
+        if (!res.commerces || !res.commerces.length) {
+          this.$router.push(this.localePath('register-commerce'))
+
+          return
+        }
+
+        this.saveCommerces(res.commerces ?? '')
+        this.saveCommerce(res.commerces[0] ?? '')
 
         this.$router.push(this.localePath('index'))
       } catch (error) {
