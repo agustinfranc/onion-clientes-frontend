@@ -4,7 +4,12 @@
       <v-card>
         <v-img height="200" src="/onion_blue.jpg"></v-img>
 
-        <v-card-title> User Info </v-card-title>
+        <v-card-title
+          >Registrate gratis en unos segundos y creá tu menu para tu comercio en
+          simples pasos</v-card-title
+        >
+
+        <v-card-subtitle class="mt-3"> User Info </v-card-subtitle>
 
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="submit">
@@ -63,7 +68,7 @@
               type="submit"
               class="mr-4 my-5 blue"
             >
-              {{ $t('register') }}
+              {{ $t('next') }}
             </v-btn>
           </v-form>
         </v-card-text>
