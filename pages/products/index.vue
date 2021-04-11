@@ -9,7 +9,7 @@
         ></v-breadcrumbs>
       </div>
       <v-spacer></v-spacer>
-      <v-btn class="blue" @click.stop="$refs.foo.newItem()">{{
+      <v-btn class="blue" @click.stop="openNewItemDialog()">{{
         $t('products.new')
       }}</v-btn>
     </div>
@@ -140,7 +140,17 @@
       </v-card-text>
     </v-card>
 
-    <ProductForm ref="foo" @product="addItemToList" />
+    <v-dialog v-model="newItemDialog">
+      <div>
+        <v-card>
+          <v-card-title>{{ $t('products.new') }}</v-card-title>
+
+          <v-card-text>
+            <ProductForm ref="foo" @product="addItemToList" />
+          </v-card-text>
+        </v-card>
+      </div>
+    </v-dialog>
 
     <Snackbar />
   </div>
@@ -163,6 +173,7 @@ export default {
     return {
       title: 'Products',
       search: '',
+      newItemDialog: false,
       headers: [
         { text: this.$t('products.headers.code'), value: 'code' },
         { text: this.$t('products.headers.name'), value: 'name' },
@@ -277,7 +288,15 @@ export default {
       }
     },
     addItemToList(item) {
+      this.newItemDialog = false
+
       this.body.push(item)
+    },
+
+    openNewItemDialog() {
+      this.newItemDialog = true
+
+      if (this.$refs.foo) this.$refs.foo.newItem()
     },
   },
 }
