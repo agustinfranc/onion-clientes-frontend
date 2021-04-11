@@ -215,6 +215,8 @@
       <v-btn :disabled="!valid" color="success" class="mr-4" @click="submit">
         {{ $t('save') }}
       </v-btn>
+
+      <Snackbar />
     </v-container>
   </v-form>
 </template>
@@ -223,6 +225,7 @@
 import { mapActions } from 'vuex'
 
 export default {
+  props: ['productId'],
   data: () => ({
     valid: true,
     loading: true,
@@ -244,6 +247,40 @@ export default {
     errors: {},
   }),
 
+  async fetch() {
+    if (!this.productId) return
+
+    try {
+      let url = `api/auth/products/${this.productId}`
+      const res = await this.$axios.$get(url)
+
+      this.item = {
+        ...res,
+        rubro: res.subrubro.rubro,
+      }
+
+      this.$emit('loaded', res)
+
+      url = `api/auth/rubros`
+      const rubros = await this.$axios.$get(url)
+
+      this.rubros = rubros
+
+      this.subrubros = rubros.find(
+        (e) => e.id === this.item.subrubro.rubro_id
+      ).subrubros
+
+      this.loading = false
+    } catch (error) {
+      console.error(error.response ?? error)
+
+      this.toggleSnackbar({
+        text: error.response?.data?.message ?? 'Ocurrió un error',
+        color: 'red accent-4',
+      })
+    }
+  },
+
   methods: {
     ...mapActions(['toggleSnackbar']),
 
@@ -253,7 +290,9 @@ export default {
       this.valid = false
 
       try {
-        const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+        const url = this.productId
+          ? `api/auth/products/${this.productId}`
+          : `api/auth/commerces/${this.$store.state.commerce.id}/products`
 
         const form = {
           ...this.item,
@@ -262,7 +301,9 @@ export default {
 
         if (this.item.subrubro.id) form.subrubro_id = this.item.subrubro.id
 
-        const res = await this.$axios.$post(url, form)
+        const res = this.productId
+          ? await this.$axios.$put(url, form)
+          : await this.$axios.$post(url, form)
 
         if (this.selectedFile) {
           const fd = new FormData()
@@ -282,11 +323,15 @@ export default {
           this.toggleSnackbar({ text: 'Imagen subida correctamente' })
         }
 
-        this.$emit('product', res)
+        this.$emit('saved', res)
 
         this.$refs.form.reset()
 
-        this.toggleSnackbar({ text: this.$t('products.store') })
+        const text = this.productId
+          ? this.$t('products.updated')
+          : this.$t('products.stored')
+
+        this.toggleSnackbar({ text })
       } catch (error) {
         this.errors = error.response.data.errors ?? {}
 
@@ -326,6 +371,23 @@ export default {
     },
 
     changeAvatar(event) {
+      if (
+        !event.target.files[0] ||
+        event.target.files[0].size >= 1048576 ||
+        (event.target.files[0].type !== 'image/jpeg' &&
+          event.target.files[0].type !== 'image/png' &&
+          event.target.files[0].type !== 'image/webp' &&
+          event.target.files[0].type !== 'image/gif' &&
+          event.target.files[0].type !== 'image/tiff')
+      ) {
+        this.toggleSnackbar({
+          text: this.$t('products.imageUploadError'),
+          color: 'red accent-4',
+        })
+
+        return
+      }
+
       this.selectedFile = event.target.files[0]
       this.parseSelectedFile = URL.createObjectURL(this.selectedFile)
     },
@@ -348,6 +410,15 @@ export default {
 
     deleteProductHashtag(index) {
       this.item.product_hashtags[index].deleted_at = Date.now()
+    },
+
+    async refresh() {
+      this.selectedFile = ''
+      this.parseSelectedFile = ''
+
+      await this.$fetch()
+
+      this.toggleSnackbar({ text: this.$t('fetched') })
     },
   },
 

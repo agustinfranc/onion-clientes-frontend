@@ -146,7 +146,7 @@
           <v-card-title>{{ $t('products.new') }}</v-card-title>
 
           <v-card-text>
-            <FormsProductForm ref="foo" @product="addItemToList" />
+            <FormsProductForm ref="form" @saved="addItemToList" />
           </v-card-text>
         </v-card>
       </div>
@@ -290,7 +290,7 @@ export default {
     openNewItemDialog() {
       this.newItemDialog = true
 
-      if (this.$refs.foo) this.$refs.foo.newItem()
+      if (this.$refs.form) this.$refs.form.newItem()
     },
   },
 }
