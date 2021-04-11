@@ -49,7 +49,18 @@
 
                 <v-col cols="12" sm="8" md="9">
                   <v-row>
-                    <v-col cols="12" md="6">
+                    <v-col cols="12" sm="10" md="10">
+                      <v-text-field
+                        v-model="item.name"
+                        :rules="[(v) => !!v || 'Name is required']"
+                        :error-messages="errors.name"
+                        :counter="255"
+                        :label="$t('products.headers.name')"
+                        required
+                      ></v-text-field>
+                    </v-col>
+
+                    <v-col cols="12" sm="2" md="2">
                       <v-text-field
                         v-model="item.code"
                         type="number"
@@ -60,15 +71,17 @@
                       ></v-text-field>
                     </v-col>
 
-                    <v-col cols="12" md="6">
-                      <v-text-field
-                        v-model="item.name"
-                        :rules="[(v) => !!v || 'Name is required']"
-                        :error-messages="errors.name"
-                        :counter="255"
-                        :label="$t('products.headers.name')"
-                        required
-                      ></v-text-field>
+                    <v-col cols="12" md="12">
+                      <v-textarea
+                        v-model="item.description"
+                        :error-messages="errors.description"
+                        :label="$t('products.headers.description')"
+                        rows="3"
+                        counter
+                        maxlength="255"
+                        clearable
+                        auto-grow
+                      ></v-textarea>
                     </v-col>
 
                     <v-col cols="12" md="6">
@@ -102,8 +115,9 @@
                       ></v-combobox>
                     </v-col>
 
-                    <v-col cols="12" md="6">
+                    <v-col cols="12">
                       <v-text-field
+                        v-if="!getProductPrices().length"
                         v-model="item.price"
                         :error-messages="errors.price"
                         :label="$t('products.headers.price')"
@@ -111,16 +125,113 @@
                         type="number"
                       ></v-text-field>
                     </v-col>
-                  </v-row>
 
-                  <v-row>
-                    <v-col cols="12" md="6" align-self="start">
-                      <v-textarea
-                        v-model="item.description"
-                        :error-messages="errors.description"
-                        :label="$t('products.headers.description')"
-                        rows="3"
-                      ></v-textarea>
+                    <v-col cols="12">
+                      <v-divider></v-divider>
+
+                      <h4 class="my-3">{{ $t('products.extraPrices') }}</h4>
+
+                      <template v-if="item.product_prices">
+                        <template
+                          v-for="(prices, index) in item.product_prices"
+                        >
+                          <v-row
+                            :key="prices.id"
+                            :class="prices.deleted_at ? 'd-none' : ''"
+                          >
+                            <v-col cols="10" sm="5"
+                              ><v-text-field
+                                :key="prices.id"
+                                v-model="prices.name"
+                                :label="$t('products.headers.name')"
+                              ></v-text-field>
+                            </v-col>
+
+                            <v-col cols="10" sm="5">
+                              <v-text-field
+                                :key="prices.id"
+                                v-model="prices.price"
+                                :label="$t('products.headers.price')"
+                                prefix="$"
+                                type="number"
+                              ></v-text-field>
+                            </v-col>
+
+                            <v-col cols="2" sm="2">
+                              <v-btn
+                                small
+                                fab
+                                @click="deleteProductExtraPrice(index)"
+                                ><v-icon>mdi-delete</v-icon></v-btn
+                              >
+                            </v-col>
+                          </v-row>
+                        </template>
+                      </template>
+
+                      <v-btn
+                        small
+                        fab
+                        class="mb-3"
+                        @click="addProductExtraPrice"
+                        ><v-icon>mdi-plus</v-icon></v-btn
+                      >
+
+                      <v-divider></v-divider>
+                    </v-col>
+
+                    <v-col cols="12">
+                      <h4 class="my-3">{{ $t('products.hashtags') }}</h4>
+
+                      <template v-if="item.product_hashtags">
+                        <template
+                          v-for="(hashtag, index) in item.product_hashtags"
+                        >
+                          <v-row
+                            :key="hashtag.id"
+                            :class="hashtag.deleted_at ? 'd-none' : ''"
+                          >
+                            <v-col cols="10" sm="5"
+                              ><v-text-field
+                                :key="hashtag.id"
+                                v-model="hashtag.name"
+                                :label="$t('products.headers.name')"
+                                prefix="#"
+                              ></v-text-field>
+                            </v-col>
+
+                            <v-col cols="10" sm="5">
+                              <v-text-field
+                                :key="hashtag.id"
+                                v-model="hashtag.to"
+                                label="Código de producto"
+                              ></v-text-field>
+                            </v-col>
+
+                            <v-col cols="2" sm="2">
+                              <v-btn
+                                small
+                                fab
+                                @click="deleteProductHashtag(index)"
+                                ><v-icon>mdi-delete</v-icon></v-btn
+                              >
+                            </v-col>
+                          </v-row>
+                        </template>
+                      </template>
+
+                      <v-btn small fab class="mb-3" @click="addProductHashtag"
+                        ><v-icon>mdi-plus</v-icon></v-btn
+                      >
+
+                      <v-divider></v-divider>
+                    </v-col>
+
+                    <v-col cols="12">
+                      <v-checkbox
+                        v-model="item.disabled"
+                        :label="$t('products.headers.disabled')"
+                      ></v-checkbox>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -151,12 +262,15 @@ export default {
     valid: true,
     loading: true,
     item: {
-      code: '',
       name: '',
+      code: '',
+      description: '',
       rubro: '',
       subrubro: '',
       price: '',
-      description: '',
+      disabled: false,
+      product_prices: [],
+      product_hashtags: [],
     },
     rubros: [],
     subrubros: [],
@@ -253,6 +367,26 @@ export default {
     changeAvatar(event) {
       this.selectedFile = event.target.files[0]
       this.parseSelectedFile = URL.createObjectURL(this.selectedFile)
+    },
+
+    getProductPrices() {
+      return this.item.product_prices.filter((price) => !price.deleted_at)
+    },
+
+    addProductExtraPrice() {
+      this.item.product_prices.push({ name: '', price: '', deleted_at: null })
+    },
+
+    deleteProductExtraPrice(index) {
+      this.item.product_prices[index].deleted_at = Date.now()
+    },
+
+    addProductHashtag() {
+      this.item.product_hashtags.push({ name: '', to: '', deleted_at: null })
+    },
+
+    deleteProductHashtag(index) {
+      this.item.product_hashtags[index].deleted_at = Date.now()
     },
   },
 }

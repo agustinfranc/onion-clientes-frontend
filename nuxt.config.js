@@ -142,6 +142,7 @@ export default {
             editAvatar: 'Edit avatar',
             addAvatar: 'Add avatar',
             extraPrices: 'Extra Prices',
+            hashtags: 'Hashtags',
             imageUploadError:
               'Image file size is bigger than 1mb or has no valid format (jpg, png, webp, gif, tiff)',
             headers: {
@@ -221,6 +222,7 @@ export default {
             editAvatar: 'Editar avatar',
             addAvatar: 'Agregar avatar',
             extraPrices: 'Precios Extra',
+            hashtags: 'Hashtags',
             imageUploadError:
               'El tamaño de la imagen es superior a 1mb o el formato no es válido (jpg, png, webp, gif, tiff)',
             headers: {

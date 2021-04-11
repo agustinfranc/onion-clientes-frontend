@@ -95,7 +95,7 @@
 
 <script>
 import commerceWatcher from '@/mixins/commerce-watcher'
-import CommerceForm from '@/components/CommerceForm'
+import CommerceForm from '@/components/Forms/CommerceForm'
 import { mapActions } from 'vuex'
 
 export default {

@@ -140,7 +140,7 @@
       </v-card-text>
     </v-card>
 
-    <NewProductForm ref="foo" @product="addItemToList" />
+    <ProductForm ref="foo" @product="addItemToList" />
 
     <Snackbar />
   </div>
@@ -149,13 +149,13 @@
 <script>
 import commerceWatcher from '@/mixins/commerce-watcher'
 import Snackbar from '@/components/Snackbar'
-import NewProductForm from '@/components/NewProductForm'
+import ProductForm from '@/components/Forms/ProductForm'
 import { mapActions } from 'vuex'
 
 export default {
   components: {
     Snackbar,
-    NewProductForm,
+    ProductForm,
   },
   mixins: [commerceWatcher],
 
