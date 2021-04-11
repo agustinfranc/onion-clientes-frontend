@@ -22,7 +22,7 @@
           {{ $t('dashboard.commerce.title') }}
         </v-card-title>
         <v-card-text>
-          <CommerceForm />
+          <FormsCommerceForm />
         </v-card-text>
       </v-card>
     </v-col>
@@ -95,13 +95,9 @@
 
 <script>
 import commerceWatcher from '@/mixins/commerce-watcher'
-import CommerceForm from '@/components/Forms/CommerceForm'
 import { mapActions } from 'vuex'
 
 export default {
-  components: {
-    CommerceForm,
-  },
   mixins: [commerceWatcher],
 
   data() {
