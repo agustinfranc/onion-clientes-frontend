@@ -22,7 +22,7 @@
           {{ $t('dashboard.commerce.title') }}
         </v-card-title>
         <v-card-text>
-          <CommerceForm />
+          <FormsCommerceForm v-if="!$fetchState.pending" />
         </v-card-text>
       </v-card>
     </v-col>
@@ -49,7 +49,7 @@
           <div>
             <v-data-table
               :headers="headers"
-              :items="body"
+              :items="products"
               :items-per-page="5"
               item-key="name"
               class="elevation-1"
@@ -95,13 +95,9 @@
 
 <script>
 import commerceWatcher from '@/mixins/commerce-watcher'
-import CommerceForm from '@/components/CommerceForm'
 import { mapActions } from 'vuex'
 
 export default {
-  components: {
-    CommerceForm,
-  },
   mixins: [commerceWatcher],
 
   data() {
@@ -126,17 +122,19 @@ export default {
           value: 'disabled',
         },
       ],
-      body: [],
+      products: [],
       loading: true,
     }
   },
 
   async fetch() {
     try {
-      const url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+      let url = `api/auth/commerces/${this.$store.state.commerce.id}`
       const res = await this.$nuxt.$axios.$get(url)
+      this.$store.dispatch('saveCommerce', res)
 
-      this.body = res
+      url = `api/auth/commerces/${this.$store.state.commerce.id}/products`
+      this.products = await this.$nuxt.$axios.$get(url)
     } catch (error) {
       this.toggleSnackbar({ text: 'Ocurrió un error', color: 'red accent-4' })
     } finally {

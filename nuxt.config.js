@@ -98,6 +98,7 @@ export default {
           search: 'Search',
           edit: 'Edit',
           error: 'Something went wrong',
+          fetched: 'Data refreshed!',
           submitImage: 'Image updated successfully',
           dashboard: {
             title: 'Dashboard',
@@ -137,11 +138,12 @@ export default {
             title: 'Products',
             new: 'New product',
             product: 'Product',
-            store: 'New product stored successfuly',
-            update: 'Product updated successfuly',
+            stored: 'New product stored successfuly',
+            updated: 'Product updated successfuly',
             editAvatar: 'Edit avatar',
             addAvatar: 'Add avatar',
             extraPrices: 'Extra Prices',
+            hashtags: 'Hashtags',
             imageUploadError:
               'Image file size is bigger than 1mb or has no valid format (jpg, png, webp, gif, tiff)',
             headers: {
@@ -177,6 +179,7 @@ export default {
           search: 'Buscar',
           edit: 'Editar',
           error: 'Ocurrió un error',
+          fetched: 'Datos actualizados',
           submitImage: 'Imagen actualizada correctamente',
           dashboard: {
             title: 'Dashboard',
@@ -216,11 +219,12 @@ export default {
             title: 'Productos',
             new: 'Nuevo producto',
             product: 'Producto',
-            store: 'Producto nuevo cargado correctamente',
-            update: 'Producto actualizado correctamente',
+            stored: 'Producto nuevo cargado correctamente',
+            updated: 'Producto actualizado correctamente',
             editAvatar: 'Editar avatar',
             addAvatar: 'Agregar avatar',
             extraPrices: 'Precios Extra',
+            hashtags: 'Hashtags',
             imageUploadError:
               'El tamaño de la imagen es superior a 1mb o el formato no es válido (jpg, png, webp, gif, tiff)',
             headers: {
