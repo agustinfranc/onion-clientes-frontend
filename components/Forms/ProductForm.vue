@@ -226,6 +226,7 @@ import { mapActions } from 'vuex'
 
 export default {
   props: ['productId'],
+
   data: () => ({
     valid: true,
     loading: true,
@@ -284,6 +285,20 @@ export default {
   methods: {
     ...mapActions(['toggleSnackbar']),
 
+    Product() {
+      return {
+        name: '',
+        code: '',
+        description: '',
+        rubro: '',
+        subrubro: '',
+        price: '',
+        disabled: false,
+        product_prices: [],
+        product_hashtags: [],
+      }
+    },
+
     async submit() {
       if (!this.$refs.form.validate()) return
 
@@ -326,6 +341,7 @@ export default {
         this.$emit('saved', res)
 
         this.$refs.form.reset()
+        this.item = new this.Product()
 
         const text = this.productId
           ? this.$t('products.updated')
@@ -349,13 +365,11 @@ export default {
     async newItem() {
       try {
         const url = `api/auth/rubros`
-        const rubros = await this.$axios.$get(url)
-
-        this.loading = false
-
-        this.rubros = rubros
+        this.rubros = await this.$axios.$get(url)
 
         this.setSubrubros()
+
+        this.loading = false
       } catch (error) {
         console.error(error.response ?? error)
 
@@ -367,7 +381,9 @@ export default {
     },
 
     setSubrubros() {
-      this.subrubros = this.item.rubro.subrubros
+      if (this.item.rubro) {
+        this.subrubros = this.item.rubro.subrubros
+      }
     },
 
     changeAvatar(event) {
