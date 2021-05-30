@@ -262,10 +262,10 @@ export default {
     baseURL: process.env.BASE_URL || 'http://localhost:8000/',
     headers: {
       common: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
-      }
-    }
+      },
+    },
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
