@@ -4,12 +4,11 @@
       <v-card>
         <v-img height="200" src="/onion_blue.jpg"></v-img>
 
-        <v-card-title
-          >Registrate gratis en unos segundos y creá tu menu para tu comercio en
-          simples pasos</v-card-title
-        >
+        <v-card-title>{{ $t('register.title') }}</v-card-title>
 
-        <v-card-subtitle class="mt-3"> User Info </v-card-subtitle>
+        <v-card-subtitle class="mt-3">{{
+          $t('register.subtitle')
+        }}</v-card-subtitle>
 
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="submit">
@@ -18,7 +17,7 @@
               :rules="nameRules"
               :error-messages="errors.name"
               outlined
-              label="Name"
+              :label="$t('register.user.headers.name')"
               required
             ></v-text-field>
 
@@ -27,7 +26,7 @@
               :rules="emailRules"
               :error-messages="errors.email"
               outlined
-              label="Email"
+              :label="$t('register.user.headers.email')"
               required
             ></v-text-field>
 
@@ -36,7 +35,7 @@
               :rules="passwordRules"
               :error-messages="errors.password"
               outlined
-              label="Password"
+              :label="$t('register.user.headers.password')"
               hint="At least 6 characters"
               required
               :type="show ? 'text' : 'password'"
@@ -53,7 +52,7 @@
               ]"
               :error-messages="errors.password_confirmation"
               outlined
-              label="Password Confirmation"
+              :label="$t('register.user.headers.passwordConfirmation')"
               hint="Confirm password"
               required
               :type="show ? 'text' : 'password'"
@@ -149,6 +148,12 @@ export default {
           text: error.response?.data?.message ?? this.$t('error'),
           color: 'red accent-4',
         })
+
+        setTimeout(() => {
+          this.$refs.form.resetValidation()
+
+          this.valid = true
+        }, 2000)
       }
     },
   },

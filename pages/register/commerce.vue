@@ -4,27 +4,20 @@
       <v-card>
         <v-img height="200" src="/onion_blue.jpg"></v-img>
 
-        <v-card-title>Completá con los datos de tu comercio</v-card-title>
+        <v-card-title>{{ $t('register.commerce.title') }}</v-card-title>
 
-        <v-card-subtitle class="mt-3"> Business Info </v-card-subtitle>
+        <v-card-subtitle class="mt-3">{{
+          $t('register.commerce.subtitle')
+        }}</v-card-subtitle>
 
         <v-card-text>
           <v-form ref="form" v-model="valid" @submit.prevent="submit">
-            <v-text-field
-              v-model.lazy="form.name"
-              :rules="nameRules"
-              :error-messages="errors.name"
-              outlined
-              label="Name"
-              required
-            ></v-text-field>
-
             <v-text-field
               v-model.lazy="form.fullname"
               :rules="[(v) => !!v || 'Fullname is required']"
               :error-messages="errors.fullname"
               outlined
-              label="Fullname"
+              :label="$t('commerces.fullname')"
               hint="At least 8 characters"
               required
             ></v-text-field>
@@ -53,7 +46,8 @@
               ]"
               :error-messages="errors.whatsapp_number"
               outlined
-              label="Whatsapp Number"
+              :label="$t('commerces.whatsappNumber.label')"
+              :placeholder="$t('commerces.whatsappNumber.placeholder')"
             ></v-text-field>
 
             <v-text-field
@@ -64,7 +58,8 @@
               ]"
               :error-messages="errors.instagram_account"
               outlined
-              label="Instagram Account"
+              :label="$t('commerces.instagramAccount.label')"
+              :placeholder="$t('commerces.instagramAccount.placeholder')"
             ></v-text-field>
 
             <v-btn
@@ -102,7 +97,6 @@ export default {
   data: () => ({
     title: 'Register',
     form: {
-      name: '',
       fullname: '',
       whatsapp_number: '',
       instagram_account: '',
