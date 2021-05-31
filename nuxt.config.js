@@ -91,7 +91,6 @@ export default {
           settings: 'Settings',
           login: 'Login',
           logout: 'Logout',
-          register: 'Register',
           next: 'Next',
           save: 'Save',
           details: 'Details',
@@ -133,6 +132,15 @@ export default {
               code: 'Currency Code',
               symbol: 'Currency Symbol',
             },
+            fullname: 'Fullname',
+            whatsappNumber: {
+              label: 'WhatsApp Number',
+              placeholder: '5491123457896',
+            },
+            instagramAccount: {
+              label: 'Instagram Account',
+              placeholder: 'marlonrestobar',
+            },
           },
           products: {
             title: 'Products',
@@ -166,13 +174,29 @@ export default {
           analytics: {
             title: 'Analytics',
           },
+          register: {
+            title:
+              'Sign up free and create your commerce menu in a few seconds',
+            subtitle: 'User info',
+            user: {
+              headers: {
+                name: 'Name',
+                email: 'Email',
+                password: 'Password',
+                passwordConfirmation: 'Password Confirmation',
+              },
+            },
+            commerce: {
+              title: 'Fill the fields with your commerce data',
+              subtitle: 'Business Info',
+            },
+          },
         },
         es: {
           welcome: 'Bienvenido',
           settings: 'Ajustes',
           login: 'Ingresar',
           logout: 'Salir',
-          register: 'Registrarse',
           next: 'Siguiente',
           save: 'Guardar',
           details: 'Detalles',
@@ -212,7 +236,16 @@ export default {
             currencies: {
               name: 'Moneda',
               code: 'Codigo',
-              symbol: 'Simbolo',
+              symbol: 'Símbolo',
+            },
+            fullname: 'Nombre Completo',
+            whatsappNumber: {
+              label: 'Número de WhatsApp',
+              placeholder: '5491123457896',
+            },
+            instagramAccount: {
+              label: 'Cuenta de Instagram',
+              placeholder: 'marlonrestobar',
             },
           },
           products: {
@@ -247,6 +280,23 @@ export default {
           analytics: {
             title: 'Reportes',
           },
+          register: {
+            title:
+              'Registrate gratis en unos segundos y creá tu menu para tu comercio en simples pasos',
+            subtitle: 'Tus datos',
+            user: {
+              headers: {
+                name: 'Nombre completo',
+                email: 'Email',
+                password: 'Contraseña',
+                passwordConfirmation: 'Repetir contraseña',
+              },
+            },
+            commerce: {
+              title: 'Completá con los datos de tu comercio',
+              subtitle: 'Datos del comercio',
+            },
+          },
         },
       },
     },
@@ -260,6 +310,12 @@ export default {
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: process.env.BASE_URL || 'http://localhost:8000/',
+    headers: {
+      common: {
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+    },
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

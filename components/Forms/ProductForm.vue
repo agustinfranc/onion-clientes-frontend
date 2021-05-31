@@ -124,7 +124,7 @@
                 <template v-for="(prices, index) in item.product_prices">
                   <v-row
                     :key="prices.id"
-                    :class="prices.deleted_at ? 'd-none' : ''"
+                    :class="{ 'd-none': prices.deleted_at }"
                   >
                     <v-col cols="10" sm="5"
                       ><v-text-field
@@ -167,7 +167,7 @@
                 <template v-for="(hashtag, index) in item.product_hashtags">
                   <v-row
                     :key="hashtag.id"
-                    :class="hashtag.deleted_at ? 'd-none' : ''"
+                    :class="{ 'd-none': hashtag.deleted_at }"
                   >
                     <v-col cols="10" sm="5"
                       ><v-text-field

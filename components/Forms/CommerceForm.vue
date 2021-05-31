@@ -104,8 +104,6 @@ export default {
     ...mapState(['commerce']),
 
     commerceFormData() {
-      // return this.$store.getters.getCommerceFormData
-
       return { ...this.$store.state.commerce }
     },
   },
