@@ -67,7 +67,7 @@
                 :label="$t('products.headers.description')"
                 rows="3"
                 counter
-                maxlength="255"
+                maxlength="510"
                 clearable
                 auto-grow
               ></v-textarea>
