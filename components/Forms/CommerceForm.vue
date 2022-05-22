@@ -23,7 +23,13 @@
         ></v-img>
         <input
           ref="fileInputAvatar"
-          class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
+          class="
+            mt-3
+            v-btn v-btn--block v-btn--contained
+            theme--dark
+            v-size--small
+            accent
+          "
           type="file"
           style="display: none"
           @change="changeAvatar"
@@ -45,7 +51,13 @@
         ></v-img>
         <input
           ref="fileInputCover"
-          class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
+          class="
+            mt-3
+            v-btn v-btn--block v-btn--contained
+            theme--dark
+            v-size--small
+            accent
+          "
           type="file"
           style="display: none"
           @change="changeCover"

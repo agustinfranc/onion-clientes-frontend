@@ -59,7 +59,11 @@
             >
               <template #item.avatar="{ item }">
                 <v-avatar rounded size="30"
-                  ><img :src="item.avatar_dirname + item.avatar" alt=""
+                  ><img
+                    :src="`${item.avatar_dirname}${
+                      item.avatar ? item.avatar : ''
+                    }`"
+                    alt=""
                 /></v-avatar>
               </template>
 
