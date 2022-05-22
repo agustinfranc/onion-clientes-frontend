@@ -49,7 +49,11 @@
 
             <template #item.name="{ item }">
               <v-avatar rounded size="30"
-                ><img :src="item.avatar_dirname + item.avatar" alt=""
+                ><img
+                  :src="`${item.avatar_dirname}${
+                    item.avatar ? item.avatar : ''
+                  }`"
+                  alt=""
               /></v-avatar>
               <span class="ml-1">
                 {{ item.name }}

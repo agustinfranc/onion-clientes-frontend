@@ -8,7 +8,7 @@
             lazy-src="https://picsum.photos/id/11/10/6"
             :src="
               item && item.avatar_dirname
-                ? item.avatar_dirname + item.avatar
+                ? `${item.avatar_dirname}${item.avatar ? item.avatar : ''}`
                 : ''
             "
             class="rounded"
@@ -21,7 +21,13 @@
           ></v-img>
           <input
             ref="fileInput"
-            class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
+            class="
+              mt-3
+              v-btn v-btn--block v-btn--contained
+              theme--dark
+              v-size--small
+              accent
+            "
             type="file"
             style="display: none"
             @change="changeAvatar"

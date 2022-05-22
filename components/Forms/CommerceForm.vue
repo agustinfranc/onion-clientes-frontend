@@ -23,7 +23,13 @@
         ></v-img>
         <input
           ref="fileInputAvatar"
-          class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
+          class="
+            mt-3
+            v-btn v-btn--block v-btn--contained
+            theme--dark
+            v-size--small
+            accent
+          "
           type="file"
           style="display: none"
           @change="changeAvatar"
@@ -45,7 +51,13 @@
         ></v-img>
         <input
           ref="fileInputCover"
-          class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
+          class="
+            mt-3
+            v-btn v-btn--block v-btn--contained
+            theme--dark
+            v-size--small
+            accent
+          "
           type="file"
           style="display: none"
           @change="changeCover"
@@ -95,7 +107,7 @@ export default {
     valid: true,
     nameRules: [
       (v) => !!v || 'Name is required',
-      (v) => (v && v.length <= 20) || 'Name must be less than 20 characters',
+      (v) => (v && v.length <= 50) || 'Name must be less than 50 characters',
       (v) => (v && v.length > 3) || 'Name must be more than 3 characters',
     ],
   }),
