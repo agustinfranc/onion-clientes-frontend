@@ -225,7 +225,12 @@
 import { mapActions } from 'vuex'
 
 export default {
-  props: ['productId'],
+  props: {
+    productId: {
+      type: Number,
+      required: true,
+    },
+  },
 
   data: () => ({
     valid: true,
@@ -282,6 +287,10 @@ export default {
         color: 'red accent-4',
       })
     }
+  },
+
+  async mounted() {
+    await this.newItem()
   },
 
   methods: {
@@ -443,10 +452,6 @@ export default {
 
       this.toggleSnackbar({ text: this.$t('fetched') })
     },
-  },
-
-  async mounted() {
-    await this.newItem()
   },
 }
 </script>
