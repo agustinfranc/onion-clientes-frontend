@@ -21,13 +21,7 @@
           ></v-img>
           <input
             ref="fileInput"
-            class="
-              mt-3
-              v-btn v-btn--block v-btn--contained
-              theme--dark
-              v-size--small
-              accent
-            "
+            class="mt-3 v-btn v-btn--block v-btn--contained theme--dark v-size--small accent"
             type="file"
             style="display: none"
             @change="changeAvatar"
@@ -346,8 +340,11 @@ export default {
 
         this.$emit('saved', res)
 
+        // Resetting Form
         this.$refs.form.reset()
         this.item = new this.Product()
+        this.selectedFile = ''
+        this.parseSelectedFile = ''
 
         const text = this.productId
           ? this.$t('products.updated')
@@ -445,8 +442,6 @@ export default {
   },
 
   async mounted() {
-    console.log('ProductForm Mounted')
-
     await this.newItem()
   },
 }
