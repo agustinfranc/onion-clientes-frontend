@@ -7,7 +7,7 @@
             v-if="!parseSelectedFile"
             lazy-src="https://picsum.photos/id/11/10/6"
             :src="
-              item && item.avatar_dirname
+              item?.avatar_dirname
                 ? `${item.avatar_dirname}${item.avatar ? item.avatar : ''}`
                 : ''
             "
@@ -231,6 +231,8 @@ export default {
     valid: true,
     loading: true,
     item: {
+      avatar: '',
+      avatar_dirname: '',
       name: '',
       code: '',
       description: '',
@@ -287,6 +289,8 @@ export default {
 
     Product() {
       return {
+        avatar: '',
+        avatar_dirname: '',
         name: '',
         code: '',
         description: '',
