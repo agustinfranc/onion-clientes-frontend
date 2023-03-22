@@ -144,7 +144,7 @@
       </v-card-text>
     </v-card>
 
-    <v-dialog v-model="newItemDialog">
+    <v-dialog :key="key" v-model="newItemDialog">
       <div>
         <v-card>
           <v-card-title>{{ $t('products.new') }}</v-card-title>
@@ -161,14 +161,15 @@
 </template>
 
 <script>
-import commerceWatcher from '@/mixins/commerce-watcher'
 import { mapActions } from 'vuex'
+import commerceWatcher from '@/mixins/commerce-watcher'
 
 export default {
   mixins: [commerceWatcher],
 
   data() {
     return {
+      key: 0,
       title: 'Products',
       search: '',
       newItemDialog: false,
@@ -293,6 +294,7 @@ export default {
 
     openNewItemDialog() {
       this.newItemDialog = true
+      this.key++ // forces re-render of v-dialog
 
       if (this.$refs.form) this.$refs.form.newItem()
     },
