@@ -34,13 +34,12 @@
       <v-card-text>
         <div>
           <v-data-table
+            class="elevation-1"
+            loading-text="Cargando datos..."
             :headers="headers"
             :items="body"
-            item-key="name"
-            class="elevation-1"
             :search="search"
             :loading="loading"
-            loading-text="Cargando datos..."
             :footer-props="{
               showFirstLastPage: true,
             }"
@@ -176,8 +175,14 @@ export default {
       headers: [
         { text: this.$t('products.headers.code'), value: 'code' },
         { text: this.$t('products.headers.name'), value: 'name' },
-        { text: this.$t('products.headers.category'), value: 'rubro' },
-        { text: this.$t('products.headers.subcategory'), value: 'subrubro' },
+        {
+          text: this.$t('products.headers.category'),
+          value: 'subrubro.rubro.name',
+        },
+        {
+          text: this.$t('products.headers.subcategory'),
+          value: 'subrubro.name',
+        },
         { text: this.$t('products.headers.price'), value: 'price' },
         { text: this.$t('products.headers.visible'), value: 'disabled' },
         {

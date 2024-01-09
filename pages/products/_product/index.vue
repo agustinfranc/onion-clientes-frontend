@@ -26,6 +26,7 @@
           ref="form"
           :product-id="$route.params.product"
           @loaded="setItem"
+          @saved="goToProductList"
         />
       </v-card-text>
     </v-card>
@@ -35,8 +36,8 @@
 </template>
 
 <script>
-import commerceWatcher from '@/mixins/commerce-watcher'
 import { mapActions } from 'vuex'
+import commerceWatcher from '@/mixins/commerce-watcher'
 
 export default {
   mixins: [commerceWatcher],
@@ -84,6 +85,10 @@ export default {
 
     refresh() {
       this.$refs.form.refresh()
+    },
+
+    goToProductList() {
+      this.$router.push(this.localePath('products'))
     },
   },
 }
