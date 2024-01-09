@@ -227,7 +227,7 @@ import { mapActions } from 'vuex'
 export default {
   props: {
     productId: {
-      type: Number,
+      type: String,
       required: true,
     },
   },
