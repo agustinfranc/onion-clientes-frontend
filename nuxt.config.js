@@ -153,7 +153,7 @@ export default {
             extraPrices: 'Extra Prices',
             hashtags: 'Hashtags',
             imageUploadError:
-              'Image file size is bigger than 1mb or has no valid format (jpg, png, webp, gif, tiff)',
+              'Image file size is bigger than 100kb or has no valid format (jpg, webp)',
             headers: {
               code: 'Code',
               name: 'Name',

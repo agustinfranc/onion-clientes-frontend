@@ -405,12 +405,9 @@ export default {
     changeAvatar(event) {
       if (
         !event.target.files[0] ||
-        event.target.files[0].size >= 1048576 ||
+        event.target.files[0].size >= 114857 ||
         (event.target.files[0].type !== 'image/jpeg' &&
-          event.target.files[0].type !== 'image/png' &&
-          event.target.files[0].type !== 'image/webp' &&
-          event.target.files[0].type !== 'image/gif' &&
-          event.target.files[0].type !== 'image/tiff')
+          event.target.files[0].type !== 'image/webp')
       ) {
         this.toggleSnackbar({
           text: this.$t('products.imageUploadError'),
